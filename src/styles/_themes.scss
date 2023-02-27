@@ -1,0 +1,43 @@
+@use 'sass-themes/mixins' as themes;
+@use 'scss-properties' as prop;
+
+body,
+.light {
+  @include themes.create($text: black, $bg: white, $brand: royalblue);
+}
+
+:link,
+:visited {
+  color: var(--theme-link, var(--theme-tx, inherit));
+  text-decoration: var(--theme-link-decoration, none);
+}
+
+@layer utility {
+  .theme-links {
+    --theme-link: var(--theme-br);
+    --theme-link-decoration: underline;
+
+    & :visited,
+    &:visited {
+      --theme-link: #{prop.set(
+          --theme-br,
+          $saturation: scale -40%,
+          $lightness: mix --theme-tx 80%
+        )};
+    }
+    & :link:hover,
+    &:link:hover {
+      --theme-link: #{prop.set(
+          --theme-br,
+          $saturation: scale 50%,
+          $lightness: mix --theme-tx 50%
+        )};
+      --theme-link-decoration: underline;
+    }
+  }
+
+  .subtle-links {
+    --theme-link: initial !important;
+    --theme-link-decoration: initial !important;
+  }
+}
