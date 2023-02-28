@@ -1,3 +1,5 @@
+set relativenumber
+
 let g:astro_typescript = 'enable'
 
 let g:ale_linters_explicit = 1
