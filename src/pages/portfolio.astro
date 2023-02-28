@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Project from '../components/ProjectPreview.astro';
+import { getCollection } from 'astro:content';
+import { getExcerpt } from '../utils/collections';
+
+const projects = await getCollection('projects');
+---
+
+<Layout title="My projects">
+  <header>
+    <h1>Dylan Awalt-Conley</h1>
+    <p>Some of my websites and JavaScript things.</p>
+  </header>
+  <main class="container mx-auto px-4 py-8">
+    {
+      projects.map(async (project) => (
+        <Project
+          title={project.data.title}
+          url={project.data.url}
+          tags={project.data.tags}
+        >
+          <p>{getExcerpt(project)}</p>
+        </Project>
+      ))
+    }
+  </main>
+</Layout>

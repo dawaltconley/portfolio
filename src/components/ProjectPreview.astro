@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+// import { getCollection } from 'astro:content';
+// const projects = await getCollection('projects');
+export interface Props {
+  title: string;
+  url: string;
+  repository?: string;
+  tags: string[];
+}
+
+const { title, url, repository, tags } = Astro.props;
+---
+
+<li class="list-none">
+  <a href={url}>
+    <h2>{title}</h2>
+    <div>
+      <slot />
+    </div>
+  </a>
+</li>
