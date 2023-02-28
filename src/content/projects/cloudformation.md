@@ -6,5 +6,5 @@ tags:
   - cloudformation
 ---
 
-Modular CloudFormation templates for provisioning resources, mostly for static 
+Modular CloudFormation templates for provisioning resources, mostly for static
 websites.

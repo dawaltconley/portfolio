@@ -10,5 +10,5 @@ tags:
   - javascript
 ---
 
-A simple, modular website header. Html, CSS, and JavaScript all loaded and 
+A simple, modular website header. Html, CSS, and JavaScript all loaded and
 included separately, and support various means of inclusion in a project.

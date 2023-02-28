@@ -7,6 +7,6 @@ tags:
   - sass
 ---
 
-Functions, mixins, and style sheets for a set of classes called themes. These 
-classes use CSS properties to define the primary colors of a website in terms 
+Functions, mixins, and style sheets for a set of classes called themes. These
+classes use CSS properties to define the primary colors of a website in terms
 of their role.

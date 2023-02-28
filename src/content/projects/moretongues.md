@@ -10,5 +10,5 @@ tags:
 
 A band website, showcasing their music, videos, and upcoming shows.
 The site went through several redesigns, including a major one
-for an LP release, which can be viewed 
+for an LP release, which can be viewed
 [here](http://temper-tantrum.s3-website.us-east-1.amazonaws.com/).

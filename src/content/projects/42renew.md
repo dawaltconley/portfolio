@@ -11,6 +11,7 @@ tags:
 I designed and currently maintain the website for 42 Renewables LLC.
 
 Details:
+
 - svg graphics
 - image resizing (eleventy plugin)
 - scroll animations
