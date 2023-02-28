@@ -4,7 +4,7 @@ env:
 extends:
   - 'eslint:recommended'
   - 'plugin:astro/recommended'
-  - prettier
+  - 'prettier'
 overrides:
   - files: ['*.astro']
     parser: astro-eslint-parser
