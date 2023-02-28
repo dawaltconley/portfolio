@@ -1,5 +1,6 @@
 ---
 title: CloudFront Redirects
+url: https://github.com/dawaltconley/cloudfront-redirects
 repository: https://github.com/dawaltconley/cloudfront-redirects
 tags:
   - aws

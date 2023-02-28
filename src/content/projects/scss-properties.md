@@ -1,5 +1,6 @@
 ---
 title: scss-properties
+url: https://github.com/dawaltconley/scss-properties
 repository: https://github.com/dawaltconley/scss-properties
 tags:
   - npm
