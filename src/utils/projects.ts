@@ -1,4 +1,17 @@
 import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+
+const tags: Set<string> = new Set(
+  projects.reduce(
+    (tags: string[], p) => [
+      ...tags,
+      ...p.data.tags.map((t: string) => t.toLowerCase()),
+    ],
+    []
+  )
+);
 
 const getExcerpt = (
   item: CollectionEntry<'projects'>,
@@ -19,4 +32,4 @@ const getExcerpt = (
   );
 };
 
-export { getExcerpt };
+export { projects, tags, getExcerpt };
