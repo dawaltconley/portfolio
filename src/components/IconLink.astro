@@ -1,0 +1,71 @@
+---
+import type { IconLink } from '../utils/icons';
+import { icons } from '../utils/icons';
+
+export interface Props extends Partial<IconLink> {
+  id: string;
+  class?: string;
+  inline?: boolean;
+  urlText?: string;
+}
+
+const {
+  id,
+  class: className,
+  inline = false,
+  urlText,
+  ...iconProps
+} = Astro.props;
+
+let icon = icons[id];
+if (!icon) throw new Error(`Name ${id} does not match any icons.`);
+icon = {
+  ...icon,
+  ...iconProps,
+};
+
+const IconWrapper = icon.url ? 'a' : 'span';
+---
+
+<IconWrapper href={icon.url} class={className ?? ''}>
+  <span
+    slot="icon"
+    class="iconify"
+    data-icon={icon.iconColor || icon.icon}
+    data-inline={inline.toString()}></span>
+  {icon.url && urlText && <span class="icon-url-text">{urlText}</span>}
+</IconWrapper>
+
+<style lang="scss">
+  $skill-bg: #242938;
+  $skill-radius: 0.22em;
+  .iconify,
+  .iconify-inline {
+    width: 1em;
+    height: 1em;
+  }
+  .iconify-inline,
+  [data-inline='true'] {
+    display: inline;
+  }
+  .icon-url-text {
+    margin-left: 0.4em;
+  }
+
+  [data-icon='logos:npm-icon'],
+  [data-icon='logos:aws-cloudformation'] {
+    border-radius: $skill-radius;
+  }
+  [data-icon='vscode-icons:file-type-nunjucks'] {
+    border-radius: 0.3em;
+  }
+  [data-icon='vscode-icons:file-type-jekyll'] {
+    background-color: $skill-bg;
+    padding: 0.08em;
+    border-radius: $skill-radius;
+  }
+</style>
+
+<script>
+  import '@iconify/iconify';
+</script>
