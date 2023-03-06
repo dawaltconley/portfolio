@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Project from '../components/ProjectPreview.astro';
 import { getCollection } from 'astro:content';
 import { tags, getExcerpt } from '../data/projects';
-import { icons } from '../data/icons';
 
 import IconLink from '../components/IconLink.astro';
 
@@ -29,10 +28,6 @@ const projects = await getCollection('projects');
     }
   </main>
   <footer class="space-x-2 p-4">
-    {
-      Array.from(tags).map((tag) => {
-        if (icons[tag]) return <IconLink id={tag} inline={true} />;
-      })
-    }
+    {Array.from(tags).map((tag) => <IconLink id={tag} inline={true} />)}
   </footer>
 </Layout>

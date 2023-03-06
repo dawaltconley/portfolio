@@ -18,7 +18,8 @@ const {
 } = Astro.props;
 
 let icon = icons[id];
-if (!icon) throw new Error(`Name ${id} does not match any icons.`);
+if (!icon) return;
+
 icon = {
   ...icon,
   ...iconProps,
