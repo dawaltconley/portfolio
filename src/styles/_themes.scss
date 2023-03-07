@@ -1,9 +1,15 @@
+@use 'sass:color';
+
 @use 'sass-themes/mixins' as themes;
 @use 'scss-properties' as prop;
 
 body,
 .light {
-  @include themes.create($text: black, $bg: white, $brand: royalblue);
+  @include themes.create(
+    $text: theme('colors.sky.900'),
+    $bg: theme('colors.sky.50'),
+    $brand: color.mix(theme('colors.sky.50'), theme('colors.pink.600'), 50%)
+  );
 }
 
 :link,
