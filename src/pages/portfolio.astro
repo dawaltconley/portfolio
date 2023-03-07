@@ -15,17 +15,17 @@ const projects = await getCollection('projects');
     <p>Some of my websites and JavaScript things.</p>
   </header>
   <main class="container mx-auto px-4 py-8">
-    {
-      projects.map(async (project) => (
-        <Project
-          title={project.data.title}
-          url={project.data.url}
-          tags={project.data.tags}
-        >
-          <p>{getExcerpt(project)}</p>
-        </Project>
-      ))
-    }
+    <ul class="grid grid-cols-2 gap-4">
+      {
+        projects
+          .filter((project) => project.data.image)
+          .map(async (project) => (
+            <Project project={project}>
+              <p>{getExcerpt(project)}</p>
+            </Project>
+          ))
+      }
+    </ul>
   </main>
   <footer class="space-x-2 p-4">
     {

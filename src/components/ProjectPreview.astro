@@ -1,22 +1,48 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-// import { getCollection } from 'astro:content';
-// const projects = await getCollection('projects');
+import IconLink from '../components/IconLink.astro';
+
 export interface Props {
-  title: string;
-  url: string;
-  repository?: string;
-  tags: string[];
+  project: CollectionEntry<'projects'>;
 }
 
-const { title, url, repository, tags } = Astro.props;
+const images = import.meta.glob<string>('../assets/images/**', {
+  import: 'default',
+});
+
+const project = Astro.props.project;
+const { title, url, tags, published } = project.data;
+let imageUrl = `../assets/images/${Astro.props.project.data.image}`;
+const image = images[imageUrl] && (await images[imageUrl]());
+const projectUrl = published ? `/projects/${project.slug}` : url;
 ---
 
 <li class="list-none">
-  <a href={url}>
-    <h2>{title}</h2>
-    <div>
+  <a class="block" href={projectUrl}>
+    {image && <img class="rounded-lg shadow-md" src={image} />}
+    <header class="text-theme-br">
+      <div class="float-right ml-4 mt-2 flex">
+        {
+          tags.map((tag) => (
+            <IconLink
+              id={tag}
+              type="simple"
+              inline={true}
+              url={undefined}
+              class="mr-2"
+            />
+          ))
+        }
+      </div>
+      <h2
+        class="mr-auto text-3xl font-extrabold underline decoration-theme-br/20 decoration-2 underline-offset-4"
+      >
+        {title}
+      </h2>
+    </header>
+    <div class="clear-both mt-2 leading-5">
       <slot />
     </div>
+    <p class="hidden">{published ? 'Read more' : 'Visit'}</p>
   </a>
 </li>
