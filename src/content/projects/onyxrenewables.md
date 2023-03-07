@@ -1,6 +1,7 @@
 ---
 title: Onyx Renewable Partners
 url: http://onyx-legacy.s3-website.us-east-1.amazonaws.com/ # make private
+image: 'onyxrenewables/onyx-1.png'
 tags:
   - website
   - jekyll

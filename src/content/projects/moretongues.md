@@ -1,6 +1,7 @@
 ---
 title: More Tongues Than Teeth
 url: https://www.moretongues.com
+image: moretongues/mt3-1.png
 tags:
   - website
   - jekyll

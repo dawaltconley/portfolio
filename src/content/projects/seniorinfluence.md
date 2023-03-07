@@ -1,6 +1,7 @@
 ---
 title: Senior Influence
 url: https://www.seniorinfluence.com
+image: seniorinfluence/si-1.png
 tags:
   - website
   - jekyll
