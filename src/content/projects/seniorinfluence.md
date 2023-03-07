@@ -7,6 +7,8 @@ tags:
   - jekyll
   - sass
   - liquid
+excerpt: >-
+  A culture and lifestyle website for seniors.
 ---
 
 A culture and lifestyle website for seniors, designed with

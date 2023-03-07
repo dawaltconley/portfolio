@@ -1,5 +1,5 @@
 ---
-title: Robert Don
+title: 'Robert Don: Web Portfolio'
 url: https://robertgdon.netlify.app
 image: robertgdon/rob-1.png
 tags:
@@ -7,6 +7,8 @@ tags:
   - jekyll
   - sass
   - liquid
+excerpt: >-
+  A web portfolio for music and audio engineering work.
 ---
 
 A professional web portfolio to showcase music and

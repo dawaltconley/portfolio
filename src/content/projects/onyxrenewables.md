@@ -7,9 +7,11 @@ tags:
   - jekyll
   - sass
   - liquid
+excerpt: >-
+  A corporate website for a renewable energy development company.
 ---
 
-A professional corporate website for a renewable energy development
+A corporate website for a renewable energy development
 company, which I designed and currently maintain. Optimized for
 modern and legacy browsers like Internet Explorer, to meet the needs
 of Onyx's customers.
