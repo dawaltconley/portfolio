@@ -1,9 +1,10 @@
 ---
-import type { IconLink } from '../data/icons';
+import type { IconLink, IconStyle } from '../data/icons';
 import { icons } from '../data/icons';
 
 export interface Props extends Partial<IconLink> {
   id: string;
+  type: keyof IconStyle;
   class?: string;
   inline?: boolean;
   urlText?: string;
@@ -11,6 +12,7 @@ export interface Props extends Partial<IconLink> {
 
 const {
   id,
+  type: iconStyle,
   class: className,
   inline = false,
   urlText,
@@ -18,7 +20,7 @@ const {
 } = Astro.props;
 
 let icon = icons[id];
-if (!icon) return;
+if (!icon || !icon.type[iconStyle]) return;
 
 icon = {
   ...icon,
@@ -31,15 +33,13 @@ const IconWrapper = icon.url ? 'a' : 'span';
 <IconWrapper href={icon.url} title={icon.name} class={className ?? ''}>
   <span
     slot="icon"
-    class="iconify"
-    data-icon={icon.iconColor || icon.icon}
+    class=`iconify ${iconStyle.toString()}`
+    data-icon={icon.type[iconStyle]}
     data-inline={inline.toString()}></span>
   {icon.url && urlText && <span class="icon-url-text">{urlText}</span>}
 </IconWrapper>
 
 <style lang="scss">
-  $skill-bg: #242938;
-  $skill-radius: 0.22em;
   .iconify,
   .iconify-inline {
     width: 1em;
@@ -53,17 +53,22 @@ const IconWrapper = icon.url ? 'a' : 'span';
     margin-left: 0.4em;
   }
 
-  [data-icon='logos:npm-icon'],
-  [data-icon='logos:aws-cloudformation'] {
-    border-radius: $skill-radius;
-  }
-  [data-icon='vscode-icons:file-type-nunjucks'] {
-    border-radius: 0.3em;
-  }
-  [data-icon='vscode-icons:file-type-jekyll'] {
-    background-color: $skill-bg;
-    padding: 0.08em;
-    border-radius: $skill-radius;
+  .skill {
+    $skill-bg: #242938;
+    $skill-radius: 0.22em;
+
+    &[data-icon='logos:npm-icon'],
+    &[data-icon='logos:aws-cloudformation'] {
+      border-radius: $skill-radius;
+    }
+    &[data-icon='vscode-icons:file-type-nunjucks'] {
+      border-radius: 0.3em;
+    }
+    &[data-icon='vscode-icons:file-type-jekyll'] {
+      background-color: $skill-bg;
+      padding: 0.08em;
+      border-radius: $skill-radius;
+    }
   }
 </style>
 

@@ -28,6 +28,10 @@ const projects = await getCollection('projects');
     }
   </main>
   <footer class="space-x-2 p-4">
-    {Array.from(tags).map((tag) => <IconLink id={tag} inline={true} />)}
+    {
+      Array.from(tags).map((tag) => (
+        <IconLink id={tag} type="skill" inline={true} />
+      ))
+    }
   </footer>
 </Layout>

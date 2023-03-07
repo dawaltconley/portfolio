@@ -1,8 +1,13 @@
+interface IconStyle {
+  simple?: string;
+  color?: string;
+  skill?: string;
+}
+
 interface IconLink {
   name: string;
   url?: string;
-  icon: string;
-  iconColor?: string;
+  type: IconStyle;
 }
 
 // const icons = {
@@ -10,99 +15,134 @@ const icons: Record<string, IconLink> = {
   npm: {
     name: 'NPM',
     url: 'https://www.npmjs.com/',
-    icon: 'simple-icons:npm',
-    // icon: 'cib:npm',
-    iconColor: 'logos:npm-icon',
+    type: {
+      // simple: 'simple-icons:npm',
+      // simple: 'cib:npm',
+      simple: 'icomoon-free:npm',
+      // color: 'logos:npm',
+      color: 'logos:npm-icon',
+      skill: 'logos:npm-icon',
+    },
   },
   '11ty': {
     name: 'Eleventy',
     url: 'https://www.11ty.dev/',
-    icon: 'cib:eleventy',
-    // iconColor: 'logos:eleventy',
-    // iconColor: 'cib:eleventy',
-    iconColor: 'simple-icons:eleventy',
+    type: {
+      simple: 'cib:eleventy',
+      // simple: 'logos:eleventy',
+      color: 'simple-icons:eleventy',
+      skill: 'simple-icons:eleventy',
+    },
   },
   nunjucks: {
     name: 'Nunjucks',
     url: 'https://mozilla.github.io/nunjucks/templating.html',
-    icon: 'simple-icons:nunjucks',
-    iconColor: 'vscode-icons:file-type-nunjucks',
+    type: {
+      simple: 'simple-icons:nunjucks',
+      color: 'vscode-icons:file-type-nunjucks',
+      skill: 'vscode-icons:file-type-nunjucks',
+    },
   },
   sass: {
     name: 'Sass',
     url: 'https://sass-lang.com/',
-    icon: 'cib:sass',
-    // iconColor: 'logos:sass',
-    iconColor: 'skill-icons:sass',
+    type: {
+      // simple: 'cib:sass',
+      simple: 'simple-icons:sass',
+      color: 'logos:sass',
+      skill: 'skill-icons:sass',
+    },
   },
   javascript: {
     name: 'JavaScript',
-    icon: 'cib:javascript',
-    // iconColor: 'logos:javascript',
-    iconColor: 'skill-icons:javascript',
+    type: {
+      // simple: 'cib:javascript',
+      simple: 'simple-icons:javascript',
+      color: 'logos:javascript',
+      skill: 'skill-icons:javascript',
+    },
   },
   node: {
     name: 'Node',
     url: 'https://nodejs.org/en/',
-    icon: 'simple-icons:nodejs',
-    // iconColor: 'vscode-icons:file-type-node',
-    // iconColor: 'logos:nodejs-icon',
-    iconColor: 'skill-icons:nodejs-dark',
+    type: {
+      simple: 'simple-icons:nodejs',
+      // color: 'vscode-icons:file-type-node',
+      color: 'logos:nodejs-icon',
+      skill: 'skill-icons:nodejs-dark',
+    },
   },
   typescript: {
     name: 'TypeScript',
     url: 'https://www.typescriptlang.org/',
-    icon: 'simple-icons:typescript',
-    // iconColor: 'logos:typescript-icon',
-    // iconColor: 'logos:typescript-icon-round',
-    iconColor: 'skill-icons:typescript',
-    // iconColor: 'vscode-icons:file-type-typescript-official',
+    type: {
+      simple: 'simple-icons:typescript',
+      color: 'logos:typescript-icon',
+      // color: 'logos:typescript-icon-round',
+      // color: 'vscode-icons:file-type-typescript-official',
+      skill: 'skill-icons:typescript',
+    },
   },
   react: {
     name: 'React',
     url: 'https://reactjs.org/',
-    icon: 'simple-icons:react',
-    // iconColor: 'logos:react',
-    iconColor: 'skill-icons:react-dark',
-    // iconColor: 'skill-icons:react-light',
+    type: {
+      simple: 'simple-icons:react',
+      color: 'logos:react',
+      skill: 'skill-icons:react-dark',
+      // color: 'skill-icons:react-light',
+    },
   },
   nextjs: {
     name: 'Next.js',
     url: 'https://nextjs.org/',
-    icon: 'simple-icons:nextdotjs',
-    iconColor: 'logos:nextjs-icon',
+    type: {
+      simple: 'simple-icons:nextdotjs',
+      color: 'logos:nextjs-icon',
+      skill: 'skill-icons:nextjs-dark',
+      // skill: 'skill-icons:nextjs-light',
+    },
   },
   tailwind: {
     name: 'Tailwind CSS',
     url: 'https://tailwindcss.com/',
-    icon: 'simple-icons:tailwindcss',
-    // iconColor: 'logos:tailwindcss-icon',
-    // iconColor: 'vscode-icons:file-type-tailwind',
-    iconColor: 'skill-icons:tailwindcss-dark',
-    // iconColor: 'skill-icons:tailwindcss-light',
+    type: {
+      simple: 'simple-icons:tailwindcss',
+      color: 'logos:tailwindcss-icon',
+      // color: 'vscode-icons:file-type-tailwind',
+      skill: 'skill-icons:tailwindcss-dark',
+      // color: 'skill-icons:tailwindcss-light',
+    },
   },
   aws: {
     name: 'Amazon Web Services',
     url: 'https://aws.amazon.com/',
-    icon: 'simple-icons:amazonaws',
-    // iconColor: 'logos:aws',
-    iconColor: 'skill-icons:aws-dark',
-    // iconColor: 'skill-icons:aws-light',
+    type: {
+      simple: 'simple-icons:amazonaws',
+      color: 'logos:aws',
+      skill: 'skill-icons:aws-dark',
+      // color: 'skill-icons:aws-light',
+    },
   },
   cloudformation: {
     name: 'AWS CloudFormation',
     url: 'https://www.npmjs.com/',
-    icon: 'logos:aws-cloudformation',
-    iconColor: 'logos:aws-cloudformation',
+    type: {
+      color: 'logos:aws-cloudformation',
+      skill: 'logos:aws-cloudformation',
+    },
   },
   jekyll: {
     name: 'Jekyll',
     url: 'https://jekyllrb.com/',
-    icon: 'simple-icons:jekyll',
-    iconColor: 'vscode-icons:file-type-jekyll',
-    // iconColor: 'logos:jekyll',
+    type: {
+      simple: 'simple-icons:jekyll',
+      color: 'vscode-icons:file-type-jekyll',
+      // color: 'logos:jekyll',
+      skill: 'vscode-icons:file-type-jekyll',
+    },
   },
 };
 
-export type { IconLink };
+export type { IconLink, IconStyle };
 export { icons };
