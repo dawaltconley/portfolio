@@ -16,7 +16,7 @@ export default defineConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          loadPaths: ['node_modules', 'src/styles'],
+          includePaths: ['node_modules', 'src/styles'],
           quietDeps: true,
           functions: {
             ...tailwindFunctions,
