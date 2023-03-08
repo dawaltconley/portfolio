@@ -1,0 +1,23 @@
+---
+import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+export interface Props {
+  icon: IconDefinition;
+  class?: string;
+  inline?: boolean;
+}
+const { icon, class: className, inline = false } = Astro.props;
+---
+
+<FontAwesomeIcon
+  className={`icon ${className ?? ''} ${inline ? 'icon--inline' : ''}`}
+  icon={icon}
+/>
+<style>
+  .icon--inline {
+    display: inline;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+  }
+</style>
