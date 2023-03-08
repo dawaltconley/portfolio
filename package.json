@@ -10,11 +10,16 @@
 		"astro": "astro"
 	},
 	"dependencies": {
+		"@astrojs/react": "^2.1.0",
 		"@fortawesome/free-brands-svg-icons": "^6.3.0",
 		"@iconify/iconify": "^3.1.0",
+		"@types/react": "^18.0.28",
+		"@types/react-dom": "^18.0.11",
 		"astro": "^2.0.15",
 		"autoprefixer": "^10.4.13",
 		"postcss": "^8.4.21",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
 		"sass": "^1.58.3",
 		"sass-tailwind-functions": "github:dawaltconley/sass-tailwind-functions#modern",
 		"sass-themes": "^0.4.0",
