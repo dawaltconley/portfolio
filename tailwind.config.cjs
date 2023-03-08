@@ -7,8 +7,10 @@ module.exports = {
         sm: '2rem',
       },
     },
+    fontFamily: {
+      sans: ['Gotham', 'sans-serif'],
+      serif: ['Erode', 'serif'],
+    },
   },
-  plugins: [
-    require('sass-themes/tailwind'),
-  ],
-}
+  plugins: [require('sass-themes/tailwind')],
+};

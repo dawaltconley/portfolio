@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import IconLink from '../components/IconLink.astro';
+import FontAwesome from '../components/FontAwesome.astro';
+import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons';
 
 export interface Props {
   project: CollectionEntry<'projects'>;
@@ -17,32 +19,73 @@ const image = images[imageUrl] && (await images[imageUrl]());
 const projectUrl = published ? `/projects/${project.slug}` : url;
 ---
 
-<li class="list-none">
-  <a class="block" href={projectUrl}>
-    {image && <img class="rounded-lg shadow-md" src={image} />}
-    <header class="text-theme-br">
-      <div class="float-right ml-4 mt-2 flex">
+<li class="project relative flex list-none flex-col">
+  <div class="relative border-2 border-theme-tx">
+    {image && <img src={image} />}
+    <div
+      class="project__hover-layer absolute inset-0 flex bg-theme-br text-xl font-semibold text-white"
+    >
+      <p class="m-auto">
+        <FontAwesome icon={faArrowUpRightFromSquare} inline={true} />
+        {published ? 'Read more' : 'Visit'}
+      </p>
+    </div>
+  </div>
+  <div
+    class="h-full border-x-2 border-b-2 border-theme-tx bg-theme-bg p-2 font-serif"
+  >
+    <header class="">
+      <div class="float-right ml-4 flex space-x-2">
         {
           tags.map((tag) => (
-            <IconLink
-              id={tag}
-              type="simple"
-              inline={true}
-              url={undefined}
-              class="mr-2"
-            />
+            <IconLink id={tag} type="simple" inline={true} url={undefined} />
           ))
         }
       </div>
       <h2
-        class="mr-auto text-3xl font-extrabold underline decoration-theme-br/20 decoration-2 underline-offset-4"
+        class="mr-auto text-2xl font-semibold leading-none underline decoration-theme-br decoration-2 underline-offset-2"
       >
-        {title}
+        <a class="pseudo-fill-parent" href={projectUrl}>
+          {title}
+        </a>
       </h2>
     </header>
     <div class="clear-both mt-2 leading-5">
       <slot />
     </div>
-    <p class="hidden">{published ? 'Read more' : 'Visit'}</p>
-  </a>
+    {/* <p class="hidden">{published ? 'Read more' : 'Visit'}</p> */}
+  </div>
 </li>
+
+<style lang="scss">
+  $transition: 300ms;
+
+  .project {
+    @apply relative;
+
+    &::before {
+      content: '';
+      @apply absolute inset-0 -z-10 bg-theme-br;
+      transition: $transition;
+      transition-property: transform;
+    }
+
+    &:hover::before {
+      transform: translate(-8px, 8px);
+    }
+
+    &__hover-layer {
+      transition: $transition;
+      transition-property: clip-path;
+      clip-path: polygon(0 0, 0 0, 100% 100%, 100% 100%, 100% 100%, 0 0);
+      /* clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); */
+      /* clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%); */
+    }
+
+    &:hover &__hover-layer {
+      clip-path: polygon(0 0, 100% 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+      /* clip-path: polygon(100% 0, 0 0, 0 100%, 150% 100%); */
+      /* clip-path: polygon(100% 0, -50% 0, 0 100%, 150% 100%); */
+    }
+  }
+</style>

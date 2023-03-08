@@ -3,19 +3,23 @@
 @use 'sass-themes/mixins' as themes;
 @use 'scss-properties' as prop;
 
-body,
-.light {
-  @include themes.create(
-    $text: theme('colors.sky.900'),
-    $bg: theme('colors.sky.50'),
-    $brand: color.mix(theme('colors.sky.50'), theme('colors.pink.600'), 50%)
-  );
-}
+@layer base {
+  body,
+  .light {
+    @include themes.create(
+      $text: black,
+      $bg: white,
+      $brand: theme('colors.red.600'),
+      // high contrast, AA accessible
+      $accessibility: AA
+    );
+  }
 
-:link,
-:visited {
-  color: var(--theme-link, var(--theme-tx, inherit));
-  text-decoration: var(--theme-link-decoration, none);
+  :link,
+  :visited {
+    color: var(--theme-link, var(--theme-tx, inherit));
+    text-decoration: var(--theme-link-decoration, none);
+  }
 }
 
 @layer utility {
