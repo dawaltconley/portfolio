@@ -77,14 +77,16 @@ const projectUrl = published ? `/projects/${project.slug}` : url;
     &__hover-layer {
       transition: $transition;
       transition-property: clip-path;
-      clip-path: polygon(0 0, 0 0, 100% 100%, 100% 100%, 100% 100%, 0 0);
-      /* clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); */
+      transition-delay: 120ms;
+      transition-timing-function: ease-out;
+      /* clip-path: polygon(0 0, 0 0, 100% 100%, 100% 100%, 100% 100%, 0 0); */
+      clip-path: polygon(-30% 0, 0 0, 0 100%, 0 100%);
       /* clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%); */
     }
 
     &:hover &__hover-layer {
-      clip-path: polygon(0 0, 100% 0, 100% 0, 100% 100%, 0 100%, 0 100%);
-      /* clip-path: polygon(100% 0, 0 0, 0 100%, 150% 100%); */
+      /* clip-path: polygon(0 0, 100% 0, 100% 0, 100% 100%, 0 100%, 0 100%); */
+      clip-path: polygon(100% 0, 0 0, 0 100%, 150% 100%);
       /* clip-path: polygon(100% 0, -50% 0, 0 100%, 150% 100%); */
     }
   }
