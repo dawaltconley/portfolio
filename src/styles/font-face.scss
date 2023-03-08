@@ -1,6 +1,30 @@
 @use 'sass:list';
 @use 'sass:map';
 
+/**
+ * @license
+ *
+ * Font Family: Erode
+ * Designed by: Nikhil Ranganathan
+ * URL: https://www.fontshare.com/fonts/erode
+ * © 2023 Indian Type Foundry
+ *
+ * Font Styles:
+ * Erode Variable(Variable font)
+ * Erode Variable Italic(Variable font)
+ * Erode Light
+ * Erode Light Italic
+ * Erode Regular
+ * Erode Italic
+ * Erode Medium
+ * Erode Medium Italic
+ * Erode Semibold
+ * Erode Semibold Italic
+ * Erode Bold
+ * Erode Bold Italic
+ *
+*/
+
 $fonts: (
   'Erode': (
     formats: woff2 woff ttf,
