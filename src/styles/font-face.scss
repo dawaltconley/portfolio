@@ -1,0 +1,67 @@
+@use 'sass:list';
+@use 'sass:map';
+
+$fonts: (
+  'Erode': (
+    formats: woff2 woff ttf,
+    faces: (
+      300 normal '/fonts/erode/fonts/Erode-Light',
+      300 italic '/fonts/erode/fonts/Erode-LightItalic',
+      400 normal '/fonts/erode/fonts/Erode-Regular',
+      400 italic '/fonts/erode/fonts/Erode-Italic',
+      500 normal '/fonts/erode/fonts/Erode-Medium',
+      500 italic '/fonts/erode/fonts/Erode-MediumItalic',
+      600 normal '/fonts/erode/fonts/Erode-Semibold',
+      600 italic '/fonts/erode/fonts/Erode-SemiboldItalic',
+      700 normal '/fonts/erode/fonts/Erode-Bold',
+      700 italic '/fonts/erode/fonts/Erode-BoldItalic',
+    ),
+  ),
+  'Erode-Variable': (
+    formats: woff2 woff ttf,
+    faces: (
+      (300 700) normal '/fonts/erode/fonts/Erode-Variable',
+      (300 700) italic '/fonts/erode/fonts/Erode-VariableItalic',
+    ),
+  ),
+) !default;
+
+$file-formats: (
+  'eot': 'embedded-opentype',
+  'woff2': 'woff2',
+  'woff': 'woff',
+  'ttf': 'truetype',
+  'svg': 'svg',
+);
+
+@function make-src($file, $formats) {
+  $src: ();
+  @each $ext, $format in $file-formats {
+    @if list.index($formats, $ext) {
+      @if ($ext == 'eot') {
+        $ext: '#{$ext}?#iefix';
+      }
+      $src: list.append($src, url(#{$file}.#{$ext}) format(#{$format}), comma);
+    }
+  }
+  @return $src;
+}
+
+@mixin src($file, $formats) {
+  src: if(list.index($formats, 'eot'), url(#{$file}.eot), null);
+  src: make-src($file, $formats);
+}
+
+@each $family, $font in $fonts {
+  $formats: map.get($font, formats);
+  $faces: map.get($font, faces);
+  @each $weight, $style, $file in $faces {
+    @font-face {
+      font-family: $family;
+      @include src($file, $formats);
+      font-weight: $weight;
+      font-display: swap;
+      font-style: $style;
+    }
+  }
+}

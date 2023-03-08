@@ -9,7 +9,7 @@ module.exports = {
     },
     fontFamily: {
       sans: ['Gotham', 'sans-serif'],
-      serif: ['Erode-Variable', 'serif'],
+      serif: ['Erode', 'serif'],
     },
   },
   plugins: [require('sass-themes/tailwind')],
