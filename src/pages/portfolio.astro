@@ -65,6 +65,19 @@ const projects = await getCollection('projects');
         $hue: adjust -180deg,
         $lightness: change calc(100% - var(--theme-br-l))
       );
+      @supports (color: color(display-p3 1 1 1)) {
+        @media (color-gamut: p3) {
+          --colorspace: display-p3;
+          background-color: color(
+            var(--colorspace) calc((255 - var(--theme-br-r)) / 255)
+              calc((255 - var(--theme-br-g)) / 255)
+              calc((255 - var(--theme-br-b)) / 255)
+          );
+        }
+        @media (color-gamut: rec2020) {
+          --colorspace: rec2020;
+        }
+      }
       /* clip-path: polygon(0 5%, 0 100%, 80% 100%); */
       /* clip-path: polygon(0 0, 100% 0, 100% 100%, 90% 100%); */
       clip-path: polygon(100% 0, 0 0, 0 100%, 0% 90%);
