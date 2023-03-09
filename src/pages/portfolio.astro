@@ -90,4 +90,71 @@ const projects = await getCollection('projects');
       clip-path: polygon(100% 2%, 100% 0, 0 0, 0 100%, 0% 100%);
     }
   }
+
+  .clip-path {
+    --clip-path: 100% 2%, 100% 0, 0 0, 0 100%, 0% 100%;
+    clip-path: polygon(var(--clip-path));
+  }
 </style>
+
+<script>
+  const header = document.querySelector('.site-header') as HTMLElement;
+  header.classList.remove('site-header');
+
+  const headerLayer = header.cloneNode(true) as typeof header;
+  headerLayer.removeAttribute('id');
+  headerLayer.setAttribute('aria-hidden', 'true');
+  header.classList.add('relative');
+  headerLayer.classList.add(
+    'absolute',
+    'inset-0',
+    'text-white',
+    'bg-theme-br',
+    'clip-path'
+  );
+  headerLayer.style.margin = '0px';
+
+  type ClipPath = [number, number][];
+  const path: ClipPath = [
+    [0, 0.3],
+    [0, 0],
+    [1, 0],
+    [1, 0.2],
+    [0.78, 0.42],
+    [0.58, 0.72],
+    [0.18, 0.22],
+  ];
+  const pathAnchor = 4;
+
+  const pathToClip = (path: ClipPath) =>
+    path.map(([x, y]) => `${x * 100}% ${y * 100}%`).join(', ');
+  const updateClip = (path: ClipPath) => {
+    headerLayer.style.setProperty('--clip-path', pathToClip(path));
+  };
+
+  updateClip(path);
+  header.appendChild(headerLayer);
+
+  let animating = false;
+  document.addEventListener(
+    'mousemove',
+    ({ screenX, screenY }) => {
+      if (animating) return;
+      animating = true;
+      const adjustX = (screenX - window.innerWidth / 2) / window.innerWidth / 1;
+      const adjustY =
+        (screenY - window.innerHeight / 2) / window.innerHeight / 1;
+      const newPath: ClipPath = path
+        .slice(pathAnchor)
+        .map(([x, y]) => [
+          x + adjustX * (x - 0.5) ** 2,
+          y + adjustY * (y - 0.5) ** 2,
+        ]);
+      requestAnimationFrame(() => {
+        updateClip(path.slice(0, pathAnchor).concat(newPath));
+        animating = false;
+      });
+    },
+    { passive: true }
+  );
+</script>
