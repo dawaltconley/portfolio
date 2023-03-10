@@ -144,5 +144,25 @@ const icons: Record<string, IconLink> = {
   },
 };
 
+const iconsByLink: Record<string, IconLink> = Object.values(icons).reduce(
+  (map: Record<string, IconLink>, icon) => {
+    if (!icon.url) return map;
+    const { host } = new URL(icon.url);
+    map[host] = icon;
+    return map;
+  },
+  {}
+);
+
+const getIconFromUrl = (url: string | URL): IconLink | undefined => {
+  try {
+    const { host } = new URL(url);
+    return iconsByLink[host];
+  } catch (e) {
+    if (e instanceof Error && 'code' in e && e.code === 'ERR_INVALID_URL')
+      return undefined;
+  }
+};
+
 export type { IconLink, IconStyle };
-export { icons };
+export { icons, getIconFromUrl };
