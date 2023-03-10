@@ -1,17 +1,43 @@
 @use 'sass:color';
 
-@use 'sass-themes/mixins' as themes;
+@use 'sass-themes' as themes;
 @use 'scss-properties' as prop;
+
+@mixin swap-theme-color-with($var-1, $var-2) {
+  @each $suffix in ('', '-r', '-g', '-b', '-a', '-h', '-s', '-l') {
+    #{$var-1}#{$suffix}: var(#{$var-2}#{$suffix});
+  }
+}
+
+@mixin define-theme($text, $bg, $brand, $accessibility: AA) {
+  @include themes.create($text, $bg, $brand, $accessibility);
+  @include prop.define(
+    (
+      --theme-tx--base: $text,
+      --theme-bg--base: $bg,
+      --theme-br--base: $brand,
+    )
+  );
+}
 
 @layer base {
   body,
   .light {
-    @include themes.create(
+    @include define-theme(
       $text: black,
       $bg: white,
       $brand: theme('colors.red.600'),
       // high contrast, AA accessible
       $accessibility: AA
+    );
+  }
+
+  .dark {
+    @include define-theme(
+      $text: white,
+      $bg: theme('colors.zinc.900'),
+      $brand: theme('colors.rose.500'),
+      $accessibility: false
     );
   }
 
@@ -23,6 +49,23 @@
 }
 
 @layer utility {
+  .theme-brand {
+    @extend %theme;
+
+    @include prop.define(
+      (
+        --theme-white: white,
+      )
+    );
+
+    --theme-light: 0;
+    --theme-dark: 1;
+    @include swap-theme-color-with(--theme-bg, --theme-br--base);
+    @include swap-theme-color-with(--theme-tx, --theme-white);
+    @include swap-theme-color-with(--theme-br, --theme-white);
+    // --theme-tx: #{themes.if-light('--theme-white', '--theme-tx')};
+  }
+
   .theme-links {
     --theme-link: var(--theme-br);
     --theme-link-decoration: underline;
@@ -32,7 +75,7 @@
       --theme-link: #{prop.set(
           --theme-br,
           $saturation: scale -40%,
-          $lightness: mix --theme-tx 80%
+          $lightness: mix '--theme-tx' 80%
         )};
     }
     & :link:hover,
