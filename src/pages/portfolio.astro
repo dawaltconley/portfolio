@@ -147,12 +147,12 @@ const contactLinks = [
   let animating = false;
   document.addEventListener(
     'mousemove',
-    ({ screenX, screenY }) => {
+    ({ clientX, clientY }) => {
       if (animating) return;
       animating = true;
-      const adjustX = (screenX - window.innerWidth / 2) / window.innerWidth / 1;
+      const adjustX = (clientX - window.innerWidth / 2) / window.innerWidth / 1;
       const adjustY =
-        (screenY - window.innerHeight / 2) / window.innerHeight / 1;
+        (clientY - window.innerHeight / 2) / window.innerHeight / 1;
       const newPath: ClipPath = path
         .slice(pathAnchor)
         .map(([x, y]) => [
