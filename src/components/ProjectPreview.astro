@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import IconLink from '../components/IconLink.astro';
 import FontAwesome from '../components/FontAwesome.astro';
 import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons';
+import { getMetadata } from '../utils';
 
 export interface Props {
   project: CollectionEntry<'projects'>;
@@ -14,8 +15,10 @@ const images = import.meta.glob<string>('../assets/images/**', {
 
 const project = Astro.props.project;
 const { title, url, tags, published } = project.data;
-let imageUrl = `../assets/images/${Astro.props.project.data.image}`;
-const image = images[imageUrl] && (await images[imageUrl]());
+let imageUrl = `../assets/images/${project.data.image}`;
+const image = images[imageUrl]
+  ? await images[imageUrl]()
+  : (await getMetadata(new URL(url))).image;
 const projectUrl = published ? `/projects/${project.slug}` : url;
 ---
 
