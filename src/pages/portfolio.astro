@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
 import Project from '../components/ProjectPreview.astro';
 import { getCollection } from 'astro:content';
 import { tags, getExcerpt } from '../data/projects';
@@ -7,9 +8,15 @@ import { tags, getExcerpt } from '../data/projects';
 import IconLink from '../components/IconLink.astro';
 
 const projects = await getCollection('projects');
+
+const contactLinks = [
+  'https://github.com/dawaltconley',
+  'https://www.linkedin.com/in/dawaltconley/',
+];
 ---
 
 <Layout title="My projects">
+  <Header links={contactLinks} class="bg-theme-br text-theme-bg" />
   <div class="site-header flex flex-col pt-[10vw]">
     <header class="container mx-auto mt-auto mb-8 px-4 font-serif">
       <h1 class="mb-2 text-7xl font-semibold leading-[0.85]">
