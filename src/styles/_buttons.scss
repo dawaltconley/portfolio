@@ -1,0 +1,31 @@
+@use 'scss-properties' as prop;
+@use 'sass-themes' as themes;
+
+@layer components {
+  .spotlight-button {
+    --translate: 0, 0;
+    --opacity: #{themes.if-light(0.14, 0.3)};
+    --color: var(--theme-br);
+    position: relative;
+    z-index: 10;
+
+    &::before {
+      content: '';
+      @apply absolute -inset-3 aspect-square rounded-full;
+      // mix-blend-mode: luminosity;
+      background-color: gray;
+      background-color: var(--color, gray);
+      opacity: 0.5;
+      opacity: var(--opacity, 0.5);
+      transform: scale(0);
+      transition: 180ms;
+      transition-property: transform;
+      z-index: -1;
+    }
+
+    &:hover::before {
+      transform: scale(1);
+      transform: scale(1) translate(var(--translate, 0, 0));
+    }
+  }
+}
