@@ -146,6 +146,20 @@ const icons: Record<string, IconLink> = {
       skill: 'vscode-icons:file-type-jekyll',
     },
   },
+  github: {
+    name: 'GitHub',
+    url: 'https://github.com',
+    type: {
+      fa: faGithub,
+    },
+  },
+  linkedin: {
+    name: 'LinkedIn',
+    url: 'https://www.linkedin.com/',
+    type: {
+      fa: faLinkedin,
+    },
+  },
 } as const;
 
 const hostDomainIconId: Record<string, keyof typeof icons> = Object.entries(icons).reduce(
