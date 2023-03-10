@@ -142,13 +142,13 @@ const icons: Record<string, IconLink> = {
       skill: 'vscode-icons:file-type-jekyll',
     },
   },
-};
+} as const;
 
-const iconsByLink: Record<string, IconLink> = Object.values(icons).reduce(
-  (map: Record<string, IconLink>, icon) => {
-    if (!icon.url) return map;
-    const { host } = new URL(icon.url);
-    map[host] = icon;
+const hostDomainIconId: Record<string, keyof typeof icons> = Object.entries(icons).reduce(
+  (map: Record<string, string>, [id, {url}]) => {
+    if (!url) return map;
+    const { host } = new URL(url);
+    map[host] = id;
     return map;
   },
   {}
@@ -157,7 +157,7 @@ const iconsByLink: Record<string, IconLink> = Object.values(icons).reduce(
 const getIconFromUrl = (url: string | URL): IconLink | undefined => {
   try {
     const { host } = new URL(url);
-    return iconsByLink[host];
+    return icons[hostDomainIconId[host]];
   } catch (e) {
     if (e instanceof Error && 'code' in e && e.code === 'ERR_INVALID_URL')
       return undefined;
