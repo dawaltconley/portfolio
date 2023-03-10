@@ -1,7 +1,11 @@
+import type { IconDefinition } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+
 interface IconStyle {
   simple?: string;
   color?: string;
   skill?: string;
+  fa?: IconDefinition;
 }
 
 interface IconLink {
