@@ -19,7 +19,8 @@ const contactLinks = [
 <Layout title="My projects">
   <Header links={contactLinks} class="theme-brand" />
   <PageHeader
-    class="flex flex-col"
+    tag="header"
+    class="flex flex-col font-serif"
     layerClass="theme-brand"
     clipPath={[
       [0, 0.3],
@@ -31,14 +32,14 @@ const contactLinks = [
       [0.18, 0.22],
     ]}
   >
-    <header class="container mx-auto mt-auto mb-8 font-serif">
-      <h1 class="mb-2 text-7xl font-semibold leading-[0.85]">
-        Dylan Awalt-Conley
-      </h1>
-      <p class="text-3xl font-medium">
-        Some of my websites and JavaScript things.
-      </p>
-    </header>
+    <h1
+      class="container mx-auto mb-2 mt-auto text-7xl font-semibold leading-[0.85]"
+    >
+      Dylan Awalt-Conley
+    </h1>
+    <p class="container mx-auto mb-8 text-3xl font-medium">
+      Some of my websites and JavaScript things.
+    </p>
   </PageHeader>
   <main class="relative z-10 bg-theme-bg">
     <ul class="container mx-auto grid gap-4 py-8 sm:grid-cols-2 xl:grid-cols-3">
