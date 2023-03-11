@@ -1,14 +1,16 @@
 ---
 export interface Props {
   class?: string;
+  tag?: 'header' | 'div';
 }
 
-const { class: className } = Astro.props;
+const { tag, class: className } = Astro.props;
+const Wrapper = tag ?? 'div';
 ---
 
-<div class={`page-header ${className ?? ''}`}>
+<Wrapper class={`page-header ${className ?? ''}`}>
   <slot />
-</div>
+</Wrapper>
 
 <style lang="scss">
   @use 'scss-properties' as props;
