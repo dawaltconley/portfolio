@@ -5,13 +5,15 @@ export interface Props {
   class?: string;
   layerClass?: string;
   clipPath: ClipPath;
+  tag?: 'header' | 'div';
 }
 
-const { clipPath, class: className, layerClass } = Astro.props;
+const { clipPath, tag, class: className, layerClass } = Astro.props;
 const initPath = clipPath.map(([x]) => `${(x * 100).toFixed(2)}% 0`).join(', ');
+const Wrapper = tag ?? 'div';
 ---
 
-<div class={`page-header ${className ?? ''}`}>
+<Wrapper class={`page-header ${className ?? ''}`}>
   <slot />
   <div
     class={`page-header__layer ${className ?? ''} ${layerClass ?? ''}`}
@@ -21,7 +23,7 @@ const initPath = clipPath.map(([x]) => `${(x * 100).toFixed(2)}% 0`).join(', ');
   >
     <slot />
   </div>
-</div>
+</Wrapper>
 
 <style>
   .page-header {
