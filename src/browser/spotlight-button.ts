@@ -34,6 +34,7 @@ class SpotlightButton {
 
   removeListener(): void {
     this.element.removeEventListener('mousemove', this.onMouseMove);
+    this.element.style.setProperty('--translate', '0, 0');
   }
 }
 
