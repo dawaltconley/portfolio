@@ -23,8 +23,12 @@ const projectUrl = published ? `/projects/${project.slug}` : url;
 ---
 
 <li class="project relative flex list-none flex-col">
-  <div class="relative z-10 border-2 border-theme-tx">
-    {image && <img src={image} />}
+  <div class="relative z-10 aspect-video w-full border-2 border-theme-tx">
+    {
+      image && (
+        <img class="absolute inset-0 h-full w-full object-cover" src={image} />
+      )
+    }
     <div
       class="project__hover-layer absolute inset-0 flex bg-theme-br text-xl font-semibold text-white"
     >
