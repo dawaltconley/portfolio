@@ -30,12 +30,12 @@ class SpotlightButton {
     if (this.isAnimating) return;
     this.isAnimating = true;
     const { w, h } = this.size;
-    const adjustX = offsetX - w / 2;
-    const adjustY = offsetY - h / 2;
+    const adjustX = (offsetX - w / 2) / -w;
+    const adjustY = (offsetY - h / 2) / -h;
     requestAnimationFrame(() => {
       this.element.style.setProperty(
         '--translate',
-        `${(-adjustX / 4).toFixed(2)}px, ${-adjustY / 4}px`
+        `${(adjustX * 20).toFixed(2)}%, ${(adjustY * 20).toFixed(2)}%`
       );
       this.isAnimating = false;
     });
