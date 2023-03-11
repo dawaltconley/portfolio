@@ -1,9 +1,17 @@
 class SpotlightButton {
   element: HTMLElement;
   isAnimating: boolean = false;
+  size: {
+    w: number;
+    h: number;
+  };
   constructor(e: HTMLElement) {
     this.element = e;
     this.onMouseMove = this.onMouseMove.bind(this);
+    this.size = {
+      w: this.element.clientWidth,
+      h: this.element.clientHeight,
+    };
 
     e.addEventListener('mouseenter', () => this.addListener(), {
       passive: true,
@@ -13,11 +21,17 @@ class SpotlightButton {
     });
   }
 
+  updateSize(): void {
+    this.size.w = this.element.clientWidth;
+    this.size.h = this.element.clientHeight;
+  }
+
   onMouseMove({ offsetX, offsetY }: MouseEvent): void {
     if (this.isAnimating) return;
     this.isAnimating = true;
-    const adjustX = offsetX - this.element.clientWidth / 2;
-    const adjustY = offsetY - this.element.clientHeight / 2;
+    const { w, h } = this.size;
+    const adjustX = offsetX - w / 2;
+    const adjustY = offsetY - h / 2;
     requestAnimationFrame(() => {
       this.element.style.setProperty(
         '--translate',
@@ -28,6 +42,7 @@ class SpotlightButton {
   }
 
   addListener(): void {
+    this.updateSize();
     this.isAnimating = false;
     this.element.addEventListener('mousemove', this.onMouseMove);
   }
