@@ -18,7 +18,7 @@ const contactLinks = [
 <Layout title="My projects">
   <Header links={contactLinks} class="theme-brand" />
   <div class="site-header flex flex-col pt-[10vw]">
-    <header class="container mx-auto mt-auto mb-8 px-4 font-serif">
+    <header class="container mx-auto mt-auto mb-8 font-serif">
       <h1 class="mb-2 text-7xl font-semibold leading-[0.85]">
         Dylan Awalt-Conley
       </h1>
@@ -28,9 +28,7 @@ const contactLinks = [
     </header>
   </div>
   <main class="relative z-10 bg-theme-bg">
-    <ul
-      class="container mx-auto grid gap-4 px-4 py-8 sm:grid-cols-2 xl:grid-cols-3"
-    >
+    <ul class="container mx-auto grid gap-4 py-8 sm:grid-cols-2 xl:grid-cols-3">
       {
         projects
           .filter((project) => project.data.image)
