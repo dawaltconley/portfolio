@@ -21,7 +21,7 @@ const contactLinks = [
   <PageHeader
     tag="header"
     class="flex flex-col font-serif"
-    layerClass="theme-brand"
+    layerClass="theme-brand hard-shadow"
     clipPath={[
       [0, 0.3],
       [0, 0],
@@ -62,3 +62,12 @@ const contactLinks = [
     }
   </footer>
 </Layout>
+
+<style lang="scss">
+  .hard-shadow > * {
+    // text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+    // text-shadow: 2px 2px 0px black;
+    // text-shadow: 3px 3px 0px black;
+    text-shadow: 0.05em 0.05em 0px black;
+  }
+</style>
