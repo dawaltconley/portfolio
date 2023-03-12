@@ -23,19 +23,26 @@ const projectUrl = published ? `/projects/${project.slug}` : url;
 ---
 
 <li class="project relative flex list-none flex-col">
-  <div class="relative z-10 aspect-video w-full border-2 border-theme-tx">
+  <div
+    class="pointer-events-none relative z-20 aspect-video w-full border-2 border-theme-tx"
+  >
     {
       image && (
         <img class="absolute inset-0 h-full w-full object-cover" src={image} />
       )
     }
     <div
-      class="project__hover-layer absolute inset-0 flex bg-theme-br text-xl font-semibold text-white"
+      class="project__hover-layer theme-brand absolute inset-0 flex overflow-hidden text-xl font-semibold text-white"
     >
-      <p class="m-auto">
-        <FontAwesome icon={faArrowUpRightFromSquare} inline={true} />
-        {published ? 'Read more' : 'Visit'}
-      </p>
+      <a
+        href={projectUrl}
+        class="spotlight-button pointer-events-auto z-30 m-auto flex aspect-square p-4"
+      >
+        <span class="m-auto">
+          <FontAwesome icon={faArrowUpRightFromSquare} inline={true} />
+          {published ? 'Read more' : 'Visit'}
+        </span>
+      </a>
     </div>
   </div>
   <div
