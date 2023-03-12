@@ -15,8 +15,9 @@
 
     &::before {
       content: '';
-      @apply pointer-events-none absolute inset-0 rounded-full;
+      @apply pointer-events-none absolute inset-0;
       // mix-blend-mode: luminosity;
+      border-radius: 100%;
       background-color: gray;
       background-color: var(--color, gray);
       opacity: 0.5;
