@@ -9,6 +9,10 @@
     --scale: 1.35;
     @apply relative z-10 block;
 
+    & > * {
+      @apply pointer-events-none;
+    }
+
     &::before {
       content: '';
       @apply pointer-events-none absolute inset-0 rounded-full;
