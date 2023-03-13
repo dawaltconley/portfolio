@@ -30,10 +30,10 @@ declare module '@11ty/eleventy-fetch' {
 
   export type { CacheType, Options, JsonOptions, TextOptions, BufferOptions };
 
-  export default function EleventyFetch(
+  export default function EleventyFetch<AssetType>(
     source: string,
     options: JsonOptions
-  ): Promise<any>;
+  ): Promise<AssetType>;
   export default function EleventyFetch(
     source: string,
     options: TextOptions
