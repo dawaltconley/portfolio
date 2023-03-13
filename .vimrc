@@ -11,6 +11,7 @@ let g:ale_linters = {
 \ 'scss': ['stylelint']
 \}
 let g:ale_linter_aliases['astro'] = ['html', 'css', 'scss', 'javascript', 'typescript']
+let g:ale_linter_aliases['sass'] = ['scss']
 let g:ale_fixers['astro'] = ['prettier']
 let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 1
@@ -27,3 +28,13 @@ function! s:show_documentation()
     call feedkeys('K', 'in')
   endif
 endfunction
+
+function! s:try_coc_action(action, fallback)
+  let l:try = CocAction(a:action)
+  if (!l:try)
+    call feedkeys(a:fallback, 'in')
+  endif
+endfunction
+
+nnoremap <silent> gd :call <SID>try_coc_action('jumpDefinition', 'gd')<CR>
+nnoremap <silent> gD :call <SID>try_coc_action('jumpDeclaration', 'gD')<CR>
