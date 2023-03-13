@@ -1,5 +1,5 @@
 ---
-title: Jahleel Hills
+title: 'Jahleel Hills: Film Portfolio'
 url: https://www.jahleelhills.com
 tags:
   - website
@@ -7,6 +7,9 @@ tags:
   - sass
   - nunjucks
 ---
+
+A web portfolio for Jahleel's film and acting work.
+<!-- more -->
 
 Cut a client’s hosting costs in half by self-hosting a background video using
 adaptive bitrate streaming.
