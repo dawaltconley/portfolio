@@ -1,5 +1,5 @@
 ---
-import type { ClipPath } from '../browser/utils';
+import type { ClipPath } from '@browser/utils';
 
 export interface Props {
   class?: string;
@@ -44,8 +44,8 @@ const Wrapper = tag ?? 'div';
 </style>
 
 <script>
-  import type { ClipPath } from '../browser/utils';
-  import { pathToClip } from '../browser/utils';
+  import type { ClipPath } from '@browser/utils';
+  import { pathToClip } from '@browser/utils';
 
   const headerLayer = document.querySelector(
     '.page-header__layer'

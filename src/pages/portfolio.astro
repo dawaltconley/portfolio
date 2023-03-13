@@ -1,12 +1,11 @@
 ---
-import Layout from '../layouts/Base.astro';
-import Header from '../components/Header.astro';
-import PageHeader from '../components/PageHeader.astro';
-import Project from '../components/ProjectPreview.astro';
+import Layout from '@layouts/Base.astro';
+import Header from '@components/Header.astro';
+import PageHeader from '@components/PageHeader.astro';
+import Project from '@components/ProjectPreview.astro';
+import IconLink from '@components/IconLink.astro';
+import { tags, getExcerpt } from '@data/projects';
 import { getCollection } from 'astro:content';
-import { tags, getExcerpt } from '../data/projects';
-
-import IconLink from '../components/IconLink.astro';
 
 const projects = await getCollection('projects');
 

@@ -1,9 +1,9 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import IconLink from '../components/IconLink.astro';
-import FontAwesome from '../components/FontAwesome.astro';
+import IconLink from '@components/IconLink.astro';
+import FontAwesome from '@components/FontAwesome.astro';
 import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons';
-import { getMetadata } from '../utils';
+import { getMetadata } from '@build/fetch';
 
 export interface Props {
   project: CollectionEntry<'projects'>;
