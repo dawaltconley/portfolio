@@ -91,7 +91,6 @@ const projectUrl = published ? `/projects/${project.slug}` : url;
     &__hover-layer {
       transition: $transition;
       transition-property: clip-path;
-      transition-delay: 120ms;
       transition-timing-function: ease-out;
       /* clip-path: polygon(0 0, 0 0, 100% 100%, 100% 100%, 100% 100%, 0 0); */
       clip-path: polygon(-30% 0, 0 0, 0 100%, 0 100%);
@@ -99,6 +98,7 @@ const projectUrl = published ? `/projects/${project.slug}` : url;
     }
 
     &:hover &__hover-layer {
+      transition-delay: 120ms;
       /* clip-path: polygon(0 0, 100% 0, 100% 0, 100% 100%, 0 100%, 0 100%); */
       clip-path: polygon(100% 0, 0 0, 0 100%, 150% 100%);
       /* clip-path: polygon(100% 0, -50% 0, 0 100%, 150% 100%); */
