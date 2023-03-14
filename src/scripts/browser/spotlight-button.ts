@@ -8,15 +8,17 @@ class SpotlightButton {
   constructor(e: HTMLElement) {
     this.element = e;
     this.onMouseMove = this.onMouseMove.bind(this);
+    this.addListener = this.addListener.bind(this);
+    this.removeListener = this.removeListener.bind(this);
     this.size = {
       w: this.element.clientWidth,
       h: this.element.clientHeight,
     };
 
-    e.addEventListener('mouseenter', () => this.addListener(), {
+    e.addEventListener('mouseenter', this.addListener, {
       passive: true,
     });
-    e.addEventListener('mouseleave', () => this.removeListener(), {
+    e.addEventListener('mouseleave', this.removeListener, {
       passive: true,
     });
   }
@@ -50,6 +52,12 @@ class SpotlightButton {
   removeListener(): void {
     this.element.removeEventListener('mousemove', this.onMouseMove);
     this.element.style.setProperty('--translate', '0, 0');
+  }
+
+  disconnect(): void {
+    this.removeListener();
+    this.element.removeEventListener('mouseenter', this.addListener);
+    this.element.removeEventListener('mouseleave', this.removeListener);
   }
 }
 
