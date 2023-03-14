@@ -46,7 +46,7 @@ const saveColorScheme = (scheme: ColorScheme): void => {
 };
 
 interface ThemeControlsProps {
-  themes: number;
+  themes?: number;
   class?: string;
   iconTheme?: ComponentChild;
   iconLight?: ComponentChild;
@@ -54,7 +54,7 @@ interface ThemeControlsProps {
 }
 
 const ThemeControls: FunctionComponent<ThemeControlsProps> = ({
-  themes: maxThemes,
+  themes: maxThemes = 1,
   class: className,
   iconTheme,
   iconLight,
@@ -111,7 +111,7 @@ const ThemeControls: FunctionComponent<ThemeControlsProps> = ({
 
   return (
     <div class={`flex ${className ?? ''}`}>
-      <Button onClick={nextTheme}>{iconTheme}</Button>
+      {maxThemes > 1 && <Button onClick={nextTheme}>{iconTheme}</Button>}
       {colorScheme && (
         <Button onClick={() => toggleColorScheme(colorScheme)}>
           {colorScheme === 'light' ? iconLight : iconDark}
