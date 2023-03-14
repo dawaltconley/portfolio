@@ -1,4 +1,9 @@
 class SpotlightButton {
+  static instances: Map<HTMLElement, SpotlightButton> = new Map();
+  static isActive(e: HTMLElement): boolean {
+    return SpotlightButton.instances.has(e);
+  }
+
   element: HTMLElement;
   isAnimating: boolean = false;
   size: {
@@ -21,6 +26,8 @@ class SpotlightButton {
     e.addEventListener('mouseleave', this.removeListener, {
       passive: true,
     });
+
+    SpotlightButton.instances.set(e, this);
   }
 
   updateSize(): void {
@@ -55,6 +62,7 @@ class SpotlightButton {
   }
 
   disconnect(): void {
+    SpotlightButton.instances.delete(this.element);
     this.removeListener();
     this.element.removeEventListener('mouseenter', this.addListener);
     this.element.removeEventListener('mouseleave', this.removeListener);
