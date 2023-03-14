@@ -33,6 +33,11 @@ const { title, class: className } = Astro.props;
     /* font-weight: 400; */
   }
 </style>
+
 <script>
-  import '../browser/spotlight-button';
+  import { SpotlightButton } from '@browser/spotlight-button';
+
+  document
+    .querySelectorAll<HTMLElement>('.spotlight-button')
+    .forEach((e) => new SpotlightButton(e));
 </script>

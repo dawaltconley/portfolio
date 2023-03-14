@@ -53,14 +53,4 @@ class SpotlightButton {
   }
 }
 
-const buttons = document.getElementsByClassName(
-  'spotlight-button'
-) as HTMLCollectionOf<HTMLElement>;
-
-const spotlightButtons: SpotlightButton[] = [];
-for (const button of buttons) {
-  const sp = new SpotlightButton(button);
-  spotlightButtons.push(sp);
-}
-
-export { spotlightButtons as buttons };
+export { SpotlightButton };
