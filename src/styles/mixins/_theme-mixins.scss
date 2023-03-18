@@ -1,0 +1,32 @@
+@use 'sass:map';
+@use 'sass:meta';
+@use 'scss-properties' as prop;
+
+$_suffixes: (
+  '',
+  prop.$POSTFIX-RED,
+  prop.$POSTFIX-GREEN,
+  prop.$POSTFIX-BLUE,
+  prop.$POSTFIX-HUE,
+  prop.$POSTFIX-SATURATION,
+  prop.$POSTFIX-LIGHTNESS,
+  prop.$POSTFIX-ALPHA
+);
+
+@mixin swap-theme-color-with($var-1, $var-2, $fallback: null) {
+  @if meta.type-of($var-2) == 'color' {
+    @include prop.define(
+      (
+        $var-1: $var-2,
+      )
+    );
+  } @else {
+    @each $suffix in $_suffixes {
+      $var: #{$var-2}#{$suffix};
+      @if $fallback {
+        $var: '#{$var}, #{$fallback}';
+      }
+      #{$var-1}#{$suffix}: var(#{$var});
+    }
+  }
+}
