@@ -65,7 +65,9 @@ const IconWrapper = icon.url ? 'a' : 'span';
   .iconify,
   .iconify-inline {
     width: 1em;
+    width: var(--icon-size, 1em);
     height: 1em;
+    height: var(--icon-size, 1em);
   }
   .iconify-inline,
   [data-inline='true'] {

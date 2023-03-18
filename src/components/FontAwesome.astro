@@ -14,10 +14,14 @@ const { icon, class: className, inline = false } = Astro.props;
   icon={icon}
 />
 <style>
+  .icon {
+    width: 1em;
+    width: var(--icon-size, 1em);
+    height: 1em;
+    height: var(--icon-size, 1em);
+  }
   .icon--inline {
     display: inline;
-    width: 1em;
-    height: 1em;
     vertical-align: -0.125em;
   }
 </style>
