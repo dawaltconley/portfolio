@@ -41,6 +41,7 @@ const { links, class: className } = Astro.props;
 <style is:global lang="scss">
   @use 'sass:color';
   @use 'sass-themes' as themes;
+  @use 'scss-properties' as prop;
 
   // no-js fallback
   html {
@@ -58,6 +59,21 @@ const { links, class: className } = Astro.props;
         $brand: theme('colors.rose.500'),
         $accessibility: false,
         $styles: false
+      );
+    }
+  }
+  .theme-brand {
+    @include themes.create(
+      $text: white,
+      $bg: theme('colors.rose.600'),
+      $brand: white,
+      $accessibility: false
+    );
+    @media (prefers-color-scheme: dark) {
+      @include prop.define(
+        (
+          --theme-bg: theme('colors.rose.500'),
+        )
       );
     }
   }
