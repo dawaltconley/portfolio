@@ -1,5 +1,6 @@
 module.exports = {
   content: ['./src/**/*.{astro,html,js,jsx,md,svelte,ts,tsx,vue}'],
+  darkMode: ['class', '[data-color-scheme="dark"]'],
   theme: {
     container: {
       padding: {
