@@ -103,7 +103,7 @@ const { links, class: className } = Astro.props;
     $brand: color.change(#add, $lightness: 32%, $saturation: 84%);
     &[data-color-scheme='light'] {
       @include themes.create(
-        $text: black,
+        $text: hsl(206deg, 69%, 22%),
         $bg: white,
         $brand: $brand,
         $accessibility: false
@@ -112,7 +112,7 @@ const { links, class: className } = Astro.props;
     &[data-color-scheme='dark'] {
       @include themes.create(
         $text: white,
-        $bg: theme('colors.zinc.900'),
+        $bg: hsl(206deg, 69%, 15%),
         $brand: $brand,
         $accessibility: false
       );
