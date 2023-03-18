@@ -9,6 +9,7 @@ interface PropsBase extends Partial<Omit<IconLink, 'type'>> {
   class?: string;
   inline?: boolean;
   urlText?: string;
+  tag?: 'a' | 'span' | 'button' | 'div';
 }
 
 interface PropsId extends PropsBase {
@@ -27,6 +28,7 @@ const {
   class: className,
   inline = false,
   urlText,
+  tag,
   ...iconProps
 } = Astro.props;
 
@@ -39,7 +41,7 @@ icon = {
   ...iconProps,
 };
 
-const IconWrapper = icon.url ? 'a' : 'span';
+const IconWrapper = tag ?? icon.url ? 'a' : 'span';
 ---
 
 <IconWrapper href={icon.url} title={icon.name} class={className ?? ''}>
