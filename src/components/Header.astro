@@ -51,6 +51,8 @@ const { links, class: className } = Astro.props;
       $brand: theme('colors.rose.600'),
       $accessibility: false
     );
+    --theme-tx--base: var(--theme-tx);
+    --theme-bg--base: var(--theme-bg);
 
     @media (prefers-color-scheme: dark) {
       @include themes.create(
