@@ -21,14 +21,27 @@
 }
 
 @layer base {
+  :root {
+    @include prop.define(
+      (
+        --theme-white: white,
+        --theme-black: black,
+      )
+    );
+  }
+
   body,
   .light {
     @include define-theme(
       $text: black,
       $bg: white,
-      $brand: theme('colors.red.600'),
+      // $brand: theme('colors.rose.600'),
+      // $brand: #add,
+      // $brand: theme('colors.teal.600'),
+      $brand: color.change(#add, $lightness: 32%, $saturation: 84%),
       // high contrast, AA accessible
-      $accessibility: AA
+      // $accessibility: AA
+      $accessibility: false
     );
   }
 
@@ -52,18 +65,12 @@
   .theme-brand {
     @extend %theme;
 
-    @include prop.define(
-      (
-        --theme-white: white,
-      )
-    );
-
     --theme-light: 0;
     --theme-dark: 1;
     @include swap-theme-color-with(--theme-bg, --theme-br--base);
     @include swap-theme-color-with(--theme-tx, --theme-white);
     @include swap-theme-color-with(--theme-br, --theme-white);
-    // --theme-tx: #{themes.if-light('--theme-white', '--theme-tx')};
+    --theme-tx: #{themes.if-light('--theme-white', '--theme-tx')};
   }
 
   .theme-links {
