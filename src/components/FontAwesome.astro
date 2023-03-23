@@ -1,27 +1,17 @@
 ---
-import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { icon } from '@fortawesome/fontawesome-svg-core';
 export interface Props {
   icon: IconDefinition;
   class?: string;
   inline?: boolean;
 }
-const { icon, class: className, inline = false } = Astro.props;
+const { icon: iconDef, class: className, inline = false } = Astro.props;
+
+const html = icon(iconDef, {
+  classes: className ? className.split(' ') : [],
+  styles: inline ? {} : { '--fa-display': 'block' },
+}).html;
 ---
 
-<FontAwesomeIcon
-  className={`icon ${className ?? ''} ${inline ? 'icon--inline' : ''}`}
-  icon={icon}
-/>
-<style>
-  .icon {
-    width: 1em;
-    width: var(--icon-size, 1em);
-    height: 1em;
-    height: var(--icon-size, 1em);
-  }
-  .icon--inline {
-    display: inline;
-    vertical-align: -0.125em;
-  }
-</style>
+<Fragment set:html={html} />

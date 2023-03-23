@@ -1,13 +1,30 @@
 import type { FunctionComponent, ComponentChild } from 'preact';
-import { useState, useEffect, useRef } from 'preact/hooks';
+import { useState, useEffect, useRef, useMemo } from 'preact/hooks';
+import { icon } from '@fortawesome/fontawesome-svg-core';
+import { faBrush, faSun, faMoon } from '@fortawesome/pro-solid-svg-icons';
 
 import { SpotlightButton } from '@browser/spotlight-button';
 
-const Button: FunctionComponent<{ onClick?: () => void }> = ({
-  onClick,
-  children,
-}): JSX.Element => {
+const iconOpts = {
+  classes: ['aspect-square'],
+  styles: { '--fa-display': 'block' },
+};
+
+const icons = {
+  theme: icon(faBrush, iconOpts),
+  light: icon(faSun, iconOpts),
+  dark: icon(faMoon, iconOpts),
+};
+
+const Button: FunctionComponent<{
+  icon: keyof typeof icons;
+  onClick?: () => void;
+}> = ({ icon: iconDef, onClick }) => {
   const button = useRef<HTMLButtonElement>(null);
+  const iconRaw = useMemo(
+    () => ({ __html: icons[iconDef].html.join('') }),
+    [iconDef]
+  );
 
   useEffect(() => {
     const btn = button.current;
@@ -19,9 +36,12 @@ const Button: FunctionComponent<{ onClick?: () => void }> = ({
   }, []);
 
   return (
-    <button ref={button} class="spotlight-button -my-2 p-2" onClick={onClick}>
-      {children}
-    </button>
+    <button
+      ref={button}
+      class="spotlight-button -my-2 aspect-square p-2"
+      onClick={onClick}
+      dangerouslySetInnerHTML={iconRaw}
+    ></button>
   );
 };
 
@@ -56,9 +76,6 @@ interface ThemeControlsProps {
 const ThemeControls: FunctionComponent<ThemeControlsProps> = ({
   themes: maxThemes = 1,
   class: className,
-  iconTheme,
-  iconLight,
-  iconDark,
 }) => {
   const [theme, setTheme] = useState(0);
   const [colorScheme, setColorScheme] = useState<ColorScheme | null>(null);
@@ -111,11 +128,12 @@ const ThemeControls: FunctionComponent<ThemeControlsProps> = ({
 
   return (
     <div class={`flex ${className ?? ''}`}>
-      {maxThemes > 1 && <Button onClick={nextTheme}>{iconTheme}</Button>}
+      {maxThemes > 1 && <Button icon="theme" onClick={nextTheme} />}
       {colorScheme && (
-        <Button onClick={() => toggleColorScheme(colorScheme)}>
-          {colorScheme === 'light' ? iconLight : iconDark}
-        </Button>
+        <Button
+          icon={colorScheme}
+          onClick={() => toggleColorScheme(colorScheme)}
+        />
       )}
     </div>
   );
