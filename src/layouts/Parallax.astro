@@ -16,7 +16,10 @@ const { title, class: className } = Astro.props;
 </Layout>
 
 <style is:global lang="scss">
-  @use 'parallax';
+  @use 'sass-parallax' with (
+    $perspective: 100px,
+    $css-properties: true
+  );
 
   .parallax {
     @include parallax.body;
