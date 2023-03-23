@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 import path from 'node:path';
 import sass from 'sass';
-import react from '@astrojs/react';
 import mkTailwindFunctions from 'sass-tailwind-functions';
 import preact from '@astrojs/preact';
 
@@ -12,7 +11,7 @@ const tailwindFunctions = mkTailwindFunctions(
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), preact()],
+  integrations: [preact()],
   vite: {
     css: {
       preprocessorOptions: {
