@@ -54,7 +54,7 @@ const IconWrapper = tag ?? icon.url ? 'a' : 'span';
       />
     ) : (
       <span
-        class={`iconify ${iconStyle.toString()}`}
+        class:list={['iconify', iconStyle.toString()]}
         data-icon={icon.type[iconStyle]}
         data-inline={inline.toString()}
       />
