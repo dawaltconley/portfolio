@@ -1,19 +1,16 @@
 import type { FunctionComponent, ComponentChild } from 'preact';
-import { useState, useEffect, useRef, useMemo } from 'preact/hooks';
-import { icon } from '@fortawesome/fontawesome-svg-core';
-import { faBrush, faSun, faMoon } from '@fortawesome/pro-solid-svg-icons';
+import { useState, useEffect, useRef } from 'preact/hooks';
 
 import { SpotlightButton } from '@browser/spotlight-button';
 
-const iconOpts = {
-  classes: ['aspect-square'],
-  styles: { '--fa-display': 'block' },
-};
+import IconTheme from '~icons/fap-solid/brush';
+import IconLight from '~icons/fap-solid/sun';
+import IconDark from '~icons/fap-solid/moon';
 
 const icons = {
-  theme: icon(faBrush, iconOpts),
-  light: icon(faSun, iconOpts),
-  dark: icon(faMoon, iconOpts),
+  theme: IconTheme,
+  light: IconLight,
+  dark: IconDark,
 };
 
 const Button: FunctionComponent<{
@@ -21,10 +18,7 @@ const Button: FunctionComponent<{
   onClick?: () => void;
 }> = ({ icon: iconDef, onClick }) => {
   const button = useRef<HTMLButtonElement>(null);
-  const iconRaw = useMemo(
-    () => ({ __html: icons[iconDef].html.join('') }),
-    [iconDef]
-  );
+  const Icon = icons[iconDef];
 
   useEffect(() => {
     const btn = button.current;
@@ -40,8 +34,14 @@ const Button: FunctionComponent<{
       ref={button}
       class="spotlight-button -my-2 aspect-square p-2"
       onClick={onClick}
-      dangerouslySetInnerHTML={iconRaw}
-    ></button>
+    >
+      <Icon
+        class="aspect-square"
+        width="1em"
+        height="1em"
+        style={{ '--fa-display': 'block' }}
+      />
+    </button>
   );
 };
 
