@@ -12,7 +12,6 @@ const { links, class: className } = Astro.props;
 
 <div class={`w-full py-4 ${className ?? ''}`}>
   <div class="container mx-auto flex h-full items-center text-xl">
-    <ThemeControls themes={2} class="mr-auto" client:idle />
     {
       links &&
         links.map((url) => (

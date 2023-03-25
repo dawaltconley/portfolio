@@ -1,4 +1,11 @@
+import type { IconifyJSON } from '@iconify/types';
+import type { IconifyIconBuildResult } from '@iconify/utils';
+import { lookupCollection } from '@iconify/json';
+import { getIconData, stringToIcon, iconToSVG } from '@iconify/utils';
+
 import type { IconDefinition } from '@fortawesome/free-brands-svg-icons';
+import type { AbstractElement } from '@fortawesome/fontawesome-svg-core';
+import { icon as faIcon } from '@fortawesome/fontawesome-svg-core';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 interface IconStyle {
@@ -181,6 +188,39 @@ const getIconFromUrl = (url: string | URL): IconLink | undefined => {
       return undefined;
   }
 };
+
+const loadedIconSets: Record<string, IconifyJSON> = {};
+
+const getIconifyBuildResult = async (iconId: string): Promise<IconifyIconBuildResult> => {
+  const iconName = stringToIcon(iconId);
+  if (!iconName) throw new Error('Invalid icon identifier: ' + iconId);
+  const { prefix, name } = iconName;
+  const iconSet = loadedIconSets[prefix] ?? (await lookupCollection(prefix));
+  if (!(prefix in loadedIconSets)) loadedIconSets[prefix] = iconSet;
+  const iconData = getIconData(iconSet, name);
+  if (!iconData) throw new Error(`Couldn't find icon ${name} in set ${prefix}`);
+  return iconToSVG(iconData);
+};
+
+interface IconBuildResults {
+  simple?: IconifyIconBuildResult;
+  color?: IconifyIconBuildResult;
+  skill?: IconifyIconBuildResult;
+  fa?: AbstractElement;
+}
+
+const iconifyBuildResults = new Map<keyof typeof icons, IconBuildResults>();
+for (let name in icons) {
+  let icon = icons[name];
+  let results: IconBuildResults = {};
+  let type: keyof IconStyle
+  for (type in icon.type) {
+      const id = icon.type[type];
+      if (typeof id === 'string') results[type] = await getIconifyBuildResult(id);
+    }
+  }
+  iconifyBuildResults.set(name, results);
+}
 
 export type { IconLink, IconStyle };
 export { icons, getIconFromUrl };

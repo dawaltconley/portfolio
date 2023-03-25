@@ -2,7 +2,7 @@
 import type { IconLink, IconStyle } from '@data/icons';
 import { IconifySvg } from '@components/IconLink';
 import { icons, getIconFromUrl } from '@data/icons';
-import FontAwesome from './FontAwesome.astro';
+import FontAwesome from './FontAwesome';
 
 interface PropsBase extends Partial<Omit<IconLink, 'type'>> {
   type: keyof IconStyle;
