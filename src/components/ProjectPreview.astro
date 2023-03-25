@@ -1,8 +1,9 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import IconLink from '@components/IconLink.astro';
-import FontAwesome from '@components/FontAwesome.astro';
-import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons';
+import IconLink from '@components/IconLink';
+// import FontAwesome from '@components/FontAwesome.astro';
+// import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons';
+import IconExternalLink from '~icons/fap-solid/arrow-up-right-from-square';
 import { getMetadata } from '@build/fetch';
 
 export interface Props {
@@ -39,7 +40,7 @@ const projectUrl = published ? `/projects/${project.slug}` : url;
         class="spotlight-button pointer-events-auto z-30 m-auto flex aspect-square p-4"
       >
         <span class="m-auto">
-          <FontAwesome icon={faArrowUpRightFromSquare} inline={true} />
+          <IconExternalLink class="inline-block" width="1em" height="1em" />
           {published ? 'Read more' : 'Visit'}
         </span>
       </a>

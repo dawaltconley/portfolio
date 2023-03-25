@@ -1,7 +1,7 @@
 ---
 import type { IconLink, IconStyle } from '@data/icons';
 import { icons, getIconFromUrl } from '@data/icons';
-import FontAwesome from './FontAwesome.astro';
+/* import FontAwesome from './FontAwesome.astro'; */
 
 interface PropsBase extends Partial<Omit<IconLink, 'type'>> {
   type: keyof IconStyle;
@@ -42,10 +42,19 @@ icon = {
 };
 
 const IconWrapper = tag ?? icon.url ? 'a' : 'span';
+const Icon = icon.type[iconStyle];
 ---
 
 <IconWrapper href={icon.url} title={icon.name} class={className ?? ''}>
+  <slot>
+    <Icon
+      class="iconify"
+      data-icon={icon.type[iconStyle]}
+      data-inline={inline.toString()}
+    />
+  </slot>
   {
+    /*
     iconStyle === 'fa' ? (
       <FontAwesome
         icon={icon.type[iconStyle]}
@@ -59,6 +68,7 @@ const IconWrapper = tag ?? icon.url ? 'a' : 'span';
         data-inline={inline.toString()}
       />
     )
+    */
   }
   {icon.url && urlText && <span class="icon-url-text">{urlText}</span>}
 </IconWrapper>
@@ -97,7 +107,3 @@ const IconWrapper = tag ?? icon.url ? 'a' : 'span';
     }
   }
 </style>
-
-<script>
-  import '@iconify/iconify';
-</script>

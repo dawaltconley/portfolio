@@ -1,11 +1,79 @@
-import type { IconDefinition } from '@fortawesome/free-brands-svg-icons';
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import IconNpmSimple from '~icons/icomoon-free/npm';
+import IconNpmColor from '~icons/logos/npm-icon';
+import IconNpmSkill from '~icons/logos/npm-icon';
+// import IconNpmSimple from '~icons/simple-icons/npm'
+// import IconNpmSimple from '~icons/cib/npm'
+// import IconNpmSimple from '~icons/logos/npm'
+
+import Icon11tySimple from '~icons/cib/eleventy';
+import Icon11tyColor from '~icons/simple-icons/eleventy';
+import Icon11tySkill from '~icons/simple-icons/eleventy';
+// import Icon11tySimple from '~icons/logos/eleventy';
+
+import IconNjkSimple from '~icons/simple-icons/nunjucks';
+import IconNjkColor from '~icons/vscode-icons/file-type-nunjucks';
+import IconNjkSkill from '~icons/vscode-icons/file-type-nunjucks';
+
+import IconSassSimple from '~icons/simple-icons/sass';
+import IconSassColor from '~icons/logos/sass';
+import IconSassSkill from '~icons/skill-icons/sass';
+// import IconSassSimple from '~icons/cib/sass';
+
+import IconJsSimple from '~icons/simple-icons/javascript';
+import IconJsColor from '~icons/logos/javascript';
+import IconJsSkill from '~icons/skill-icons/javascript';
+// import IconJsSimple from '~icons/cib/javascript';
+
+import IconNodeSimple from '~icons/simple-icons/nodejs';
+import IconNodeColor from '~icons/logos/nodejs-icon';
+import IconNodeSkill from '~icons/skill-icons/nodejs-dark';
+// import IconNodeColor from '~icons/vscode-icons/file-type-node';
+
+import IconTsSimple from '~icons/simple-icons/typescript';
+import IconTsColor from '~icons/logos/typescript-icon';
+import IconTsSkill from '~icons/skill-icons/typescript';
+// import IconTsColor from '~icons/logos/typescript-icon-round';
+// import IconTsColor from '~icons/vscode-icons/file-type-typescript';
+
+import IconReactSimple from '~icons/simple-icons/react';
+import IconReactColor from '~icons/logos/react';
+import IconReactSkill from '~icons/skill-icons/react-dark';
+// import IconReactColor from '~icons/skill-icons/react-light';
+
+import IconNextSimple from '~icons/simple-icons/nextdotjs';
+import IconNextColor from '~icons/logos/nextjs-icon';
+import IconNextSkill from '~icons/skill-icons/nextjs-dark';
+// import IconNextSkill from '~icons/skill-icons/nextjs-light';
+
+import IconTailwindSimple from '~icons/simple-icons/tailwindcss';
+import IconTailwindColor from '~icons/logos/tailwindcss-icon';
+import IconTailwindSkill from '~icons/skill-icons/tailwindcss-dark';
+// import IconTailwindColor from '~icons/vscode-icons/file-type-tailwind';
+// import IconTailwindSkill from '~icons/skill-icons/tailwindcss-light';
+
+import IconAwsSimple from '~icons/simple-icons/amazonaws';
+import IconAwsColor from '~icons/logos/aws';
+import IconAwsSkill from '~icons/skill-icons/aws-dark';
+// import IconAwsColor from '~icons/skill-icons/aws-light';
+
+import IconCfnColor from '~icons/logos/aws-cloudformation';
+import IconCfnSkill from '~icons/logos/aws-cloudformation';
+
+import IconJekyllSimple from '~icons/simple-icons/jekyll';
+import IconJekyllColor from '~icons/vscode-icons/file-type-jekyll';
+import IconJekyllSkill from '~icons/vscode-icons/file-type-jekyll';
+// import IconJekyllColor from '~icons/logos/jekyll';
+
+import IconGitHubFa from '~icons/fap-brands/github';
+import IconLinkedInFa from '~icons/fap-brands/linkedin';
+
+type IconComponent = typeof IconNpmSimple;
 
 interface IconStyle {
-  simple?: string;
-  color?: string;
-  skill?: string;
-  fa?: IconDefinition;
+  simple?: IconComponent;
+  color?: IconComponent;
+  skill?: IconComponent;
+  fa?: IconComponent;
 }
 
 interface IconLink {
@@ -14,163 +82,146 @@ interface IconLink {
   type: IconStyle;
 }
 
-// const icons = {
 const icons: Record<string, IconLink> = {
   npm: {
     name: 'NPM',
     url: 'https://www.npmjs.com/',
     type: {
-      // simple: 'simple-icons:npm',
-      // simple: 'cib:npm',
-      simple: 'icomoon-free:npm',
-      // color: 'logos:npm',
-      color: 'logos:npm-icon',
-      skill: 'logos:npm-icon',
+      simple: IconNpmSimple,
+      color: IconNpmColor,
+      skill: IconNpmSkill,
     },
   },
   '11ty': {
     name: 'Eleventy',
     url: 'https://www.11ty.dev/',
     type: {
-      simple: 'cib:eleventy',
-      // simple: 'logos:eleventy',
-      color: 'simple-icons:eleventy',
-      skill: 'simple-icons:eleventy',
+      simple: Icon11tySimple,
+      color: Icon11tyColor,
+      skill: Icon11tySkill,
     },
   },
   nunjucks: {
     name: 'Nunjucks',
     url: 'https://mozilla.github.io/nunjucks/templating.html',
     type: {
-      simple: 'simple-icons:nunjucks',
-      color: 'vscode-icons:file-type-nunjucks',
-      skill: 'vscode-icons:file-type-nunjucks',
+      simple: IconNjkSimple,
+      color: IconNjkColor,
+      skill: IconNjkSkill,
     },
   },
   sass: {
     name: 'Sass',
     url: 'https://sass-lang.com/',
     type: {
-      // simple: 'cib:sass',
-      simple: 'simple-icons:sass',
-      color: 'logos:sass',
-      skill: 'skill-icons:sass',
+      simple: IconSassSimple,
+      color: IconSassColor,
+      skill: IconSassSkill,
     },
   },
   javascript: {
     name: 'JavaScript',
     type: {
-      // simple: 'cib:javascript',
-      simple: 'simple-icons:javascript',
-      color: 'logos:javascript',
-      skill: 'skill-icons:javascript',
+      simple: IconJsSimple,
+      color: IconJsColor,
+      skill: IconJsSkill,
     },
   },
   node: {
     name: 'Node',
     url: 'https://nodejs.org/en/',
     type: {
-      simple: 'simple-icons:nodejs',
-      // color: 'vscode-icons:file-type-node',
-      color: 'logos:nodejs-icon',
-      skill: 'skill-icons:nodejs-dark',
+      simple: IconNodeSimple,
+      color: IconNodeColor,
+      skill: IconNodeSkill,
     },
   },
   typescript: {
     name: 'TypeScript',
     url: 'https://www.typescriptlang.org/',
     type: {
-      simple: 'simple-icons:typescript',
-      color: 'logos:typescript-icon',
-      // color: 'logos:typescript-icon-round',
-      // color: 'vscode-icons:file-type-typescript-official',
-      skill: 'skill-icons:typescript',
+      simple: IconTsSimple,
+      color: IconTsColor,
+      skill: IconTsSkill,
     },
   },
   react: {
     name: 'React',
     url: 'https://reactjs.org/',
     type: {
-      simple: 'simple-icons:react',
-      color: 'logos:react',
-      skill: 'skill-icons:react-dark',
-      // color: 'skill-icons:react-light',
+      simple: IconReactSimple,
+      color: IconReactColor,
+      skill: IconReactSkill,
     },
   },
   nextjs: {
     name: 'Next.js',
     url: 'https://nextjs.org/',
     type: {
-      simple: 'simple-icons:nextdotjs',
-      color: 'logos:nextjs-icon',
-      skill: 'skill-icons:nextjs-dark',
-      // skill: 'skill-icons:nextjs-light',
+      simple: IconNextSimple,
+      color: IconNextColor,
+      skill: IconNextSkill,
     },
   },
   tailwind: {
     name: 'Tailwind CSS',
     url: 'https://tailwindcss.com/',
     type: {
-      simple: 'simple-icons:tailwindcss',
-      color: 'logos:tailwindcss-icon',
-      // color: 'vscode-icons:file-type-tailwind',
-      skill: 'skill-icons:tailwindcss-dark',
-      // color: 'skill-icons:tailwindcss-light',
+      simple: IconTailwindSimple,
+      color: IconTailwindColor,
+      skill: IconTailwindSkill,
     },
   },
   aws: {
     name: 'Amazon Web Services',
     url: 'https://aws.amazon.com/',
     type: {
-      simple: 'simple-icons:amazonaws',
-      color: 'logos:aws',
-      skill: 'skill-icons:aws-dark',
-      // color: 'skill-icons:aws-light',
+      simple: IconAwsSimple,
+      color: IconAwsColor,
+      skill: IconAwsSkill,
     },
   },
   cloudformation: {
     name: 'AWS CloudFormation',
     url: 'https://www.npmjs.com/',
     type: {
-      color: 'logos:aws-cloudformation',
-      skill: 'logos:aws-cloudformation',
+      color: IconCfnColor,
+      skill: IconCfnSkill,
     },
   },
   jekyll: {
     name: 'Jekyll',
     url: 'https://jekyllrb.com/',
     type: {
-      simple: 'simple-icons:jekyll',
-      color: 'vscode-icons:file-type-jekyll',
-      // color: 'logos:jekyll',
-      skill: 'vscode-icons:file-type-jekyll',
+      simple: IconJekyllSimple,
+      color: IconJekyllColor,
+      skill: IconJekyllSkill,
     },
   },
   github: {
     name: 'GitHub',
     url: 'https://github.com',
     type: {
-      fa: faGithub,
+      fa: IconGitHubFa,
     },
   },
   linkedin: {
     name: 'LinkedIn',
     url: 'https://www.linkedin.com/',
     type: {
-      fa: faLinkedin,
+      fa: IconLinkedInFa,
     },
   },
 } as const;
 
-const hostDomainIconId: Record<string, keyof typeof icons> = Object.entries(icons).reduce(
-  (map: Record<string, string>, [id, {url}]) => {
-    if (!url) return map;
-    const { host } = new URL(url);
-    map[host] = id;
-    return map;
-  },
-  {}
-);
+const hostDomainIconId: Record<string, keyof typeof icons> = Object.entries(
+  icons
+).reduce((map: Record<string, string>, [id, { url }]) => {
+  if (!url) return map;
+  const { host } = new URL(url);
+  map[host] = id;
+  return map;
+}, {});
 
 const getIconFromUrl = (url: string | URL): IconLink | undefined => {
   try {
@@ -182,5 +233,5 @@ const getIconFromUrl = (url: string | URL): IconLink | undefined => {
   }
 };
 
-export type { IconLink, IconStyle };
+export type { IconLink, IconStyle, IconComponent };
 export { icons, getIconFromUrl };
