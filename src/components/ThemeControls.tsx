@@ -11,9 +11,9 @@ const iconOpts = {
 };
 
 const icons = {
-  theme: icon(faBrush, iconOpts),
-  light: icon(faSun, iconOpts),
-  dark: icon(faMoon, iconOpts),
+  theme: icon(faBrush, iconOpts).html.join(''),
+  light: icon(faSun, iconOpts).html.join(''),
+  dark: icon(faMoon, iconOpts).html.join(''),
 };
 
 const Button: FunctionComponent<{
@@ -21,10 +21,7 @@ const Button: FunctionComponent<{
   onClick?: () => void;
 }> = ({ icon: iconDef, onClick }) => {
   const button = useRef<HTMLButtonElement>(null);
-  const iconRaw = useMemo(
-    () => ({ __html: icons[iconDef].html.join('') }),
-    [iconDef]
-  );
+  const iconRaw = useMemo(() => ({ __html: icons[iconDef] }), [iconDef]);
 
   useEffect(() => {
     const btn = button.current;

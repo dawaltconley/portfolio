@@ -17,6 +17,7 @@ const getExcerpt = (
   item: CollectionEntry<'projects'>,
   excerptSeparator: string | RegExp = /<!-- ?more ?-->/
 ): string => {
+  // console.log(item);
   if (item.data.excerpt) {
     return item.data.excerpt;
   } else if (excerptSeparator) {

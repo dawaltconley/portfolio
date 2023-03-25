@@ -1,5 +1,6 @@
 ---
 import type { IconLink, IconStyle } from '@data/icons';
+import { IconifySvg } from '@components/IconLink';
 import { icons, getIconFromUrl } from '@data/icons';
 import FontAwesome from './FontAwesome.astro';
 
@@ -53,11 +54,16 @@ const IconWrapper = tag ?? icon.url ? 'a' : 'span';
         inline={inline}
       />
     ) : (
-      <span
-        class:list={['iconify', iconStyle.toString()]}
-        data-icon={icon.type[iconStyle]}
-        data-inline={inline.toString()}
+      <IconifySvg
+        id={id}
+        type={iconStyle}
+        class={`iconify ${iconStyle.toString()}`}
       />
+      // <span
+      //   class:list={['iconify', iconStyle.toString()]}
+      //   data-icon={icon.type[iconStyle]}
+      //   data-inline={inline.toString()}
+      // />
     )
   }
   {icon.url && urlText && <span class="icon-url-text">{urlText}</span>}
@@ -99,5 +105,5 @@ const IconWrapper = tag ?? icon.url ? 'a' : 'span';
 </style>
 
 <script>
-  import '@iconify/iconify';
+  // import '@iconify/iconify';
 </script>

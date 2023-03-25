@@ -13,6 +13,7 @@
       "@styles/*": ["styles/*"]
     },
     "jsx": "react-jsx",
-    "jsxImportSource": "preact"
+    "jsxImportSource": "preact",
+    "types": ["unplugin-icons/types/astro"]
   }
 }
