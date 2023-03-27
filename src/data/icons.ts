@@ -195,7 +195,7 @@ const icons: Record<string, IconLink> = {
     type: {
       simple: IconJekyllSimple,
       color: IconJekyllColor,
-      skill: IconJekyllSkill,
+      skill: (props) => IconJekyllSkill({ ...props }),
     },
   },
   github: {
