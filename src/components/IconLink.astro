@@ -2,6 +2,8 @@
 import type { IconLink, IconStyle } from '@data/icons';
 import { icons, getIconFromUrl } from '@data/icons';
 import FontAwesome from './FontAwesome.astro';
+import { Icon } from '@iconify/react/offline';
+import home from '@iconify-icons/mdi-light/home';
 
 interface PropsBase extends Partial<Omit<IconLink, 'type'>> {
   type: keyof IconStyle;
@@ -53,10 +55,10 @@ const IconWrapper = tag ?? icon.url ? 'a' : 'span';
         inline={inline}
       />
     ) : (
-      <span
-        class:list={['iconify', iconStyle.toString()]}
-        data-icon={icon.type[iconStyle]}
-        data-inline={inline.toString()}
+      <Icon
+        icon={home}
+        inline={inline}
+        className={`iconify ${iconStyle.toString()}`}
       />
     )
   }
