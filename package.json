@@ -13,10 +13,12 @@
 	"dependencies": {
 		"@11ty/eleventy-fetch": "^3.0.0",
 		"@astrojs/preact": "^2.1.0",
+		"@fortawesome/fontawesome-common-types": "^6.4.0",
 		"@fortawesome/fontawesome-svg-core": "^6.3.0",
 		"@fortawesome/free-brands-svg-icons": "^6.3.0",
 		"@fortawesome/pro-solid-svg-icons": "^6.3.0",
 		"@iconify/iconify": "^3.1.0",
+		"@iconify/types": "^2.0.0",
 		"@types/flat-cache": "^2.0.0",
 		"@types/node-fetch": "^2.6.2",
 		"astro": "^2.0.15",
