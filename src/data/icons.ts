@@ -1,5 +1,5 @@
 import type { IconDefinition as FaIconDefinition } from '@fortawesome/fontawesome-common-types';
-import type { ExtendedIconifyIcon } from '@iconify/types';
+import type { IconifyIcon } from '@iconify/types';
 
 import IconNpmSimple from '@iconify-icons/icomoon-free/npm';
 import IconNpmColor from '@iconify-icons/logos/npm-icon';
@@ -70,7 +70,7 @@ import IconJekyllSkill from '@iconify-icons/vscode-icons/file-type-jekyll';
 import { definition as IconGitHubFa } from '@fortawesome/free-brands-svg-icons/faGithub';
 import { definition as IconLinkedInFa } from '@fortawesome/free-brands-svg-icons/faLinkedin';
 
-type IconDefinition = FaIconDefinition | ExtendedIconifyIcon;
+type IconDefinition = FaIconDefinition | IconifyIcon;
 
 interface IconStyle {
   simple?: IconDefinition;
@@ -255,7 +255,7 @@ const getIconDefinitions = (
     .map((id) => getIcon(id)?.type[type])
     .filter((icon): icon is IconDefinition => Boolean(icon));
 
-const faToIconify = (icon: FaIconDefinition): ExtendedIconifyIcon => {
+const faToIconify = (icon: FaIconDefinition): IconifyIcon => {
   const [width, height, , , svgPathData] = icon.icon;
   const body = Array.isArray(svgPathData)
     ? `<g class="fa-duotone-group"><path class="fa-secondary" fill="currentColor" d="${svgPathData[0]}"></path><path class="fa-primary" fill="currentColor" d="${svgPathData[1]}"></path></g>`
