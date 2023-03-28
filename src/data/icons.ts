@@ -73,19 +73,21 @@ import { definition as IconLinkedInSimple } from '@fortawesome/free-brands-svg-i
 type IconDefinition = FaIconDefinition | IconifyIcon;
 
 const iconStyles = ['simple', 'color', 'skill'] as const;
-type IconStyle = Partial<Record<(typeof iconStyles)[number], IconDefinition>>;
+type DataIconStyle = Partial<
+  Record<(typeof iconStyles)[number], IconDefinition>
+>;
 
-interface IconLink {
+interface DataIcon {
   name: string;
   url?: string;
-  type: IconStyle;
+  style: DataIconStyle;
 }
 
-const icons: Record<string, IconLink> = {
+const icons: Record<string, DataIcon> = {
   npm: {
     name: 'NPM',
     url: 'https://www.npmjs.com/',
-    type: {
+    style: {
       simple: IconNpmSimple,
       color: IconNpmColor,
       skill: IconNpmSkill,
@@ -94,7 +96,7 @@ const icons: Record<string, IconLink> = {
   '11ty': {
     name: 'Eleventy',
     url: 'https://www.11ty.dev/',
-    type: {
+    style: {
       simple: Icon11tySimple,
       color: Icon11tyColor,
       skill: Icon11tySkill,
@@ -103,7 +105,7 @@ const icons: Record<string, IconLink> = {
   nunjucks: {
     name: 'Nunjucks',
     url: 'https://mozilla.github.io/nunjucks/templating.html',
-    type: {
+    style: {
       simple: IconNjkSimple,
       color: IconNjkColor,
       skill: IconNjkSkill,
@@ -112,7 +114,7 @@ const icons: Record<string, IconLink> = {
   sass: {
     name: 'Sass',
     url: 'https://sass-lang.com/',
-    type: {
+    style: {
       simple: IconSassSimple,
       color: IconSassColor,
       skill: IconSassSkill,
@@ -120,7 +122,7 @@ const icons: Record<string, IconLink> = {
   },
   javascript: {
     name: 'JavaScript',
-    type: {
+    style: {
       simple: IconJsSimple,
       color: IconJsColor,
       skill: IconJsSkill,
@@ -129,7 +131,7 @@ const icons: Record<string, IconLink> = {
   node: {
     name: 'Node',
     url: 'https://nodejs.org/en/',
-    type: {
+    style: {
       simple: IconNodeSimple,
       color: IconNodeColor,
       skill: IconNodeSkill,
@@ -138,7 +140,7 @@ const icons: Record<string, IconLink> = {
   typescript: {
     name: 'TypeScript',
     url: 'https://www.typescriptlang.org/',
-    type: {
+    style: {
       simple: IconTsSimple,
       color: IconTsColor,
       skill: IconTsSkill,
@@ -147,7 +149,7 @@ const icons: Record<string, IconLink> = {
   react: {
     name: 'React',
     url: 'https://reactjs.org/',
-    type: {
+    style: {
       simple: IconReactSimple,
       color: IconReactColor,
       skill: IconReactSkill,
@@ -156,7 +158,7 @@ const icons: Record<string, IconLink> = {
   nextjs: {
     name: 'Next.js',
     url: 'https://nextjs.org/',
-    type: {
+    style: {
       simple: IconNextSimple,
       color: IconNextColor,
       skill: IconNextSkill,
@@ -165,7 +167,7 @@ const icons: Record<string, IconLink> = {
   tailwind: {
     name: 'Tailwind CSS',
     url: 'https://tailwindcss.com/',
-    type: {
+    style: {
       simple: IconTailwindSimple,
       color: IconTailwindColor,
       skill: IconTailwindSkill,
@@ -174,7 +176,7 @@ const icons: Record<string, IconLink> = {
   aws: {
     name: 'Amazon Web Services',
     url: 'https://aws.amazon.com/',
-    type: {
+    style: {
       simple: IconAwsSimple,
       color: IconAwsColor,
       skill: IconAwsSkill,
@@ -183,7 +185,7 @@ const icons: Record<string, IconLink> = {
   cloudformation: {
     name: 'AWS CloudFormation',
     url: 'https://www.npmjs.com/',
-    type: {
+    style: {
       color: IconCfnColor,
       skill: IconCfnSkill,
     },
@@ -191,7 +193,7 @@ const icons: Record<string, IconLink> = {
   jekyll: {
     name: 'Jekyll',
     url: 'https://jekyllrb.com/',
-    type: {
+    style: {
       simple: IconJekyllSimple,
       color: IconJekyllColor,
       skill: IconJekyllSkill,
@@ -200,14 +202,14 @@ const icons: Record<string, IconLink> = {
   github: {
     name: 'GitHub',
     url: 'https://github.com',
-    type: {
+    style: {
       simple: IconGitHubSimple,
     },
   },
   linkedin: {
     name: 'LinkedIn',
     url: 'https://www.linkedin.com/',
-    type: {
+    style: {
       simple: IconLinkedInSimple,
     },
   },
@@ -222,7 +224,7 @@ const hostDomainIconId: Record<string, keyof typeof icons> = Object.entries(
   return map;
 }, {});
 
-const getIconFromUrl = (url: string | URL): IconLink | undefined => {
+const getIconFromUrl = (url: string | URL): DataIcon | undefined => {
   try {
     const { host } = new URL(url);
     return icons[hostDomainIconId[host]];
@@ -232,29 +234,29 @@ const getIconFromUrl = (url: string | URL): IconLink | undefined => {
   }
 };
 
-const getIcon = (id: string | URL): IconLink | undefined =>
+const getIcon = (id: string | URL): DataIcon | undefined =>
   typeof id === 'string' && id in icons ? icons[id] : getIconFromUrl(id);
 
-const getIcons = (ids: (string | URL)[]): IconLink[] =>
-  ids.map(getIcon).filter((icon): icon is IconLink => Boolean(icon));
+const getIcons = (ids: (string | URL)[]): DataIcon[] =>
+  ids.map(getIcon).filter((icon): icon is DataIcon => Boolean(icon));
 
 const getIconDefinition = (
   id: string | URL,
-  type: keyof IconStyle
-): IconDefinition | undefined => getIcon(id)?.type[type];
+  style: keyof DataIconStyle
+): IconDefinition | undefined => getIcon(id)?.style[style];
 
 const getIconDefinitions = (
   ids: (string | URL)[],
-  type: keyof IconStyle
+  style: keyof DataIconStyle
 ): IconDefinition[] =>
   ids
-    .map((id) => getIcon(id)?.type[type])
+    .map((id) => getIcon(id)?.style[style])
     .filter((icon): icon is IconDefinition => Boolean(icon));
 
-const getDefaultIconDefinition = (icon: IconLink): IconDefinition => {
+const getDefaultIconDefinition = (icon: DataIcon): IconDefinition => {
   let defaultIcon: IconDefinition | undefined;
   for (let style of iconStyles) {
-    defaultIcon = icon.type[style];
+    defaultIcon = icon.style[style];
     if (defaultIcon) break;
   }
   if (!defaultIcon)
@@ -270,7 +272,7 @@ const faToIconify = (icon: FaIconDefinition): IconifyIcon => {
   return { width, height, body };
 };
 
-export type { IconLink, IconStyle, IconDefinition };
+export type { DataIcon, DataIconStyle, IconDefinition };
 export {
   icons,
   iconStyles,
