@@ -61,9 +61,9 @@ const contactLinks = [
         const icon = getIcon(tag);
         return (
           icon &&
-          icon.type.skill && (
+          icon.style.skill && (
             <IconLink
-              icon={icon.type.skill}
+              icon={icon.style.skill}
               title={icon.name}
               url={icon.url}
               class="icon-component--skill inline-block"

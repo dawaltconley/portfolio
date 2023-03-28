@@ -53,8 +53,8 @@ const projectIcons = tags.map((tag) => getIcon(tag)).filter(Boolean);
           projectIcons.map(
             (icon) =>
               icon &&
-              icon.type.simple && (
-                <IconLink icon={icon.type.simple} title={icon.name} tag="li" />
+              icon.style.simple && (
+                <IconLink icon={icon.style.simple} title={icon.name} tag="li" />
               )
           )
         }

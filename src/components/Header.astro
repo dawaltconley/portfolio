@@ -19,9 +19,9 @@ const { links = [], class: className } = Astro.props;
         const icon = getIcon(url);
         return (
           icon &&
-          icon.type.simple && (
+          icon.style.simple && (
             <IconLink
-              icon={icon.type.simple}
+              icon={icon.style.simple}
               url={url}
               title={icon.name}
               class="spotlight-button -my-2 box-content aspect-square p-2 leading-[0]"
