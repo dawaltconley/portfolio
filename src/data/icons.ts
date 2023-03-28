@@ -236,5 +236,40 @@ const getIconFromUrl = (url: string | URL): IconLink | undefined => {
   }
 };
 
+const getIcon = (id: string | URL): IconLink | undefined =>
+  typeof id === 'string' && id in icons ? icons[id] : getIconFromUrl(id);
+
+const getIcons = (ids: (string | URL)[]): IconLink[] =>
+  ids.map(getIcon).filter((icon): icon is IconLink => Boolean(icon));
+
+const getIconDefinition = (
+  id: string | URL,
+  type: keyof IconStyle
+): IconDefinition | undefined => getIcon(id)?.type[type];
+
+const getIconDefinitions = (
+  ids: (string | URL)[],
+  type: keyof IconStyle
+): IconDefinition[] =>
+  ids
+    .map((id) => getIcon(id)?.type[type])
+    .filter((icon): icon is IconDefinition => Boolean(icon));
+
+const faToIconify = (icon: FaIconDefinition): ExtendedIconifyIcon => {
+  const [width, height, , , svgPathData] = icon.icon;
+  const body = Array.isArray(svgPathData)
+    ? `<g class="fa-duotone-group"><path class="fa-secondary" fill="currentColor" d="${svgPathData[0]}"></path><path class="fa-primary" fill="currentColor" d="${svgPathData[1]}"></path></g>`
+    : `<path fill="currentColor" d=${svgPathData}></path>`;
+  return { width, height, body };
+};
+
 export type { IconLink, IconStyle, IconDefinition };
-export { icons, getIconFromUrl };
+export {
+  icons,
+  getIconFromUrl,
+  getIcon,
+  getIconDefinition,
+  getIcons,
+  getIconDefinitions,
+  faToIconify,
+};
