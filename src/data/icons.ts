@@ -254,6 +254,13 @@ const getIconDefinitions = (
     .map((id) => getIcon(id)?.type[type])
     .filter((icon): icon is IconDefinition => Boolean(icon));
 
+const getDefaultIconDefinition = (icon: IconLink): IconDefinition => {
+  const defaultIcon = icon.type.simple ?? icon.type.color ?? icon.type.skill;
+  if (!defaultIcon)
+    throw new Error(`No icon types provided for icon ${icon.name}`);
+  return defaultIcon;
+};
+
 const faToIconify = (icon: FaIconDefinition): IconifyIcon => {
   const [width, height, , , svgPathData] = icon.icon;
   const body = Array.isArray(svgPathData)
@@ -270,5 +277,6 @@ export {
   getIconDefinition,
   getIcons,
   getIconDefinitions,
+  getDefaultIconDefinition,
   faToIconify,
 };
