@@ -72,11 +72,8 @@ import { definition as IconLinkedInSimple } from '@fortawesome/free-brands-svg-i
 
 type IconDefinition = FaIconDefinition | IconifyIcon;
 
-interface IconStyle {
-  simple?: IconDefinition;
-  color?: IconDefinition;
-  skill?: IconDefinition;
-}
+const iconStyles = ['simple', 'color', 'skill'] as const;
+type IconStyle = Partial<Record<(typeof iconStyles)[number], IconDefinition>>;
 
 interface IconLink {
   name: string;
@@ -255,7 +252,11 @@ const getIconDefinitions = (
     .filter((icon): icon is IconDefinition => Boolean(icon));
 
 const getDefaultIconDefinition = (icon: IconLink): IconDefinition => {
-  const defaultIcon = icon.type.simple ?? icon.type.color ?? icon.type.skill;
+  let defaultIcon: IconDefinition | undefined;
+  for (let style of iconStyles) {
+    defaultIcon = icon.type[style];
+    if (defaultIcon) break;
+  }
   if (!defaultIcon)
     throw new Error(`No icon types provided for icon ${icon.name}`);
   return defaultIcon;
@@ -272,6 +273,7 @@ const faToIconify = (icon: FaIconDefinition): IconifyIcon => {
 export type { IconLink, IconStyle, IconDefinition };
 export {
   icons,
+  iconStyles,
   getIconFromUrl,
   getIcon,
   getIconDefinition,
