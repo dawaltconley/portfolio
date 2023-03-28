@@ -19,7 +19,7 @@ const IconLink: FunctionComponent<IconLinkProps> = ({
   const IconWrapper = tag ?? (url ? 'a' : 'span');
   return (
     <IconWrapper href={url} className={className} title={title}>
-      <Icon width="1em" height="1em" {...iconAttributes} />
+      <Icon width="1em" height="1em" class="inline-block" {...iconAttributes} />
       {children}
     </IconWrapper>
   );
