@@ -1,8 +1,8 @@
 import type { JSX, ComponentProps } from 'preact';
 import type { IconDefinition as FaIconDefinition } from '@fortawesome/fontawesome-common-types';
-import type { ExtendedIconifyIcon } from '@iconify/types';
+import type { IconifyIcon } from '@iconify/types';
 
-type IconDefinition = FaIconDefinition | ExtendedIconifyIcon;
+type IconDefinition = FaIconDefinition | IconifyIcon;
 
 interface IconProps extends Omit<ComponentProps<'svg'>, 'icon'> {
   icon: IconDefinition;
@@ -15,7 +15,7 @@ interface IconPropsFa extends IconProps {
 }
 
 interface IconPropsIconify extends IconProps {
-  icon: ExtendedIconifyIcon;
+  icon: IconifyIcon;
 }
 
 const FontAwesomeIcon = ({
