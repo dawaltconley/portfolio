@@ -1,30 +1,19 @@
 import type { FunctionComponent, ComponentChild } from 'preact';
-import { useState, useEffect, useRef, useMemo } from 'preact/hooks';
-import { icon } from '@fortawesome/fontawesome-svg-core';
-import { faBrush, faSun, faMoon } from '@fortawesome/pro-solid-svg-icons';
+import type { IconDefinition } from './Icon';
 
+import { useState, useEffect, useRef } from 'preact/hooks';
+import { faBrush } from '@fortawesome/pro-solid-svg-icons/faBrush';
+import { faSun } from '@fortawesome/pro-solid-svg-icons/faSun';
+import { faMoon } from '@fortawesome/pro-solid-svg-icons/faMoon';
+
+import Icon from './Icon';
 import { SpotlightButton } from '@browser/spotlight-button';
 
-const iconOpts = {
-  classes: ['aspect-square'],
-  styles: { '--fa-display': 'block' },
-};
-
-const icons = {
-  theme: icon(faBrush, iconOpts),
-  light: icon(faSun, iconOpts),
-  dark: icon(faMoon, iconOpts),
-};
-
 const Button: FunctionComponent<{
-  icon: keyof typeof icons;
+  icon: IconDefinition;
   onClick?: () => void;
-}> = ({ icon: iconDef, onClick }) => {
+}> = ({ icon, onClick }) => {
   const button = useRef<HTMLButtonElement>(null);
-  const iconRaw = useMemo(
-    () => ({ __html: icons[iconDef].html.join('') }),
-    [iconDef]
-  );
 
   useEffect(() => {
     const btn = button.current;
@@ -40,8 +29,9 @@ const Button: FunctionComponent<{
       ref={button}
       class="spotlight-button -my-2 aspect-square p-2"
       onClick={onClick}
-      dangerouslySetInnerHTML={iconRaw}
-    ></button>
+    >
+      <Icon icon={icon} class="block" width="1em" height="1em" />
+    </button>
   );
 };
 
@@ -128,10 +118,10 @@ const ThemeControls: FunctionComponent<ThemeControlsProps> = ({
 
   return (
     <div class={`flex ${className ?? ''}`}>
-      {maxThemes > 1 && <Button icon="theme" onClick={nextTheme} />}
+      {maxThemes > 1 && <Button icon={faBrush} onClick={nextTheme} />}
       {colorScheme && (
         <Button
-          icon={colorScheme}
+          icon={colorScheme === 'light' ? faSun : faMoon}
           onClick={() => toggleColorScheme(colorScheme)}
         />
       )}

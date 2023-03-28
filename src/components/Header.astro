@@ -1,27 +1,32 @@
 ---
 import ThemeControls from './ThemeControls';
-import IconLink from './IconLink.astro';
+import IconLink from './IconLink';
+import { getIconDefinition } from '@data/icons';
 
 export interface Props {
   links?: string[];
   class?: string;
 }
 
-const { links, class: className } = Astro.props;
+const { links = [], class: className } = Astro.props;
 ---
 
 <div class={`w-full py-4 ${className ?? ''}`}>
   <div class="container mx-auto flex h-full items-center text-xl">
     <ThemeControls themes={2} class="mr-auto" client:idle />
     {
-      links &&
-        links.map((url) => (
-          <IconLink
-            url={url}
-            type="fa"
-            class="spotlight-button -my-2 box-content aspect-square p-2 leading-[0]"
-          />
-        ))
+      links.map((url) => {
+        const icon = getIconDefinition(url, 'fa');
+        return (
+          icon && (
+            <IconLink
+              icon={icon}
+              url={url}
+              class="spotlight-button -my-2 box-content aspect-square p-2 leading-[0]"
+            />
+          )
+        );
+      })
     }
   </div>
 </div>
