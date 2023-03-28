@@ -3,8 +3,9 @@ import Layout from '@layouts/Base.astro';
 import Header from '@components/Header.astro';
 import PageHeader from '@components/PageHeader.astro';
 import Project from '@components/ProjectPreview.astro';
-import IconLink from '@components/IconLink.astro';
+import IconLink from '@components/IconLink';
 import { tags, getExcerpt } from '@data/projects';
+import { getIcons } from '@data/icons';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
@@ -55,9 +56,13 @@ const contactLinks = [
   </main>
   <footer class="space-x-2 p-4">
     {
-      Array.from(tags).map((tag) => (
-        <IconLink id={tag} type="skill" inline={true} />
-      ))
+      getIcons(Array.from(tags)).map((icon) => {
+        return (
+          icon.type.skill && (
+            <IconLink icon={icon.type.skill} title={icon.name} url={icon.url} />
+          )
+        );
+      })
     }
   </footer>
 </Layout>
