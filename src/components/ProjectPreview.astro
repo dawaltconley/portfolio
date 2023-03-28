@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import IconLink from '@components/IconLink';
-import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons/faArrowUpRightFromSquare';
+import type { DataIcon } from '@data/icons';
+import ProjectPreview from '@components/ProjectPreview';
 import { getMetadata } from '@build/fetch';
 import { getIcon } from '@data/icons';
 
@@ -20,91 +20,16 @@ const image = images[imageUrl]
   ? await images[imageUrl]()
   : (await getMetadata(new URL(url))).image;
 const projectUrl = published ? `/projects/${project.slug}` : url;
-const projectIcons = tags.map((tag) => getIcon(tag)).filter(Boolean);
+const projectIcons = tags
+  .map((tag) => getIcon(tag))
+  .filter((i): i is DataIcon => Boolean(i));
 ---
 
-<li class="project relative flex list-none flex-col">
-  <div
-    class="pointer-events-none relative z-20 aspect-video w-full border-2 border-theme-tx"
-  >
-    {
-      image && (
-        <img class="absolute inset-0 h-full w-full object-cover" src={image} />
-      )
-    }
-    <div
-      class="project__hover-layer theme-brand absolute inset-0 flex overflow-hidden text-xl font-semibold text-white"
-    >
-      <IconLink
-        icon={faArrowUpRightFromSquare}
-        url={projectUrl}
-        class="spotlight-button justify-center items-center pointer-events-auto z-30 m-auto flex aspect-square p-4"
-      >
-        <span class="ml-[0.4em]">Visit</span>
-      </IconLink>
-    </div>
-  </div>
-  <div
-    class="z-10 h-full border-x-2 border-b-2 border-theme-tx bg-theme-bg p-2 font-serif"
-  >
-    <header>
-      <ul class="float-right ml-4 flex space-x-2">
-        {
-          projectIcons.map(
-            (icon) =>
-              icon &&
-              icon.style.simple && (
-                <IconLink icon={icon.style.simple} title={icon.name} tag="li" />
-              )
-          )
-        }
-      </ul>
-      <h2
-        class="mr-auto text-2xl font-semibold leading-none underline decoration-theme-br decoration-2 underline-offset-2"
-      >
-        <a class="pseudo-fill-parent" href={projectUrl}>
-          {title}
-        </a>
-      </h2>
-    </header>
-    <div class="clear-both mt-2 leading-5">
-      <slot />
-    </div>
-    {/* <p class="hidden">{published ? 'Read more' : 'Visit'}</p> */}
-  </div>
-</li>
-
-<style lang="scss">
-  $transition: 300ms;
-
-  .project {
-    @apply relative;
-
-    &::before {
-      content: '';
-      @apply absolute inset-0 bg-theme-br;
-      transition: $transition;
-      transition-property: transform;
-    }
-
-    &:hover::before {
-      transform: translate(-8px, 8px);
-    }
-
-    &__hover-layer {
-      transition: $transition;
-      transition-property: clip-path;
-      transition-timing-function: ease-out;
-      /* clip-path: polygon(0 0, 0 0, 100% 100%, 100% 100%, 100% 100%, 0 0); */
-      clip-path: polygon(-30% 0, 0 0, 0 100%, 0 100%);
-      /* clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%); */
-    }
-
-    &:hover &__hover-layer {
-      transition-delay: 120ms;
-      /* clip-path: polygon(0 0, 100% 0, 100% 0, 100% 100%, 0 100%, 0 100%); */
-      clip-path: polygon(100% 0, 0 0, 0 100%, 150% 100%);
-      /* clip-path: polygon(100% 0, -50% 0, 0 100%, 150% 100%); */
-    }
-  }
-</style>
+<ProjectPreview
+  title={title}
+  url={projectUrl}
+  image={image}
+  icons={projectIcons}
+>
+  <slot />
+</ProjectPreview>
