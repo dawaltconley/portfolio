@@ -67,8 +67,8 @@ import IconJekyllColor from '@iconify-icons/vscode-icons/file-type-jekyll';
 import IconJekyllSkill from '@iconify-icons/vscode-icons/file-type-jekyll';
 // import IconJekyllColor from '@iconify-icons/logos/jekyll';
 
-import { definition as IconGitHubFa } from '@fortawesome/free-brands-svg-icons/faGithub';
-import { definition as IconLinkedInFa } from '@fortawesome/free-brands-svg-icons/faLinkedin';
+import { definition as IconGitHubSimple } from '@fortawesome/free-brands-svg-icons/faGithub';
+import { definition as IconLinkedInSimple } from '@fortawesome/free-brands-svg-icons/faLinkedin';
 
 type IconDefinition = FaIconDefinition | IconifyIcon;
 
@@ -76,7 +76,6 @@ interface IconStyle {
   simple?: IconDefinition;
   color?: IconDefinition;
   skill?: IconDefinition;
-  fa?: IconDefinition;
 }
 
 interface IconLink {
@@ -205,14 +204,14 @@ const icons: Record<string, IconLink> = {
     name: 'GitHub',
     url: 'https://github.com',
     type: {
-      fa: IconGitHubFa,
+      simple: IconGitHubSimple,
     },
   },
   linkedin: {
     name: 'LinkedIn',
     url: 'https://www.linkedin.com/',
     type: {
-      fa: IconLinkedInFa,
+      simple: IconLinkedInSimple,
     },
   },
 } as const;
