@@ -7,6 +7,7 @@ type IconDefinition = FaIconDefinition | ExtendedIconifyIcon;
 interface IconProps extends Omit<ComponentProps<'svg'>, 'icon'> {
   icon: IconDefinition;
   class?: string;
+  title?: string;
 }
 
 interface IconPropsFa extends IconProps {
@@ -20,7 +21,7 @@ interface IconPropsIconify extends IconProps {
 const FontAwesomeIcon = ({
   icon,
   class: className,
-  ref,
+  title,
   ...attributes
 }: IconPropsFa): JSX.Element => {
   const [width, height, , , svgPathData] = icon.icon;
@@ -45,7 +46,6 @@ const FontAwesomeIcon = ({
   }
   return (
     <svg
-      ref={ref}
       viewBox={`0 0 ${width} ${height}`}
       className={`svg-inline--fa fa-${icon.iconName} ${className}`}
       data-prefix={icon.prefix}
@@ -55,6 +55,7 @@ const FontAwesomeIcon = ({
       role="img"
       {...attributes}
     >
+      {title && <title>{title}</title>}
       {svgContent}
     </svg>
   );
@@ -63,20 +64,24 @@ const FontAwesomeIcon = ({
 const IconifyIcon = ({
   icon,
   class: className,
+  title,
   ...attributes
-}: IconPropsIconify): JSX.Element => (
-  <svg
-    className={className}
-    viewBox={`0 0 ${icon.width} ${icon.height}`}
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-    focusable="false"
-    role="img"
-    {...attributes}
-    dangerouslySetInnerHTML={{ __html: icon.body }}
-  />
-);
-
+}: IconPropsIconify): JSX.Element => {
+  let innerHtml = icon.body;
+  if (title) innerHtml = `<title>${title}</title>` + innerHtml;
+  return (
+    <svg
+      className={className}
+      viewBox={`0 0 ${icon.width} ${icon.height}`}
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+      role="img"
+      {...attributes}
+      dangerouslySetInnerHTML={{ __html: innerHtml }}
+    />
+  );
+};
 const Icon = ({
   icon,
   class: className,
