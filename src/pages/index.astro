@@ -3,10 +3,11 @@ import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
 import Header from '@components/Header.astro';
 import PageHeader from '@components/PageHeader.astro';
-import Project from '@components/ProjectPreview.astro';
+import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
 import IconLink from '@components/IconLink';
+import { getMetadata } from '@build/fetch';
 import { tags, getExcerpt } from '@data/projects';
-import { getIcon } from '@data/icons';
+import { getIcon, DataIcon } from '@data/icons';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
@@ -15,6 +16,29 @@ const contactLinks = [
   'https://github.com/dawaltconley',
   'https://www.linkedin.com/in/dawaltconley/',
 ];
+
+const images = import.meta.glob<string>('../assets/images/**', {
+  import: 'default',
+});
+
+const projectPreviews: ProjectPreviewData[] = await Promise.all(
+  projects.map(async (project) => {
+    const { url, tags, published } = project.data;
+    let imageUrl = `../assets/images/${project.data.image}`;
+    const image = images[imageUrl]
+      ? await images[imageUrl]()
+      : (await getMetadata(new URL(url))).image;
+    return {
+      ...project.data,
+      image: image,
+      excerpt: getExcerpt(project),
+      url: published ? `/projects/${project.slug}` : url,
+      icons: tags
+        .map((tag) => getIcon(tag))
+        .filter((i): i is DataIcon => Boolean(i)),
+    };
+  })
+);
 ---
 
 <Layout title="My projects">
@@ -43,17 +67,7 @@ const contactLinks = [
     </p>
   </PageHeader>
   <main class="relative z-10 bg-theme-bg">
-    <ul class="container mx-auto grid gap-4 py-8 sm:grid-cols-2 xl:grid-cols-3">
-      {
-        projects
-          .filter((project) => project.data.image)
-          .map(async (project) => (
-            <Project project={project}>
-              <p>{getExcerpt(project)}</p>
-            </Project>
-          ))
-      }
-    </ul>
+    <ProjectGrid projects={projectPreviews} />
   </main>
   <footer class="space-x-2 p-4">
     {
