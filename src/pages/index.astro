@@ -1,11 +1,12 @@
 ---
+import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
 import Header from '@components/Header.astro';
 import PageHeader from '@components/PageHeader.astro';
 import Project from '@components/ProjectPreview.astro';
 import IconLink from '@components/IconLink';
 import { tags, getExcerpt } from '@data/projects';
-import { getIcons } from '@data/icons';
+import { getIcon } from '@data/icons';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
@@ -56,10 +57,18 @@ const contactLinks = [
   </main>
   <footer class="space-x-2 p-4">
     {
-      getIcons(Array.from(tags)).map((icon) => {
+      Array.from(tags).map((tag) => {
+        const icon = getIcon(tag);
         return (
+          icon &&
           icon.type.skill && (
-            <IconLink icon={icon.type.skill} title={icon.name} url={icon.url} />
+            <IconLink
+              icon={icon.type.skill}
+              title={icon.name}
+              url={icon.url}
+              class="icon-component--skill inline-block"
+              data-icon={tag}
+            />
           )
         );
       })
