@@ -69,10 +69,11 @@ const IconifyIcon = ({
 }: IconPropsIconify): JSX.Element => {
   let innerHtml = icon.body;
   if (title) innerHtml = `<title>${title}</title>` + innerHtml;
+  const { left = 0, top = 0, width = 16, height = 16 } = icon;
   return (
     <svg
       className={className}
-      viewBox={`0 0 ${icon.width} ${icon.height}`}
+      viewBox={`${left} ${top} ${width} ${height}`}
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
       focusable="false"
