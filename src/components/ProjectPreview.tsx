@@ -38,7 +38,7 @@ const ProjectPreviewHoverLayer: FunctionComponent<{ url: string }> = ({
       <IconLink
         icon={faArrowUpRightFromSquare}
         url={url}
-        class="spotlight-button pointer-events-auto z-30 m-auto flex aspect-square items-center justify-center p-4"
+        class="spotlight-button pointer-events-auto z-30 m-auto flex aspect-square items-center justify-center p-4 font-bold"
       >
         <span class="ml-[0.4em]">Visit</span>
       </IconLink>
