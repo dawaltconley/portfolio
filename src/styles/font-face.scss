@@ -27,7 +27,7 @@
 
 $fonts: (
   'Erode': (
-    formats: woff2 woff ttf,
+    formats: eot woff2 woff ttf,
     faces: (
       300 normal '/fonts/erode/fonts/Erode-Light',
       300 italic '/fonts/erode/fonts/Erode-LightItalic',
@@ -42,7 +42,7 @@ $fonts: (
     ),
   ),
   'Erode-Variable': (
-    formats: woff2 woff ttf,
+    formats: eot woff2 woff ttf,
     faces: (
       (300 700) normal '/fonts/erode/fonts/Erode-Variable',
       (300 700) italic '/fonts/erode/fonts/Erode-VariableItalic',
