@@ -67,7 +67,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
     </p>
   </PageHeader>
   <main class="relative z-10 bg-theme-bg">
-    <ProjectGrid projects={projectPreviews} />
+    <ProjectGrid projects={projectPreviews} filter="website" client:load />
   </main>
   <footer class="space-x-2 p-4">
     {
