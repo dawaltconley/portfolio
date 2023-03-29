@@ -28,7 +28,8 @@
       z-index: -1;
     }
 
-    &:hover::before {
+    &:hover::before,
+    &--active::before {
       transform: scale(1.2);
       transform: scale(var(--scale, 1.2)) translate(var(--translate, 0, 0));
     }
