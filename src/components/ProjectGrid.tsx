@@ -36,33 +36,28 @@ const ProjectFilter: FunctionComponent<{
 
 const tagLabels = new Map([
   ['website', 'website'],
-  ['11ty', 'Eleventy'],
-  ['sass', 'Sass'],
-  ['nunjucks', 'Nunjucks'],
-  ['npm', 'NPM'],
-  ['parser', 'parser'],
-  ['javascript', 'JavaScript'],
   ['app', 'app'],
   ['cli', 'command line'],
-  ['node', 'Node.js'],
+  ['audio', 'audio'],
+  ['parser', 'parser'],
+  ['component', 'component'],
+  ['npm', 'NPM'],
+  ['nextjs', 'Next.js'],
+  ['11ty', 'Eleventy'],
+  ['nunjucks', 'Nunjucks'],
+  ['liquid', 'Liquid'],
+  ['jekyll', 'Jekyll'],
+  ['javascript', 'JavaScript'],
   ['typescript', 'TypeScript'],
   ['react', 'React'],
-  ['nextjs', 'Next.js'],
-  ['tailwind', 'Tailwind CSS'],
+  ['node', 'Node.js'],
+  ['sass', 'Sass'],
+  ['tailwind', 'Tailwind'],
   ['aws', 'Amazon Web Services'],
   ['cloudformation', 'CloudFormation'],
-  ['component', 'component'],
-  ['jekyll', 'Jekyll'],
-  ['liquid', 'Liquid'],
-  ['audio', 'audio'],
 ]);
 
-interface TagData {
-  [tag: string]: {
-    label: string;
-    count: number;
-  };
-}
+type TagData = Map<string, { label: string; count: number }>;
 
 interface ProjectPreviewData extends ProjectPreviewProps {
   tags: string[];
@@ -78,17 +73,23 @@ const ProjectGrid: FunctionComponent<{
   );
 
   const tags: TagData = useMemo(() => {
-    const tagData: TagData = {};
+    const tagData: TagData = new Map();
+    tagLabels.forEach((label, tag) => tagData.set(tag, { label, count: 0 }));
     projects.forEach(({ tags }) =>
       tags.forEach((t) => {
-        if (t in tagData) {
-          tagData[t].count++; // actually can do this with a Map as well
+        const data = tagData.get(t);
+        if (data) {
+          data.count++;
         } else {
-          const label = tagLabels.get(t) ?? t;
-          tagData[t] = { count: 1, label };
+          tagData.set(t, { count: 1, label: tagLabels.get(t) ?? t });
         }
       })
     );
+    tagData.forEach(({ count }, tag, map) => {
+      if (count === 0) {
+        map.delete(tag);
+      }
+    });
     return tagData;
   }, [projects]);
 
@@ -156,15 +157,12 @@ const ProjectGrid: FunctionComponent<{
       </ul>
       <hr class="my-2 border-theme-tx/10" />
       <nav class="space-x-3 text-center leading-tight">
-        {Object.entries(tags).map(([tag, { label, count }], i) => (
-          <>
-            {/* i > 0 && <span class="text-sm">–</span> */}
-            <ProjectFilter
-              tag={tag}
-              active={filter}
-              handleFilter={handleFilter}
-            >{`${label} (${count})`}</ProjectFilter>
-          </>
+        {Array.from(tags.entries()).map(([tag, { label, count }]) => (
+          <ProjectFilter
+            tag={tag}
+            active={filter}
+            handleFilter={handleFilter}
+          >{`${label} (${count})`}</ProjectFilter>
         ))}
       </nav>
     </>
