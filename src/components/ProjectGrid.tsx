@@ -1,6 +1,6 @@
 import type { FunctionComponent } from 'preact';
 import ProjectPreview, { ProjectPreviewProps } from './ProjectPreview';
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
 
 const ProjectFilter: FunctionComponent<{
   handleFilter: (tag: string) => void;
@@ -37,7 +37,27 @@ const ProjectGrid: FunctionComponent<{
     ([] as string[]).concat(initFilter ?? [])
   );
 
-  const handleFilter = (tag: string): void => setFilter([tag]);
+  const updateSearchParams = (newFilter: typeof filter): void => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('filter', newFilter.join(','));
+    history.pushState({ filter: newFilter }, '', url);
+  };
+
+  const updateFilterFromSearchParams = (): void => {
+    const savedFilters = new URLSearchParams(location.search).get('filter');
+    if (savedFilters) setFilter(savedFilters.split(','));
+  };
+
+  const handleFilter = (tag: string): void => {
+    const filter = [tag];
+    setFilter(filter);
+    updateSearchParams(filter);
+  };
+
+  useEffect(() => {
+    updateFilterFromSearchParams();
+    window.addEventListener('popstate', updateFilterFromSearchParams);
+  }, []);
 
   return (
     <>
