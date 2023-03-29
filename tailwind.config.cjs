@@ -9,7 +9,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      sans: ['Gotham', 'sans-serif'],
+      sans: ['Metropolis', 'sans-serif'],
       serif: ['Erode-Variable', 'Erode', 'serif'],
     },
   },
