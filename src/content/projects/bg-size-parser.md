@@ -5,7 +5,7 @@ repository: https://github.com/dawaltconley/bg-size-parser
 tags:
   - npm
   - parser
-  - javaScript
+  - javascript
 ---
 
 Parses values for the CSS `background-size` property.
