@@ -38,6 +38,8 @@ const { title, class: className } = Astro.props;
   import { SpotlightButton } from '@browser/spotlight-button';
 
   document
-    .querySelectorAll<HTMLElement>('.spotlight-button')
+    .querySelectorAll<HTMLElement>(
+      '.spotlight-button:not(.spotlight-button--no-js)'
+    )
     .forEach((e) => new SpotlightButton(e));
 </script>
