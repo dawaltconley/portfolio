@@ -3,6 +3,9 @@ import type { DataIcon } from '@data/icons';
 import type { FunctionComponent } from 'preact';
 import IconLink from '@components/IconLink';
 import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons/faArrowUpRightFromSquare';
+import { useEffect, useRef } from 'preact/hooks';
+
+import { SpotlightButton } from '@browser/spotlight-button';
 
 interface ProjectPreviewProps {
   title: string;
@@ -13,17 +16,35 @@ interface ProjectPreviewProps {
 
 const ProjectPreviewHoverLayer: FunctionComponent<{ url: string }> = ({
   url,
-}) => (
-  <div class="project__hover-layer theme-brand absolute inset-0 flex overflow-hidden text-xl font-semibold text-white">
-    <IconLink
-      icon={faArrowUpRightFromSquare}
-      url={url}
-      class="spotlight-button pointer-events-auto z-30 m-auto flex aspect-square items-center justify-center p-4"
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const layer = ref.current?.querySelector<HTMLElement>('.spotlight-button');
+    if (!layer) return;
+    if (!SpotlightButton.isActive(layer)) {
+      new SpotlightButton(layer);
+    }
+    return () => {
+      SpotlightButton.instances.get(layer)?.disconnect();
+    };
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      class="project__hover-layer theme-brand absolute inset-0 flex overflow-hidden text-xl font-semibold text-white"
     >
-      <span class="ml-[0.4em]">Visit</span>
-    </IconLink>
-  </div>
-);
+      <IconLink
+        icon={faArrowUpRightFromSquare}
+        url={url}
+        class="spotlight-button pointer-events-auto z-30 m-auto flex aspect-square items-center justify-center p-4"
+      >
+        <span class="ml-[0.4em]">Visit</span>
+      </IconLink>
+    </div>
+  );
+};
 
 const ProjectPreviewImage: FunctionComponent<{
   image: string;
