@@ -118,7 +118,6 @@ const ProjectGrid: FunctionComponent<{
   return (
     <>
       <nav class="flex justify-center border-t-2 border-theme-tx">
-        <p class="block p-4 font-medium uppercase leading-none">Portfolio:</p>
         <ProjectFilter
           tag="website"
           style="tab"
