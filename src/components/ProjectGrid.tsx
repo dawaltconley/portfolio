@@ -41,7 +41,7 @@ const ProjectGrid: FunctionComponent<{
 
   return (
     <>
-      <div class="container mx-auto flex justify-center border-t-2 border-theme-tx">
+      <div class="flex justify-center border-t-2 border-theme-tx">
         {/* <p class="block p-4 font-medium uppercase leading-none">Portfolio:</p> */}
         <ProjectFilter
           tag="website"
@@ -57,7 +57,7 @@ const ProjectGrid: FunctionComponent<{
           Packages
         </ProjectFilter>
       </div>
-      <ul class="container mx-auto grid gap-4 py-8 sm:grid-cols-2 xl:grid-cols-3">
+      <ul class="grid gap-4 py-8 sm:grid-cols-2 xl:grid-cols-3">
         {projects
           .filter(({ tags }) =>
             filter.length ? filter.some((f) => tags.includes(f)) : true
