@@ -3,12 +3,19 @@ import ProjectPreview, { ProjectPreviewProps } from './ProjectPreview';
 import { useState, useEffect, useMemo } from 'preact/hooks';
 
 const ProjectFilter: FunctionComponent<{
-  handleFilter: (tag: string) => void;
-  tag: string;
+  handleFilter: (tags: string[]) => void;
+  tags: string | string[];
   active?: string[];
   style?: 'tab' | 'link';
-}> = ({ tag, style = 'link', active = [], handleFilter, children }) => {
-  const isActive = active.includes(tag);
+}> = ({
+  tags: initTags,
+  style = 'link',
+  active = [],
+  handleFilter,
+  children,
+}) => {
+  const tags = useMemo(() => ([] as string[]).concat(initTags), [initTags]);
+  const isActive = tags.every((tag) => active.includes(tag));
   const props: ComponentProps<'button'> = useMemo(() => {
     if (style === 'tab')
       return {
@@ -27,7 +34,7 @@ const ProjectFilter: FunctionComponent<{
     };
   }, [style, isActive]);
   return (
-    <button {...props} onClick={() => handleFilter(tag)}>
+    <button {...props} onClick={() => handleFilter(tags)}>
       {style === 'link' && (isActive ? '[-] ' : '[+] ')}
       {children}
     </button>
@@ -104,10 +111,9 @@ const ProjectGrid: FunctionComponent<{
     if (savedFilters) setFilter(savedFilters.split(','));
   };
 
-  const handleFilter = (tag: string): void => {
-    const filter = [tag];
-    setFilter(filter);
-    updateSearchParams(filter);
+  const handleFilter = (tags: string[]): void => {
+    setFilter(tags);
+    updateSearchParams(tags);
   };
 
   useEffect(() => {
@@ -119,7 +125,7 @@ const ProjectGrid: FunctionComponent<{
     <>
       <nav class="flex justify-center border-t-2 border-theme-tx">
         <ProjectFilter
-          tag="website"
+          tags="website"
           style="tab"
           active={filter}
           handleFilter={handleFilter}
@@ -127,7 +133,7 @@ const ProjectGrid: FunctionComponent<{
           Websites
         </ProjectFilter>
         <ProjectFilter
-          tag="app"
+          tags="app"
           style="tab"
           active={filter}
           handleFilter={handleFilter}
@@ -135,7 +141,7 @@ const ProjectGrid: FunctionComponent<{
           Apps
         </ProjectFilter>
         <ProjectFilter
-          tag="npm"
+          tags={['npm', 'aws']}
           style="tab"
           active={filter}
           handleFilter={handleFilter}
@@ -158,7 +164,7 @@ const ProjectGrid: FunctionComponent<{
       <nav class="space-x-3 text-center leading-tight">
         {Array.from(tags.entries()).map(([tag, { label, count }]) => (
           <ProjectFilter
-            tag={tag}
+            tags={tag}
             active={filter}
             handleFilter={handleFilter}
           >{`${label} (${count})`}</ProjectFilter>
