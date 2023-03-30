@@ -1,6 +1,7 @@
 ---
 title: 'Jahleel Hills: Film Portfolio'
-url: https://www.jahleelhills.com
+links:
+  - https://www.jahleelhills.com
 tags:
   - website
   - 11ty

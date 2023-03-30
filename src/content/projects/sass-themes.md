@@ -1,7 +1,8 @@
 ---
 title: sass-themes
-url: https://www.npmjs.com/package/sass-themes
-repository: https://github.com/dawaltconley/sass-themes
+links:
+  - https://www.npmjs.com/package/sass-themes
+  - https://github.com/dawaltconley/sass-themes
 tags:
   - npm
   - sass

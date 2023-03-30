@@ -23,16 +23,17 @@ const images = import.meta.glob<string>('../assets/images/**', {
 
 const projectPreviews: ProjectPreviewData[] = await Promise.all(
   projects.map(async (project) => {
-    const { url, tags, published } = project.data;
+    const { links, tags, published } = project.data;
     let imageUrl = `../assets/images/${project.data.image}`;
     const image = images[imageUrl]
       ? await images[imageUrl]()
-      : (await getMetadata(new URL(url))).image;
+      : (await getMetadata(new URL(links[0]))).image;
+    if (published) links.unshift(`/projects/${project.slug}`);
     return {
       ...project.data,
+      links,
       image: image,
       excerpt: getExcerpt(project),
-      url: published ? `/projects/${project.slug}` : url,
       icons: tags
         .map((tag) => getIcon(tag))
         .filter((i): i is DataIcon => Boolean(i)),

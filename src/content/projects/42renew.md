@@ -1,6 +1,7 @@
 ---
 title: 42 Renewables
-url: https://www.42renew.com
+links: 
+  - https://www.42renew.com
 tags:
   - website
   - 11ty

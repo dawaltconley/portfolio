@@ -1,7 +1,8 @@
 ---
 title: liquid-args
-url: https://www.npmjs.com/package/liquid-args
-repository: https://github.com/dawaltconley/liquid-args
+links:
+  - https://www.npmjs.com/package/liquid-args
+  - https://github.com/dawaltconley/liquid-args
 tags:
   - npm
   - parser

@@ -1,7 +1,8 @@
 ---
 title: sass-parallax
-url: https://www.npmjs.com/package/sass-parallax
-repository: https://github.com/dawaltconley/sass-parallax
+links:
+  - https://www.npmjs.com/package/sass-parallax
+  - https://github.com/dawaltconley/sass-parallax
 tags:
   - npm
   - sass

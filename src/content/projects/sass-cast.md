@@ -1,7 +1,8 @@
 ---
 title: sass-cast
-url: https://www.npmjs.com/package/sass-cast
-repository: https://github.com/dawaltconley/sass-cast
+links:
+  - https://www.npmjs.com/package/sass-cast
+  - https://github.com/dawaltconley/sass-cast
 tags:
   - npm
   - javascript

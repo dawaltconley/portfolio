@@ -1,7 +1,8 @@
 ---
 title: bg-size-parser
-url: https://www.npmjs.com/package/bg-size-parser
-repository: https://github.com/dawaltconley/bg-size-parser
+links:
+  - https://www.npmjs.com/package/bg-size-parser
+  - https://github.com/dawaltconley/bg-size-parser
 tags:
   - npm
   - parser

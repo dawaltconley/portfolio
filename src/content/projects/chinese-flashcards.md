@@ -1,7 +1,8 @@
 ---
 title: Classical Chinese Flashcards
-url: https://classical-chinese-flashcards.netlify.app
-repository: https://github.com/dawaltconley/classical-chinese-flashcards
+links:
+  - https://classical-chinese-flashcards.netlify.app
+  - https://github.com/dawaltconley/classical-chinese-flashcards
 tags:
   - app
   - typescript

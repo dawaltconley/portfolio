@@ -1,7 +1,8 @@
 ---
 title: birdog
-url: https://www.npmjs.com/package/birdog
-repository: https://github.com/dawaltconley/birdog
+links:
+  - https://www.npmjs.com/package/birdog
+  - https://github.com/dawaltconley/birdog
 tags:
   - app
   - cli

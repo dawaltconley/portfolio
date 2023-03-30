@@ -1,6 +1,9 @@
 ---
+draft: true
 title: SkyTunes
-url: https://skytunes.app
+links:
+  - https://skytunes.app
+  - https://github.com/dawaltconley/skytunes
 tags:
   - app
   - audio

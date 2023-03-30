@@ -1,6 +1,8 @@
 ---
 title: More Tongues Than Teeth
-url: https://www.moretongues.com
+links:
+  - https://www.moretongues.com
+  - https://github.com/dawaltconley/mt3/
 image: moretongues/mt3-1.png
 tags:
   - website

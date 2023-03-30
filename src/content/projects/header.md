@@ -1,7 +1,8 @@
 ---
 title: Basic header
-url: https://www.npmjs.com/package/@dawaltconley/header-basic
-repository: https://github.com/dawaltconley/header
+links:
+  - https://www.npmjs.com/package/@dawaltconley/header-basic
+  - https://github.com/dawaltconley/header
 tags:
   - npm
   - component
