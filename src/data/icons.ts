@@ -184,7 +184,6 @@ const icons: Record<string, DataIcon> = {
   },
   cloudformation: {
     name: 'AWS CloudFormation',
-    url: 'https://www.npmjs.com/',
     style: {
       color: IconCfnColor,
       skill: IconCfnSkill,
