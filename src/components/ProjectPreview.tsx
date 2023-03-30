@@ -14,40 +14,44 @@ interface ProjectLink {
   text?: string;
 }
 
+const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
+  url,
+  icon,
+  text,
+}) => {
+  const ref = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    const button = ref.current;
+    if (!button) return;
+    if (!SpotlightButton.isActive(button)) {
+      new SpotlightButton(button);
+    }
+    return () => {
+      SpotlightButton.instances.get(button)?.disconnect();
+    };
+  }, [ref.current]);
+
+  return (
+    <a
+      ref={ref}
+      href={url}
+      class="spotlight-button pointer-events-auto z-30 flex aspect-square items-center justify-center p-4 font-bold"
+    >
+      <IconLink icon={icon ?? faArrowUpRightFromSquare} inline={Boolean(text)}>
+        {text && <span class="ml-[0.4em]">{text}</span>}
+      </IconLink>
+    </a>
+  );
+};
+
 const ProjectPreviewHoverLayer: FunctionComponent<{ links: ProjectLink[] }> = ({
   links,
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const buttons =
-      ref.current?.querySelectorAll<HTMLElement>('.spotlight-button');
-    if (!buttons) return;
-    buttons.forEach((button) => {
-      if (!SpotlightButton.isActive(button)) {
-        new SpotlightButton(button);
-      }
-    });
-    return () => {
-      buttons.forEach((button) => {
-        SpotlightButton.instances.get(button)?.disconnect();
-      });
-    };
-  }, []);
-
   return (
-    <div
-      ref={ref}
-      class="project__hover-layer theme-brand absolute inset-0 flex items-center justify-center overflow-hidden text-xl font-semibold text-white"
-    >
-      {links.map(({ url, icon, text }) => (
-        <IconLink
-          icon={icon ?? faArrowUpRightFromSquare}
-          url={url}
-          class="spotlight-button pointer-events-auto z-30 flex aspect-square items-center justify-center p-4 font-bold"
-        >
-          {text && <span class="ml-[0.4em]">{text}</span>}
-        </IconLink>
+    <div class="project__hover-layer theme-brand absolute inset-0 flex items-center justify-center overflow-hidden text-xl font-semibold text-white">
+      {links.map((link) => (
+        <SpotlightIconLink {...link} />
       ))}
     </div>
   );
