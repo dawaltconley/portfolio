@@ -1,9 +1,10 @@
 import type { DataIcon, IconDefinition } from '@data/icons';
 import type { FunctionComponent } from 'preact';
 import IconLink from '@components/IconLink';
+import classNames from 'classnames';
 import { getIconFromUrl, getDefaultIconDefinition } from '@data/icons';
 import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons/faArrowUpRightFromSquare';
-import { useEffect, useMemo, useRef } from 'preact/hooks';
+import { useState, useEffect, useMemo, useRef } from 'preact/hooks';
 
 import { SpotlightButton } from '@browser/spotlight-button';
 
@@ -48,26 +49,21 @@ const ProjectPreviewHoverLayer: FunctionComponent<{
   links: ProjectLink[];
   alwaysVisible?: boolean;
 }> = ({ links, alwaysVisible = false }) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const [noTransition, setNoTransition] = useState(true);
 
   useEffect(() => {
-    const layer = ref.current;
-    if (!layer) return;
-    if (!alwaysVisible) {
-      setTimeout(() => {
-        layer.classList.remove('delay-[0s]', 'duration-[0s]');
-      }, 0);
-    }
+    setNoTransition(alwaysVisible);
   }, [alwaysVisible]);
 
   return (
     <div
-      ref={ref}
-      class={`clip-reveal theme-brand absolute inset-0 flex items-center justify-center overflow-hidden text-xl font-semibold text-white delay-[0s] duration-[0s] ${
-        alwaysVisible
-          ? 'clip-reveal--active'
-          : 'group-hover:clip-reveal--active'
-      }`}
+      class={classNames(
+        'clip-reveal group-hover:clip-reveal--active theme-brand absolute inset-0 flex items-center justify-center overflow-hidden text-xl font-semibold text-white',
+        {
+          'clip-reveal--active': alwaysVisible,
+          'delay-[0s] duration-[0s]': alwaysVisible || noTransition,
+        }
+      )}
       style={{
         '--initial-delay': '120ms',
       }}
