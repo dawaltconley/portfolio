@@ -5,6 +5,8 @@ links:
 tags:
   - aws
   - cloudformation
+excerpt: >-
+  CloudFront functions for the most common URL redirects.
 ---
 
 A CloudFormation template that defines a number of CloudFront functions for

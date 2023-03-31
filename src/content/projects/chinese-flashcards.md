@@ -11,9 +11,9 @@ tags:
   - tailwind
 ---
 
-A flashcard app for the vocabulary in Bryan Van Norden's Classical Chinese for
-Everyone. I wrote it to help myself learn the material and I hope it will
-assist others in doing the same.
+A flashcard app for the vocabulary in Bryan Van Norden's _Classical 
+Chinese for Everyone_. <!-- more --> I wrote it to help myself learn the 
+material and I hope it will assist others in doing the same.
 
 And to brush up on React, especially functional components.
 

@@ -9,8 +9,8 @@ tags:
   - node
 ---
 
-A simple CLI using the ProPublica database to track the voting records of
-members of the US Congress.
+A CLI for tracking the voting records of US members of Congress. Uses the 
+ProPublica Congress API.
 
 Other:
 

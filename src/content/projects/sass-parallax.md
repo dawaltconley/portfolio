@@ -8,5 +8,6 @@ tags:
   - sass
 ---
 
-A small set of mixins for building pure CSS parallax websites. Based on [Keith
-Clark's layout](https://keithclark.co.uk/articles/pure-css-parallax-websites/).
+A small set of mixins for building pure CSS parallax websites. Based on 
+[Keith Clark's 
+layout](https://keithclark.co.uk/articles/pure-css-parallax-websites/).

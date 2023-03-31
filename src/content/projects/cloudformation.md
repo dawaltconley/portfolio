@@ -5,6 +5,8 @@ links:
 tags:
   - aws
   - cloudformation
+excerpt: >-
+  Modular CloudFormation templates for provisioning static site resources.
 ---
 
 Modular CloudFormation templates for provisioning resources, mostly for static

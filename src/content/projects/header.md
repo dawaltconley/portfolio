@@ -9,6 +9,8 @@ tags:
   - sass
   - nunjucks
   - javascript
+excerpt: >-
+  A simple, customizeable site header for static websites.
 ---
 
 A simple, modular website header. Html, CSS, and JavaScript all loaded and

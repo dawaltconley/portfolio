@@ -10,5 +10,4 @@ tags:
   - javascript
 ---
 
-A simple parser for identifying bills and other legislative items of the US
-Congress.
+A parser for bills and other Congressional legislative items.
