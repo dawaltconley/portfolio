@@ -34,4 +34,47 @@
       transform: scale(var(--scale, 1.2)) translate(var(--translate, 0, 0));
     }
   }
+
+  .box-shadow-button {
+    --transition: 300ms;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--theme-br);
+      transition-duration: 300ms;
+      transition-duration: var(--transition, 300ms);
+      transition-property: transform;
+    }
+
+    &:hover::before {
+      transform: translate(-8px, 8px);
+    }
+  }
+
+  .clip-reveal {
+    --transition: 300ms;
+    --initial-delay: 0s;
+    transition-duration: 300ms;
+    transition-duration: var(--transition, 300ms);
+    transition-property: clip-path;
+    transition-timing-function: ease-out;
+    clip-path: polygon(-30% 0, 0 0, 0 100%, 0 100%);
+    // clip-path: polygon(0 0, 0 0, 100% 100%, 100% 100%, 100% 100%, 0 0);
+    // clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+
+    &:hover,
+    &--active {
+      transition-delay: 0s;
+      transition-delay: var(--initial-delay, 0s);
+      clip-path: polygon(100% 0, 0 0, 0 100%, 150% 100%);
+      // clip-path: polygon(0 0, 100% 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+      // clip-path: polygon(100% 0, -50% 0, 0 100%, 150% 100%);
+    }
+  }
 }

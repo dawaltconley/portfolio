@@ -1,4 +1,3 @@
-import '@styles/project-preview.scss';
 import type { DataIcon, IconDefinition } from '@data/icons';
 import type { FunctionComponent } from 'preact';
 import IconLink from '@components/IconLink';
@@ -49,7 +48,10 @@ const ProjectPreviewHoverLayer: FunctionComponent<{ links: ProjectLink[] }> = ({
   links,
 }) => {
   return (
-    <div class="project__hover-layer theme-brand absolute inset-0 flex items-center justify-center overflow-hidden text-xl font-semibold text-white">
+    <div
+      class="clip-reveal group-hover:clip-reveal--active theme-brand absolute inset-0 flex items-center justify-center overflow-hidden text-xl font-semibold text-white duration-300"
+      style={{ '--initial-delay': '120ms' }}
+    >
       {links.map((link) => (
         <SpotlightIconLink {...link} />
       ))}
@@ -96,7 +98,7 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
     [links]
   );
   return (
-    <li class="project relative flex list-none flex-col">
+    <li class="box-shadow-button group relative flex list-none flex-col duration-300">
       <ProjectPreviewImage image={image} links={projectLinks} />
       <div class="z-10 h-full border-x-2 border-b-2 border-theme-tx bg-theme-bg p-2 font-serif">
         <header>
