@@ -44,13 +44,33 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
   );
 };
 
-const ProjectPreviewHoverLayer: FunctionComponent<{ links: ProjectLink[] }> = ({
-  links,
-}) => {
+const ProjectPreviewHoverLayer: FunctionComponent<{
+  links: ProjectLink[];
+  alwaysVisible?: boolean;
+}> = ({ links, alwaysVisible = false }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const layer = ref.current;
+    if (!layer) return;
+    if (!alwaysVisible) {
+      setTimeout(() => {
+        layer.classList.remove('delay-[0s]', 'duration-[0s]');
+      }, 0);
+    }
+  }, [alwaysVisible]);
+
   return (
     <div
-      class="clip-reveal group-hover:clip-reveal--active theme-brand absolute inset-0 flex items-center justify-center overflow-hidden text-xl font-semibold text-white duration-300"
-      style={{ '--initial-delay': '120ms' }}
+      ref={ref}
+      class={`clip-reveal theme-brand absolute inset-0 flex items-center justify-center overflow-hidden text-xl font-semibold text-white delay-[0s] duration-[0s] ${
+        alwaysVisible
+          ? 'clip-reveal--active'
+          : 'group-hover:clip-reveal--active'
+      }`}
+      style={{
+        '--initial-delay': '120ms',
+      }}
     >
       {links.map((link) => (
         <SpotlightIconLink {...link} />
@@ -60,20 +80,22 @@ const ProjectPreviewHoverLayer: FunctionComponent<{ links: ProjectLink[] }> = ({
 };
 
 const ProjectPreviewImage: FunctionComponent<{
-  image: string;
   links: ProjectLink[];
+  image?: string;
 }> = ({ image, links }) => (
   <div class="pointer-events-none relative z-20 aspect-video w-full border-2 border-theme-tx">
-    <img class="absolute inset-0 h-full w-full object-cover" src={image} />
-    <ProjectPreviewHoverLayer links={links} />
+    {image && (
+      <img class="absolute inset-0 h-full w-full object-cover" src={image} />
+    )}
+    <ProjectPreviewHoverLayer links={links} alwaysVisible={!image} />
   </div>
 );
 
 interface ProjectPreviewProps {
   title: string;
   links: string[];
-  image: string;
   icons: DataIcon[];
+  image?: string;
 }
 
 const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
