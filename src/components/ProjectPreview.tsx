@@ -47,8 +47,9 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
 
 const ProjectPreviewHoverLayer: FunctionComponent<{
   links: ProjectLink[];
+  class?: string;
   alwaysVisible?: boolean;
-}> = ({ links, alwaysVisible = false }) => {
+}> = ({ links, class: propClass, alwaysVisible = false }) => {
   const [noTransition, setNoTransition] = useState(true);
 
   useEffect(() => {
@@ -58,8 +59,10 @@ const ProjectPreviewHoverLayer: FunctionComponent<{
   return (
     <div
       class={classNames(
-        'clip-reveal group-hover:clip-reveal--active theme-brand absolute inset-0 flex items-center justify-center overflow-hidden text-xl font-semibold text-white',
+        propClass,
+        'clip-reveal theme-brand flex h-full w-full items-center justify-center overflow-hidden text-xl font-semibold text-white',
         {
+          'group-hover:clip-reveal--active': !alwaysVisible,
           'clip-reveal--active': alwaysVisible,
           'delay-[0s] duration-[0s]': alwaysVisible || noTransition,
         }
@@ -77,13 +80,26 @@ const ProjectPreviewHoverLayer: FunctionComponent<{
 
 const ProjectPreviewImage: FunctionComponent<{
   links: ProjectLink[];
+  class?: string;
   image?: string;
-}> = ({ image, links }) => (
-  <div class="pointer-events-none relative z-20 aspect-video w-full border-2 border-theme-tx">
+}> = ({ image, links, class: propClass }) => (
+  <div
+    class={classNames(
+      propClass,
+      'pointer-events-none relative z-20 flex w-full border-2 border-theme-tx',
+      {
+        'aspect-video': Boolean(image),
+      }
+    )}
+  >
     {image && (
       <img class="absolute inset-0 h-full w-full object-cover" src={image} />
     )}
-    <ProjectPreviewHoverLayer links={links} alwaysVisible={!image} />
+    <ProjectPreviewHoverLayer
+      class={image ? 'absolute inset-0' : ''}
+      links={links}
+      alwaysVisible={!image}
+    />
   </div>
 );
 
@@ -117,8 +133,19 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
   );
   return (
     <li class="box-shadow-button group relative flex list-none flex-col duration-300">
-      <ProjectPreviewImage image={image} links={projectLinks} />
-      <div class="z-10 h-full border-x-2 border-b-2 border-theme-tx bg-theme-bg p-2 font-serif">
+      <ProjectPreviewImage
+        class={image ? '' : 'flex-grow'}
+        image={image}
+        links={projectLinks}
+      />
+      <div
+        class={classNames(
+          'z-10 h-full border-x-2 border-b-2 border-theme-tx bg-theme-bg p-2 font-serif',
+          {
+            'flex-shrink-0 basis-0': !image,
+          }
+        )}
+      >
         <header>
           <ul class="float-right ml-4 flex space-x-2">
             {icons.map(
