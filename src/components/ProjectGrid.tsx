@@ -156,7 +156,7 @@ const ProjectGrid: FunctionComponent<{
           )
           .map(({ tags, excerpt, ...project }) => (
             <ProjectPreview {...project}>
-              <p>{excerpt}</p>
+              {excerpt && <p dangerouslySetInnerHTML={{ __html: excerpt }} />}
             </ProjectPreview>
           ))}
       </ul>

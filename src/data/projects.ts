@@ -1,5 +1,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import { marked } from 'marked';
+import { compile } from 'html-to-text';
 
 const projects = await getCollection('projects');
 
@@ -13,23 +15,29 @@ const tags: Set<string> = new Set(
   )
 );
 
+const convertExcerpt = compile({
+  baseElements: {
+    selectors: ['p'],
+  },
+  limits: {
+    maxBaseElements: 1,
+  },
+  selectors: [
+    { selector: 'a', format: 'inline' },
+    { selector: 'em', format: 'inlineTag' },
+    { selector: 'strong', format: 'inlineTag' },
+  ],
+});
+
 const getExcerpt = (
   item: CollectionEntry<'projects'>,
   excerptSeparator: string | RegExp = /<!-- ?more ?-->/
 ): string => {
-  if (item.data.excerpt) {
-    return item.data.excerpt;
-  } else if (excerptSeparator) {
-    let parts = item.body.split(excerptSeparator);
-    if (parts.length > 1) return parts[0].trim();
-  }
-  return (
-    item.body
-      .trim()
-      .split('\n\n')
-      .slice(0, 10)
-      .find((line) => /^[a-z]/i.test(line)) ?? ''
-  );
+  const excerpt =
+    item.data.excerpt ||
+    item.body.split(excerptSeparator)[0].trim() ||
+    item.body;
+  return convertExcerpt(marked.parse(excerpt));
 };
 
 export { projects, tags, getExcerpt };
