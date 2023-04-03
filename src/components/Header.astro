@@ -65,19 +65,15 @@ const { links = [], class: className } = Astro.props;
       );
     }
   }
+
   .theme-brand {
-    @include themes.create(
-      $text: white,
-      $bg: theme('colors.rose.600'),
-      $brand: white,
-      $accessibility: false
-    );
-    @media (prefers-color-scheme: dark) {
-      @include prop.define(
-        (
-          --theme-bg: theme('colors.rose.500'),
-        )
-      );
+    background-color: var(--theme-br);
+    color: white;
+    border-color: white;
+
+    .spotlight-button {
+      --color: white;
+      --opacity: 0.3;
     }
   }
 
@@ -100,22 +96,6 @@ const { links = [], class: className } = Astro.props;
         $accessibility: false
       );
     }
-    &[data-color-scheme='light'] .theme-brand {
-      @include themes.create(
-        $text: white,
-        $bg: theme('colors.rose.600'),
-        $brand: white,
-        $accessibility: false
-      );
-    }
-    &[data-color-scheme='dark'] .theme-brand {
-      @include themes.create(
-        $text: white,
-        $bg: theme('colors.rose.500'),
-        $brand: white,
-        $accessibility: false
-      );
-    }
   }
 
   [data-theme='1'] {
@@ -133,14 +113,6 @@ const { links = [], class: className } = Astro.props;
         $text: white,
         $bg: hsl(206deg, 69%, 15%),
         $brand: $brand,
-        $accessibility: false
-      );
-    }
-    &[data-color-scheme] .theme-brand {
-      @include themes.create(
-        $text: white,
-        $bg: $brand,
-        $brand: white,
         $accessibility: false
       );
     }
