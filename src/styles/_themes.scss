@@ -1,103 +1,77 @@
 @use 'sass:color';
-
 @use 'sass-themes' as themes;
 @use 'scss-properties' as prop;
 
-@mixin swap-theme-color-with($var-1, $var-2) {
-  @each $suffix in ('', '-r', '-g', '-b', '-a', '-h', '-s', '-l') {
-    #{$var-1}#{$suffix}: var(#{$var-2}#{$suffix});
-  }
-}
-
-@mixin define-theme($text, $bg, $brand, $accessibility: AA) {
-  @include themes.create($text, $bg, $brand, $accessibility: $accessibility);
-  @include prop.define(
-    (
-      --theme-tx--base: $text,
-      --theme-bg--base: $bg,
-      --theme-br--base: $brand,
-    )
+// no-js fallback
+html {
+  @include themes.create(
+    $text: black,
+    $bg: white,
+    $brand: theme('colors.rose.600'),
+    $accessibility: false
   );
-}
+  --theme-tx--base: var(--theme-tx);
+  --theme-bg--base: var(--theme-bg);
 
-@layer base {
-  :root {
-    @include prop.define(
-      (
-        --theme-white: white,
-        --theme-black: black,
-      )
+  @media (prefers-color-scheme: dark) {
+    @include themes.create(
+      $text: white,
+      $bg: theme('colors.zinc.900'),
+      $brand: theme('colors.rose.500'),
+      $accessibility: false,
+      $styles: false
     );
   }
+}
 
-  body,
-  .light {
-    @include define-theme(
+.theme-brand {
+  background-color: var(--theme-br);
+  color: white;
+  border-color: white;
+
+  .spotlight-button {
+    --color: white;
+    --opacity: 0.3;
+  }
+}
+
+[data-theme='0'] {
+  &[data-color-scheme='light'],
+  & .theme-light {
+    @include themes.create(
       $text: black,
       $bg: white,
-      // $brand: theme('colors.rose.600'),
-      // $brand: #add,
-      // $brand: theme('colors.teal.600'),
-      $brand: color.change(#add, $lightness: 32%, $saturation: 84%),
-      // high contrast, AA accessible
-      // $accessibility: AA
+      $brand: theme('colors.rose.600'),
       $accessibility: false
     );
   }
-
-  .dark {
-    @include define-theme(
+  &[data-color-scheme='dark'],
+  & .theme-dark {
+    @include themes.create(
       $text: white,
       $bg: theme('colors.zinc.900'),
       $brand: theme('colors.rose.500'),
       $accessibility: false
     );
   }
-
-  :link,
-  :visited {
-    color: var(--theme-link, var(--theme-tx, inherit));
-    text-decoration: var(--theme-link-decoration, none);
-  }
 }
 
-@layer utilities {
-  .theme-brand {
-    @extend %theme;
-
-    --theme-light: 0;
-    --theme-dark: 1;
-    @include swap-theme-color-with(--theme-bg, --theme-br--base);
-    @include swap-theme-color-with(--theme-tx, --theme-white);
-    @include swap-theme-color-with(--theme-br, --theme-white);
-    --theme-tx: #{themes.if-light('--theme-white', '--theme-tx')};
+[data-theme='1'] {
+  $brand: color.change(#add, $lightness: 32%, $saturation: 84%);
+  &[data-color-scheme='light'] {
+    @include themes.create(
+      $text: hsl(206deg, 69%, 22%),
+      $bg: white,
+      $brand: $brand,
+      $accessibility: false
+    );
   }
-
-  .theme-links {
-    --theme-link: var(--theme-br);
-    --theme-link-decoration: underline;
-
-    & :visited,
-    &:visited {
-      --theme-link: #{prop.set(
-          --theme-br,
-          $saturation: scale -40%,
-          $lightness: mix '--theme-tx' 80%
-        )};
-    }
-    & :link:hover,
-    &:link:hover {
-      --theme-link: #{prop.set(
-          --theme-br,
-          $saturation: scale 50%,
-          $lightness: mix --theme-tx 50%
-        )};
-      --theme-link-decoration: underline;
-    }
-  }
-
-  .subtle-links {
-    --theme-link: initial !important;
-    --theme-link-decoration: initial !important;
+  &[data-color-scheme='dark'] {
+    @include themes.create(
+      $text: white,
+      $bg: hsl(206deg, 69%, 15%),
+      $brand: $brand,
+      $accessibility: false
+    );
   }
 }
