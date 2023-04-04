@@ -120,6 +120,8 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
   icons,
   children,
 }) => {
+  const defaultLink = useRef<HTMLAnchorElement>(null);
+
   const [isActive, setIsActive] = useState(false);
   const [cancelTap, setCancelTap] = useState(false);
 
@@ -137,6 +139,20 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
       }),
     [links]
   );
+
+  useEffect(() => {
+    const handleOutsideClick = (e: TouchEvent): void => {
+      if (e.target && e.target !== defaultLink.current) {
+        setIsActive(false);
+      }
+    };
+    window.addEventListener('touchend', handleOutsideClick, {
+      passive: true,
+    });
+    return () => {
+      window.removeEventListener('touchend', handleOutsideClick);
+    };
+  }, []);
 
   return (
     <li
@@ -172,6 +188,7 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
           </ul>
           <h2 class="mr-auto text-2xl font-semibold leading-none underline decoration-theme-br decoration-2 underline-offset-2">
             <a
+              ref={defaultLink}
               class="pseudo-fill-parent"
               href={links[0]}
               onTouchMove={() => setCancelTap(true)}
