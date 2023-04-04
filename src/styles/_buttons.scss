@@ -1,6 +1,20 @@
 @use 'scss-properties' as prop;
 @use 'sass-themes' as themes;
 
+@mixin active {
+  &:hover,
+  &:focus-visible,
+  &--active {
+    @content;
+  }
+
+  @supports not selector(:focus-visible) {
+    &:focus {
+      @content;
+    }
+  }
+}
+
 @layer components {
   .spotlight-button {
     --translate: 0, 0;
@@ -27,10 +41,11 @@
       z-index: -1;
     }
 
-    &:hover::before,
-    &--active::before {
-      transform: scale(1.2);
-      transform: scale(var(--scale, 1.2)) translate(var(--translate, 0, 0));
+    @include active {
+      &::before {
+        transform: scale(1.2);
+        transform: scale(var(--scale, 1.2)) translate(var(--translate, 0, 0));
+      }
     }
   }
 
@@ -51,9 +66,10 @@
       transition-property: transform;
     }
 
-    &:hover::before,
-    &--active::before {
-      transform: translate(-8px, 8px);
+    @include active {
+      &::before {
+        transform: translate(-8px, 8px);
+      }
     }
   }
 
@@ -68,8 +84,7 @@
     // clip-path: polygon(0 0, 0 0, 100% 100%, 100% 100%, 100% 100%, 0 0);
     // clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
 
-    &:hover,
-    &--active {
+    @include active {
       transition-delay: 0s;
       transition-delay: var(--initial-delay, 0s);
       clip-path: polygon(100% 0, 0 0, 0 100%, 150% 100%);
