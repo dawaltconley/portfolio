@@ -1,19 +1,29 @@
 ---
 import type { ClipPath } from '@browser/utils';
+import Header from '@components/Header.astro';
+import { contactLinks } from '@data/site';
 
 export interface Props {
   class?: string;
   layerClass?: string;
-  clipPath: ClipPath;
   tag?: 'header' | 'div';
 }
 
-const { clipPath, tag, class: className, layerClass } = Astro.props;
-const initPath = clipPath.map(([x]) => `${(x * 100).toFixed(2)}% 0`).join(', ');
+const { tag, class: className, layerClass } = Astro.props;
+const clipPath: ClipPath = [
+  [0, 0],
+  [0.4, 0],
+  [0.5, 1],
+  [0, 1],
+];
+const initPath = clipPath
+  .map(([, y]) => `0 ${(y * 100).toFixed(2)}%`)
+  .join(', ');
 const Wrapper = tag ?? 'div';
 ---
 
 <Wrapper class={`page-header ${className ?? ''}`}>
+  <Header links={contactLinks} />
   <slot />
   <div
     class={`page-header__layer ${className ?? ''} ${layerClass ?? ''}`}
@@ -40,6 +50,15 @@ const Wrapper = tag ?? 'div';
     clip-path: polygon(var(--clip-path, 0 0));
     transition: clip-path 1s ease-out;
     pointer-events: none;
+  }
+
+  .page-header :global(.theme-controls) {
+    --theme-light: 0;
+    --theme-dark: 1;
+    color: white;
+  }
+  .page-header :global(.theme-controls .spotlight-button) {
+    --color: white;
   }
 </style>
 

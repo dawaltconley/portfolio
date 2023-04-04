@@ -1,7 +1,6 @@
 ---
 import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
-import Header from '@components/Header.astro';
 import PageHeader from '@components/PageHeader.astro';
 import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
 import IconLink from '@components/IconLink';
@@ -11,11 +10,6 @@ import { getIcon, DataIcon } from '@data/icons';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
-
-const contactLinks = [
-  'https://github.com/dawaltconley',
-  'https://www.linkedin.com/in/dawaltconley/',
-];
 
 const images = import.meta.glob<string>('../assets/images/**', {
   import: 'default',
@@ -43,20 +37,10 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
 ---
 
 <Layout title="My projects">
-  <Header links={contactLinks} class="theme-brand" />
   <PageHeader
     tag="header"
-    class="page-header flex flex-col font-serif"
-    layerClass="title-heavy-shadow theme-brand"
-    clipPath={[
-      [0, 0.3],
-      [0, 0],
-      [1, 0],
-      [1, 0.2],
-      [0.78, 0.42],
-      [0.58, 0.72],
-      [0.18, 0.22],
-    ]}
+    class="flex flex-col font-serif pt-14 -mt-14"
+    layerClass="title-heavy-shadow theme-brand layer-border"
   >
     <h1
       class="container mx-auto mb-2 mt-auto text-7xl font-semibold leading-[0.85]"
@@ -94,10 +78,17 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
 <style lang="scss" is:global>
   .title-heavy-shadow {
     [data-color-scheme='light'] & * {
-      text-shadow: 0.05em 0.05em 0px var(--theme-tx--base);
+      text-shadow: 0.05em 0.05em 0px var(--theme-tx);
     }
     [data-color-scheme='dark'] & * {
-      text-shadow: 0.05em 0.05em 0px var(--theme-bg--base);
+      text-shadow: 0.05em 0.05em 0px var(--theme-bg);
     }
+  }
+
+  .layer-border {
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: var(--theme-tx);
+    margin-bottom: -2px;
   }
 </style>
