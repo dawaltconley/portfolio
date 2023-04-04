@@ -171,12 +171,13 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
               href={links[0]}
               onTouchMove={() => setCancelTap(true)}
               onTouchEnd={(e) => {
-                if (!cancelTap && image && links.length > 1) {
+                if (!cancelTap && image /*  && links.length > 1 */) {
                   e.preventDefault();
                   setIsActive((a) => !a);
                 }
                 setCancelTap(false);
               }}
+              // onBlur={() => setIsActive(false)}
             >
               {title}
             </a>

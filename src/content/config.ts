@@ -1,8 +1,11 @@
 import { z, defineCollection } from 'astro:content';
 
+const projectTags = [];
+
 const projects = defineCollection({
   schema: z.object({
     title: z.string(),
+    // url: z.string().url(),
     links: z.array(z.string().url()),
     repository: z.string().url().optional(),
     tags: z.array(z.string()),

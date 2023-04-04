@@ -41,6 +41,7 @@ const Wrapper = tag ?? 'div';
   }
 
   .page-header__layer {
+    --clip-page: 0 0, 45% 0, 55% 100%, 0 100%;
     position: absolute;
     top: 0;
     left: 0;
@@ -48,6 +49,7 @@ const Wrapper = tag ?? 'div';
     bottom: 0;
     margin: 0;
     clip-path: polygon(var(--clip-path, 0 0));
+    /* clip-path: circle(30% at 150px 100px); */
     transition: clip-path 1s ease-out;
     pointer-events: none;
   }

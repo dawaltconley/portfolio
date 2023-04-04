@@ -19,9 +19,15 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
   projects.map(async (project) => {
     const { links, tags, published } = project.data;
     let imageUrl = `../assets/images/${project.data.image}`;
-    const image = images[imageUrl]
-      ? await images[imageUrl]()
-      : (await getMetadata(new URL(links[0]))).image;
+    const gitHubLink = links
+      .map((l) => new URL(l))
+      .find((u) => u.hostname.endsWith('github.com'));
+    let image: string | undefined;
+    if (images[imageUrl]) {
+      image = await images[imageUrl]();
+      /* } else if (gitHubLink) { */
+      /*   image = (await getMetadata(new URL(gitHubLink))).image; */
+    }
     if (published) links.unshift(`/projects/${project.slug}`);
     return {
       ...project.data,

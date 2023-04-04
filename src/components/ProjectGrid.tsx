@@ -44,11 +44,11 @@ const ProjectFilter: FunctionComponent<{
 const tagLabels = new Map([
   ['website', 'website'],
   ['app', 'app'],
+  ['npm', 'package'],
   ['cli', 'command line'],
   ['audio', 'audio'],
   ['parser', 'parser'],
   ['component', 'component'],
-  ['npm', 'NPM'],
   ['nextjs', 'Next.js'],
   ['11ty', 'Eleventy'],
   ['nunjucks', 'Nunjucks'],
@@ -149,27 +149,31 @@ const ProjectGrid: FunctionComponent<{
           Packages
         </ProjectFilter>
       </nav>
-      <ul class="my-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {projects
-          .filter(({ tags }) =>
-            filter.length ? filter.some((f) => tags.includes(f)) : true
-          )
-          .map(({ tags, excerpt, ...project }) => (
-            <ProjectPreview {...project}>
-              {excerpt && <p dangerouslySetInnerHTML={{ __html: excerpt }} />}
-            </ProjectPreview>
+      <div class="my-8 xl:flex xl:items-start">
+        <ul class="grid basis-full gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {projects
+            .filter(({ tags }) =>
+              filter.length ? filter.some((f) => tags.includes(f)) : true
+            )
+            .map(({ tags, excerpt, ...project }) => (
+              <ProjectPreview {...project}>
+                {excerpt && <p dangerouslySetInnerHTML={{ __html: excerpt }} />}
+              </ProjectPreview>
+            ))}
+        </ul>
+        <nav class="inline-block flex-col items-start justify-start space-x-3 border-theme-tx/10 text-center text-center leading-tight xl:ml-4 xl:flex xl:space-y-1 xl:space-x-0 xl:whitespace-nowrap xl:border-l xl:pl-4">
+          <h2 class="mt-8 mb-2 text-xs font-semibold uppercase text-theme-br h-line">
+            All tags
+          </h2>
+          {Array.from(tags.entries()).map(([tag, { label, count }]) => (
+            <ProjectFilter
+              tags={tag}
+              active={filter}
+              handleFilter={handleFilter}
+            >{`${label} (${count})`}</ProjectFilter>
           ))}
-      </ul>
-      <hr class="my-2 border-theme-tx/10" />
-      <nav class="space-x-3 text-center leading-tight">
-        {Array.from(tags.entries()).map(([tag, { label, count }]) => (
-          <ProjectFilter
-            tags={tag}
-            active={filter}
-            handleFilter={handleFilter}
-          >{`${label} (${count})`}</ProjectFilter>
-        ))}
-      </nav>
+        </nav>
+      </div>
     </>
   );
 };
