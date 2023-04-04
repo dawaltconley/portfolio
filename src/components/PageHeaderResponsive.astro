@@ -1,0 +1,85 @@
+---
+import type { ClipPath } from '@browser/utils';
+
+export interface Props {
+  class?: string;
+  layerClass?: string;
+  clipPath: ClipPath;
+  tag?: 'header' | 'div';
+}
+
+const { clipPath, tag, class: className, layerClass } = Astro.props;
+const initPath = clipPath.map(([x]) => `${(x * 100).toFixed(2)}% 0`).join(', ');
+const Wrapper = tag ?? 'div';
+---
+
+<Wrapper class={`page-header ${className ?? ''}`}>
+  <slot />
+  <div
+    class={`page-header__layer ${className ?? ''} ${layerClass ?? ''}`}
+    aria-hidden="true"
+    style={`--clip-path: ${initPath}`}
+    data-clip-path={JSON.stringify(clipPath)}
+  >
+    <slot />
+  </div>
+</Wrapper>
+
+<style>
+  .page-header {
+    position: relative;
+  }
+
+  .page-header__layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    clip-path: polygon(var(--clip-path, 0 0));
+    transition: clip-path 1s ease-out;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  import type { ClipPath } from '@browser/utils';
+  import { pathToClip } from '@browser/utils';
+
+  const headerLayer = document.querySelector(
+    '.page-header__layer'
+  ) as HTMLElement;
+
+  const path = JSON.parse(headerLayer.dataset.clipPath ?? 'null') as ClipPath;
+  const pathAnchor = 4;
+
+  const updateClip = (path: ClipPath) => {
+    headerLayer.style.setProperty('--clip-path', pathToClip(path));
+  };
+
+  updateClip(path);
+
+  let animating = false;
+  document.addEventListener(
+    'mousemove',
+    ({ clientX, clientY }) => {
+      if (animating) return;
+      animating = true;
+      const adjustX = (clientX - window.innerWidth / 2) / window.innerWidth / 1;
+      const adjustY =
+        (clientY - window.innerHeight / 2) / window.innerHeight / 1;
+      const newPath: ClipPath = path
+        .slice(pathAnchor)
+        .map(([x, y]) => [
+          x + adjustX * (x - 0.5) ** 2,
+          y + adjustY * (y - 0.5) ** 2,
+        ]);
+      requestAnimationFrame(() => {
+        updateClip(path.slice(0, pathAnchor).concat(newPath));
+        animating = false;
+      });
+    },
+    { passive: true }
+  );
+</script>
