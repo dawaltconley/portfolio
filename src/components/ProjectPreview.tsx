@@ -49,7 +49,8 @@ const ProjectPreviewHoverLayer: FunctionComponent<{
   links: ProjectLink[];
   class?: string;
   alwaysVisible?: boolean;
-}> = ({ links, class: propClass, alwaysVisible = false }) => {
+  active?: boolean;
+}> = ({ links, class: propClass, alwaysVisible = false, active = false }) => {
   const [noTransition, setNoTransition] = useState(true);
 
   useEffect(() => {
@@ -63,7 +64,7 @@ const ProjectPreviewHoverLayer: FunctionComponent<{
         'clip-reveal theme-brand flex h-full w-full items-center justify-center overflow-hidden text-xl font-semibold text-white',
         {
           'group-hover:clip-reveal--active': !alwaysVisible,
-          'clip-reveal--active': alwaysVisible,
+          'clip-reveal--active': alwaysVisible || active,
           'delay-[0s] duration-[0s]': alwaysVisible || noTransition,
         }
       )}
@@ -82,7 +83,8 @@ const ProjectPreviewImage: FunctionComponent<{
   links: ProjectLink[];
   class?: string;
   image?: string;
-}> = ({ image, links, class: propClass }) => (
+  active?: boolean;
+}> = ({ image, links, class: propClass, active }) => (
   <div
     class={classNames(
       propClass,
@@ -98,6 +100,7 @@ const ProjectPreviewImage: FunctionComponent<{
     <ProjectPreviewHoverLayer
       class={image ? 'absolute inset-0' : ''}
       links={links}
+      active={active}
       alwaysVisible={!image}
     />
   </div>
@@ -117,6 +120,9 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
   icons,
   children,
 }) => {
+  const [isActive, setIsActive] = useState(false);
+  const [cancelTap, setCancelTap] = useState(false);
+
   const projectLinks: ProjectLink[] = useMemo(
     () =>
       links.map((link) => {
@@ -131,12 +137,21 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
       }),
     [links]
   );
+
   return (
-    <li class="box-shadow-button group relative flex list-none flex-col duration-300">
+    <li
+      class={classNames(
+        'box-shadow-button group relative flex list-none flex-col duration-300',
+        {
+          'box-shadow-button--active': isActive,
+        }
+      )}
+    >
       <ProjectPreviewImage
         class={image ? '' : 'flex-grow'}
         image={image}
         links={projectLinks}
+        active={isActive}
       />
       <div
         class={classNames(
@@ -160,7 +175,18 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
             )}
           </ul>
           <h2 class="mr-auto text-2xl font-semibold leading-none underline decoration-theme-br decoration-2 underline-offset-2">
-            <a class="pseudo-fill-parent" href={links[0]}>
+            <a
+              class="pseudo-fill-parent"
+              href={links[0]}
+              onTouchMove={() => setCancelTap(true)}
+              onTouchEnd={(e) => {
+                if (!cancelTap && image && links.length > 1) {
+                  e.preventDefault();
+                  setIsActive((a) => !a);
+                }
+                setCancelTap(false);
+              }}
+            >
               {title}
             </a>
           </h2>
