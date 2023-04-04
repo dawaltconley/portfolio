@@ -146,6 +146,8 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
           'box-shadow-button--active': isActive,
         }
       )}
+      onFocusCapture={() => setIsActive(true)}
+      onBlurCapture={() => setIsActive(false)}
     >
       <div
         class={classNames(
