@@ -6,4 +6,7 @@ plugins:
   - stylelint-scss
 rules:
   string-quotes: single
+  selector-pseudo-class-no-unknown:
+    ignorePseudoClasses:
+      - global
   scss/at-rule-no-unknown: null
