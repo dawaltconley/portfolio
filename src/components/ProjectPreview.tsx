@@ -76,7 +76,7 @@ const ProjectPreviewLinks: FunctionComponent<{
         <img
           src={image}
           class={classNames(
-            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute inset-0 z-10 -mb-px h-full w-full object-cover',
+            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute inset-0 z-10 -mb-px h-full w-full cursor-pointer object-cover',
             {
               'clip-hide--active': alwaysVisible || active,
               'delay-[0s] duration-[0s]': alwaysVisible || noTransition,
