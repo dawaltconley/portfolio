@@ -3,75 +3,79 @@
 @use 'scss-properties' as prop;
 
 // no-js fallback
-html {
-  @include themes.create(
-    $text: black,
-    $bg: white,
-    $brand: theme('colors.rose.600'),
-    $accessibility: false
-  );
-  --theme-tx--base: var(--theme-tx);
-  --theme-bg--base: var(--theme-bg);
-
-  @media (prefers-color-scheme: dark) {
-    @include themes.create(
-      $text: white,
-      $bg: theme('colors.zinc.900'),
-      $brand: theme('colors.rose.500'),
-      $accessibility: false,
-      $styles: false
-    );
-  }
-}
-
-.theme-brand {
-  background-color: var(--theme-br);
-  color: white;
-  border-color: white;
-
-  .spotlight-button {
-    --color: white;
-    --opacity: 0.3;
-  }
-}
-
-[data-theme='0'] {
-  &[data-color-scheme='light'],
-  & .theme-light {
+@layer base {
+  html {
     @include themes.create(
       $text: black,
       $bg: white,
       $brand: theme('colors.rose.600'),
       $accessibility: false
     );
-  }
-  &[data-color-scheme='dark'],
-  & .theme-dark {
-    @include themes.create(
-      $text: white,
-      $bg: theme('colors.zinc.900'),
-      $brand: theme('colors.rose.500'),
-      $accessibility: false
-    );
+    --theme-tx--base: var(--theme-tx);
+    --theme-bg--base: var(--theme-bg);
+
+    @media (prefers-color-scheme: dark) {
+      @include themes.create(
+        $text: white,
+        $bg: theme('colors.zinc.900'),
+        $brand: theme('colors.rose.500'),
+        $accessibility: false,
+        $styles: false
+      );
+    }
   }
 }
 
-[data-theme='1'] {
-  $brand: color.change(#add, $lightness: 32%, $saturation: 84%);
-  &[data-color-scheme='light'] {
-    @include themes.create(
-      $text: hsl(206deg, 69%, 22%),
-      $bg: white,
-      $brand: $brand,
-      $accessibility: false
-    );
+@layer components {
+  .theme-brand {
+    background-color: var(--theme-br);
+    color: white;
+    border-color: white;
+
+    .spotlight-button {
+      --color: white;
+      --opacity: 0.3;
+    }
   }
-  &[data-color-scheme='dark'] {
-    @include themes.create(
-      $text: white,
-      $bg: hsl(206deg, 69%, 15%),
-      $brand: $brand,
-      $accessibility: false
-    );
+
+  [data-theme='0'] {
+    &[data-color-scheme='light'],
+    & .theme-light {
+      @include themes.create(
+        $text: black,
+        $bg: white,
+        $brand: theme('colors.rose.600'),
+        $accessibility: false
+      );
+    }
+    &[data-color-scheme='dark'],
+    & .theme-dark {
+      @include themes.create(
+        $text: white,
+        $bg: theme('colors.zinc.900'),
+        $brand: theme('colors.rose.500'),
+        $accessibility: false
+      );
+    }
+  }
+
+  [data-theme='1'] {
+    $brand: color.change(#add, $lightness: 32%, $saturation: 84%);
+    &[data-color-scheme='light'] {
+      @include themes.create(
+        $text: hsl(206deg, 69%, 22%),
+        $bg: white,
+        $brand: $brand,
+        $accessibility: false
+      );
+    }
+    &[data-color-scheme='dark'] {
+      @include themes.create(
+        $text: white,
+        $bg: hsl(206deg, 69%, 15%),
+        $brand: $brand,
+        $accessibility: false
+      );
+    }
   }
 }
