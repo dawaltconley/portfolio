@@ -51,7 +51,8 @@
       transition-property: transform;
     }
 
-    &:hover::before {
+    &:hover::before,
+    &--active::before {
       transform: translate(-8px, 8px);
     }
   }
