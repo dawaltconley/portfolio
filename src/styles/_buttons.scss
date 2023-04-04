@@ -73,23 +73,43 @@
     }
   }
 
-  .clip-reveal {
+  %clip {
     --transition: 300ms;
     --initial-delay: 0s;
     transition-duration: 300ms;
     transition-duration: var(--transition, 300ms);
     transition-property: clip-path;
     transition-timing-function: ease-out;
+
+    @include active {
+      transition-delay: 0s;
+      transition-delay: var(--initial-delay, 0s);
+    }
+  }
+
+  .clip-reveal {
+    @extend %clip;
     clip-path: polygon(-30% 0, 0 0, 0 100%, 0 100%);
     // clip-path: polygon(0 0, 0 0, 100% 100%, 100% 100%, 100% 100%, 0 0);
     // clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
 
     @include active {
-      transition-delay: 0s;
-      transition-delay: var(--initial-delay, 0s);
       clip-path: polygon(100% 0, 0 0, 0 100%, 150% 100%);
       // clip-path: polygon(0 0, 100% 0, 100% 0, 100% 100%, 0 100%, 0 100%);
       // clip-path: polygon(100% 0, -50% 0, 0 100%, 150% 100%);
+    }
+  }
+
+  .clip-hide {
+    @extend %clip;
+    clip-path: polygon(-30% 0, 100% 0, 100% 100%, 0 100%);
+    // clip-path: polygon(0 0, 100% 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+    // clip-path: polygon(100% 0, -50% 0, 0 100%, 150% 100%);
+
+    @include active {
+      clip-path: polygon(100% 0, 100% 0, 100% 100%, 150% 100%);
+      // clip-path: polygon(0 0, 0 0, 100% 100%, 100% 100%, 100% 100%, 0 0);
+      // clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
     }
   }
 }
