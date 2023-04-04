@@ -141,18 +141,12 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
   return (
     <li
       class={classNames(
-        'box-shadow-button group relative flex list-none flex-col duration-300',
+        'box-shadow-button group relative flex list-none flex-col-reverse duration-300',
         {
           'box-shadow-button--active': isActive,
         }
       )}
     >
-      <ProjectPreviewImage
-        class={image ? '' : 'flex-grow'}
-        image={image}
-        links={projectLinks}
-        active={isActive}
-      />
       <div
         class={classNames(
           'z-10 h-full border-x-2 border-b-2 border-theme-tx bg-theme-bg p-2 font-serif',
@@ -193,6 +187,12 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
         </header>
         {children && <div class="clear-both mt-2 leading-5">{children}</div>}
       </div>
+      <ProjectPreviewImage
+        class={image ? '' : 'flex-grow'}
+        image={image}
+        links={projectLinks}
+        active={isActive}
+      />
     </li>
   );
 };
