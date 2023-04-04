@@ -36,7 +36,7 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
     <a
       ref={ref}
       href={url}
-      class="spotlight-button pointer-events-auto z-30 flex aspect-square items-center justify-center p-4 font-bold"
+      class="spotlight-button pointer-events-auto z-0 flex aspect-square items-center justify-center p-4 font-bold"
     >
       <IconLink icon={icon ?? faArrowUpRightFromSquare} inline={Boolean(text)}>
         {text && <span class="ml-[0.4em]">{text}</span>}
@@ -45,66 +45,51 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
   );
 };
 
-const ProjectPreviewHoverLayer: FunctionComponent<{
+const ProjectPreviewLinks: FunctionComponent<{
   links: ProjectLink[];
   class?: string;
-  alwaysVisible?: boolean;
+  image?: string;
   active?: boolean;
-}> = ({ links, class: propClass, alwaysVisible = false, active = false }) => {
+}> = ({ links, image, class: propClass, active }) => {
   const [noTransition, setNoTransition] = useState(true);
 
+  const alwaysVisible = !image;
   useEffect(() => {
     setNoTransition(alwaysVisible);
-  }, [alwaysVisible]);
+  }, [image]);
 
   return (
     <div
       class={classNames(
         propClass,
-        'clip-reveal theme-brand flex h-full w-full items-center justify-center overflow-hidden text-xl font-semibold text-white',
+        'theme-brand pointer-events-none relative z-20 flex w-full items-center justify-center overflow-hidden border-2 border-theme-tx text-xl font-semibold',
         {
-          'group-hover:clip-reveal--active': !alwaysVisible,
-          'clip-reveal--active': alwaysVisible || active,
-          'delay-[0s] duration-[0s]': alwaysVisible || noTransition,
+          'aspect-video': Boolean(image),
+          'min-aspect-[42%]': Boolean(!image),
         }
       )}
-      style={{
-        '--initial-delay': '120ms',
-      }}
     >
       {links.map((link) => (
         <SpotlightIconLink {...link} />
       ))}
+      {image && (
+        <img
+          src={image}
+          class={classNames(
+            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute inset-0 z-10 -mb-px h-full w-full object-cover',
+            {
+              'clip-hide--active': alwaysVisible || active,
+              'delay-[0s] duration-[0s]': alwaysVisible || noTransition,
+            }
+          )}
+          style={{
+            '--initial-delay': '120ms',
+          }}
+        />
+      )}
     </div>
   );
 };
-
-const ProjectPreviewImage: FunctionComponent<{
-  links: ProjectLink[];
-  class?: string;
-  image?: string;
-  active?: boolean;
-}> = ({ image, links, class: propClass, active }) => (
-  <div
-    class={classNames(
-      propClass,
-      'pointer-events-none relative z-20 flex w-full border-2 border-theme-tx',
-      {
-        'aspect-video': Boolean(image),
-      }
-    )}
-  >
-    {image && (
-      <img class="absolute inset-0 h-full w-full object-cover" src={image} />
-    )}
-    <ProjectPreviewHoverLayer
-      class={image ? 'absolute inset-0' : ''}
-      links={links}
-      active={active}
-      alwaysVisible={!image}
-    />
-  </div>
-);
 
 interface ProjectPreviewProps {
   title: string;
@@ -165,14 +150,7 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
       onFocusCapture={() => setIsActive(true)}
       onBlurCapture={() => setIsActive(false)}
     >
-      <div
-        class={classNames(
-          'z-10 h-full border-x-2 border-b-2 border-theme-tx bg-theme-bg p-2 font-serif',
-          {
-            'flex-shrink-0 basis-0': !image,
-          }
-        )}
-      >
+      <div class="z-10 flex-grow border-x-2 border-b-2 border-theme-tx bg-theme-bg p-2 font-serif">
         <header>
           <ul class="float-right ml-4 flex space-x-2">
             {icons.map(
@@ -206,8 +184,8 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
         </header>
         {children && <div class="clear-both mt-2 leading-5">{children}</div>}
       </div>
-      <ProjectPreviewImage
-        class={image ? '' : 'flex-grow'}
+      <ProjectPreviewLinks
+        class={image ? '' : 'flex-grow basis-full'}
         image={image}
         links={projectLinks}
         active={isActive}
@@ -218,4 +196,4 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
 
 export default ProjectPreview;
 export type { ProjectPreviewProps };
-export { ProjectPreview, ProjectPreviewImage, ProjectPreviewHoverLayer };
+export { ProjectPreview, ProjectPreviewLinks };
