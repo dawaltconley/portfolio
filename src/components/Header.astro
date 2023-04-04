@@ -19,22 +19,26 @@ const { links = [], class: className } = Astro.props;
 
 <div class={`w-full py-4 ${className ?? ''}`}>
   <div class="container mx-auto flex h-full items-center text-xl">
-    <ThemeControls themes={2} class="mr-auto" client:idle />
-    {
-      links.map((url) => {
-        const icon = getIcon(url);
-        return (
-          icon &&
-          icon.style.simple && (
-            <IconLink
-              icon={icon.style.simple}
-              url={url}
-              title={icon.name}
-              class="spotlight-button -my-2 box-content aspect-square p-2 leading-[0]"
-            />
-          )
-        );
-      })
-    }
+    <slot name="theme-controls">
+      <ThemeControls themes={2} class="theme-controls mr-auto" client:idle />
+    </slot>
+    <slot name="contact-links">
+      {
+        links.map((url) => {
+          const icon = getIcon(url);
+          return (
+            icon &&
+            icon.style.simple && (
+              <IconLink
+                icon={icon.style.simple}
+                url={url}
+                title={icon.name}
+                class="contact-link spotlight-button -my-2 box-content aspect-square p-2 leading-[0]"
+              />
+            )
+          );
+        })
+      }
+    </slot>
   </div>
 </div>
