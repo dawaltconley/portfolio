@@ -38,9 +38,12 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
     layerClass="title-heavy-shadow theme-brand layer-border"
   >
     <h1
-      class="container mx-auto mb-2 mt-auto text-7xl font-semibold leading-[0.85]"
+      class="my-name container mx-auto mb-2 mt-auto text-7xl font-semibold leading-[0.9]"
     >
-      Dylan Awalt-Conley
+      <span class="my-name__first">Dylan</span>
+      <span class="my-name__last-1"
+        >Awalt<span class="my-name__hyphen">-</span></span
+      ><span class="my-name__last-2">Conley</span>
     </h1>
     <p class="container mx-auto mb-8 text-3xl font-medium">
       Some of my websites and JavaScript things.
@@ -57,6 +60,23 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
 </Layout>
 
 <style lang="scss" is:global>
+  @media (max-width: 450px) {
+    .my-name__first,
+    .my-name__last-1,
+    .my-name__last-2 {
+      display: block;
+    }
+    .my-name__first {
+      text-align: left;
+    }
+    .my-name__last-1 {
+      text-align: center;
+    }
+    .my-name__last-2 {
+      text-align: right;
+    }
+  }
+
   .title-heavy-shadow {
     [data-color-scheme='light'] & * {
       text-shadow: 0.05em 0.05em 0px var(--theme-tx);
