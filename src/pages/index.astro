@@ -59,7 +59,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
   </main>
 </Layout>
 
-<style lang="scss" is:global>
+<style lang="scss">
   @media (max-width: 450px) {
     .my-name__first,
     .my-name__last-1,
@@ -77,12 +77,13 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
     }
   }
 
-  .title-heavy-shadow {
-    [data-color-scheme='light'] & * {
-      text-shadow: 0.05em 0.05em 0px var(--theme-tx);
+  .title-heavy-shadow * {
+    text-shadow: 0.05em 0.05em 0px var(--heavy-shadow);
+    :global([data-color-scheme='light']) & {
+      --heavy-shadow: var(--theme-tx);
     }
-    [data-color-scheme='dark'] & * {
-      text-shadow: 0.05em 0.05em 0px var(--theme-bg);
+    :global([data-color-scheme='dark']) & {
+      --heavy-shadow: var(--theme-bg);
     }
   }
 
