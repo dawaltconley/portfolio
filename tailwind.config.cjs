@@ -1,5 +1,30 @@
 const plugin = require('tailwindcss/plugin');
 
+const colorWeights = [
+  '50',
+  '100',
+  '200',
+  '300',
+  '400',
+  '500',
+  '600',
+  '700',
+  '800',
+  '900',
+  '950',
+];
+
+const hslVariants = (colorVariable) => ({
+  DEFAULT: `hsl(var(${colorVariable}) / <alpha-value>)`,
+  ...colorWeights.reduce(
+    (variants, weight) => ({
+      ...variants,
+      [weight]: `hsl(var(${colorVariable}-${weight}) / <alpha-value>)`,
+    }),
+    {}
+  ),
+});
+
 module.exports = {
   content: ['./src/**/*.{astro,html,js,jsx,md,svelte,ts,tsx,vue}'],
   darkMode: ['class', '[data-color-scheme="dark"]'],
@@ -13,6 +38,11 @@ module.exports = {
     fontFamily: {
       sans: ['Metropolis', 'sans-serif'],
       serif: ['Erode-Variable', 'Erode', 'serif'],
+    },
+    extend: {
+      color: {
+        'theme-br': hslVariants('--theme-br'),
+      },
     },
   },
   plugins: [

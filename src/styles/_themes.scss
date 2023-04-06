@@ -2,13 +2,18 @@
 @use 'sass-themes' as themes;
 @use 'scss-properties' as prop;
 
+@function to-hsl($color) {
+  @return color.hue($color) color.saturation($color) color.lightness($color);
+}
+
 // no-js fallback
 @layer base {
   html {
+    $brand: hsl(180deg, 84%, 32%);
     @include themes.create(
-      $text: black,
+      $text: hsl(206deg, 69%, 22%),
       $bg: white,
-      $brand: theme('colors.rose.600'),
+      $brand: $brand,
       $accessibility: false
     );
     --theme-tx--base: var(--theme-tx);
@@ -17,8 +22,8 @@
     @media (prefers-color-scheme: dark) {
       @include themes.create(
         $text: white,
-        $bg: theme('colors.zinc.900'),
-        $brand: theme('colors.rose.500'),
+        $bg: hsl(206deg, 69%, 15%),
+        $brand: $brand,
         $accessibility: false,
         $styles: false
       );
@@ -39,28 +44,28 @@
   }
 
   [data-theme='0'] {
-    &[data-color-scheme='light'],
-    & .theme-light {
-      @include themes.create(
-        $text: black,
-        $bg: white,
-        $brand: theme('colors.rose.600'),
-        $accessibility: false
-      );
-    }
-    &[data-color-scheme='dark'],
-    & .theme-dark {
-      @include themes.create(
-        $text: white,
-        $bg: theme('colors.zinc.900'),
-        $brand: theme('colors.rose.500'),
-        $accessibility: false
-      );
-    }
-  }
-
-  [data-theme='1'] {
     $brand: color.change(#add, $lightness: 32%, $saturation: 84%);
+
+    $primary: (
+      50: #d9f5f5,
+      100: #b5ebeb,
+      150: #94e1e1,
+      200: #75d7d7,
+      300: #47c1c1,
+      400: #25acac,
+      500: #0d9696,
+      600: #077d7d,
+      700: #046464,
+      800: #034b4b,
+      900: #033232,
+      950: #021919,
+    );
+
+    --theme-br: var(--theme-br-500);
+    @each $w, $color in $primary {
+      --theme-br-#{$w}: #{to-hsl($color)};
+    }
+
     &[data-color-scheme='light'] {
       @include themes.create(
         $text: hsl(206deg, 69%, 22%),
@@ -74,6 +79,35 @@
         $text: white,
         $bg: hsl(206deg, 69%, 15%),
         $brand: $brand,
+        $accessibility: false
+      );
+    }
+  }
+
+  [data-theme='1'] {
+    &[data-color-scheme='light'],
+    & .theme-light {
+      --theme-tx: 0deg 0% 0%;
+      --theme-bg: 0deg 0% 100%;
+
+      --theme-br: var(--theme-br-600);
+      @each $weight, $color in theme('colors.rose') {
+        --theme-br-#{$weight}: #{to-hsl($color)};
+      }
+
+      @include themes.create(
+        $text: black,
+        $bg: white,
+        $brand: theme('colors.rose.600'),
+        $accessibility: false
+      );
+    }
+    &[data-color-scheme='dark'],
+    & .theme-dark {
+      @include themes.create(
+        $text: white,
+        $bg: theme('colors.zinc.900'),
+        $brand: theme('colors.rose.500'),
         $accessibility: false
       );
     }
