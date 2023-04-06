@@ -6,6 +6,7 @@ tags:
   - website
   - 11ty
   - sass
+  - tailwind
   - nunjucks
 images:
   - 42renew/home-1.png
