@@ -6,9 +6,7 @@
   "css.validate": false,
   "scss.validate": false,
   "tailwindCSS.enable": true,
-  "tailwindCSS.includeLanguages": {
-    "jinja": "nunjucks"
-  },
+  "tailwindCSS.lint.invalidConfigPath": "ignore",
   "languageserver": {
     "astro": {
       "command": "npx",
