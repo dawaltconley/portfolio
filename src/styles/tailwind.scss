@@ -18,4 +18,16 @@
     display: table;
     clear: both;
   }
+
+  .inline-list-item {
+    display: inline list-item;
+  }
+
+  .content-plus {
+    content: '[+]\00a0';
+  }
+
+  .content-minus {
+    content: '[-]\00a0';
+  }
 }

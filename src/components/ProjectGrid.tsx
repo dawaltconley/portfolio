@@ -6,7 +6,7 @@ const ProjectFilter: FunctionComponent<{
   handleFilter: (tags: string[]) => void;
   tags: string | string[];
   active?: string[];
-  style?: 'tab' | 'link';
+  style?: 'tab' | 'link' | 'list';
 }> = ({
   tags: initTags,
   style = 'link',
@@ -16,30 +16,61 @@ const ProjectFilter: FunctionComponent<{
 }) => {
   const tags = useMemo(() => ([] as string[]).concat(initTags), [initTags]);
   const isActive = tags.every((tag) => active.includes(tag));
-  const props: ComponentProps<'button'> = useMemo(() => {
-    if (style === 'tab')
-      return {
-        class: `spotlight-button spotlight-button--no-js block overflow-hidden border-l-2 border-theme-tx bg-theme-bg p-4 font-medium uppercase leading-none transition-all duration-300 last:border-r-2 ${
+  if (style === 'tab')
+    return (
+      <button
+        class={`spotlight-button spotlight-button--no-js block overflow-hidden border-l-2 border-theme-tx bg-theme-bg p-4 font-medium uppercase leading-none transition-all duration-300 last:border-r-2 ${
           isActive ? 'bg-theme-br text-white' : ''
-        }`,
-        style: {
+        }`}
+        style={{
           '--scale': 1.5,
           ...(isActive
             ? { '--opacity': 0.3, '--color': 'var(--theme-bg)' }
             : {}),
-        },
-      };
-    return {
-      class: `text-xs ${isActive ? 'font-semibold' : 'text-theme-tx/80'}`,
-    };
-  }, [style, isActive]);
+        }}
+        onClick={() => handleFilter(tags)}
+      >
+        {children}
+      </button>
+    );
+  if (style === 'link')
+    return (
+      <button
+        class={`text-xs ${isActive ? 'font-semibold' : 'text-theme-tx/80'}`}
+        onClick={() => handleFilter(tags)}
+      >
+        {isActive ? '[-] ' : '[+] '}
+        {children}
+      </button>
+    );
   return (
-    <button {...props} onClick={() => handleFilter(tags)}>
-      {style === 'link' && (isActive ? '[-] ' : '[+] ')}
+    <button
+      class={`inline-list-item list-inside text-xs marker:mr-2 lg:list-item ${
+        isActive
+          ? 'marker:content-minus font-semibold'
+          : 'marker:content-plus text-theme-tx/80'
+      }`}
+      onClick={() => handleFilter(tags)}
+    >
       {children}
     </button>
   );
 };
+
+// const ProjectFilterTag: FunctionComponent<{
+//   handleFilter: (tags: string[]) => void;
+//   tags: string | string[];
+//   active?: string[];
+//   style?: 'tab' | 'link';
+// }> = ({
+//   tags: initTags,
+//   style = 'link',
+//   active = [],
+//   handleFilter,
+//   children,
+// }) => {
+//
+// }
 
 const tagLabels = new Map([
   ['website', 'website'],
@@ -161,12 +192,13 @@ const ProjectGrid: FunctionComponent<{
               </ProjectPreview>
             ))}
         </ul>
-        <nav class="inline-block flex-col items-start justify-start space-x-3 border-theme-tx/10 text-center text-center leading-tight xl:ml-4 xl:flex xl:space-y-1 xl:space-x-0 xl:whitespace-nowrap xl:border-l xl:pl-4">
-          <h2 class="mt-8 mb-2 text-xs font-semibold uppercase text-theme-br h-line">
+        <nav class="inline-block flex-col items-start justify-start space-x-3 border-theme-tx/10 text-center leading-tight xl:ml-4 xl:flex xl:space-x-0 xl:space-y-1 xl:whitespace-nowrap xl:border-l xl:pl-4">
+          <h2 class="mb-2 mt-8 text-xs font-semibold uppercase text-theme-br h-line">
             All tags
           </h2>
           {Array.from(tags.entries()).map(([tag, { label, count }]) => (
             <ProjectFilter
+              style="list"
               tags={tag}
               active={filter}
               handleFilter={handleFilter}
