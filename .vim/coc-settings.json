@@ -2,13 +2,9 @@
   "diagnostic.displayByAle": true,
   "suggest.noselect": true,
   "tsserver.enable": true,
-  "eslint.enable": false,
   "css.validate": false,
   "scss.validate": false,
   "tailwindCSS.enable": true,
-  "tailwindCSS.includeLanguages": {
-    "jinja": "nunjucks"
-  },
   "languageserver": {
     "astro": {
       "command": "npx",
