@@ -1,32 +1,41 @@
 ---
+import type { ImageProps } from '@components/Image';
 import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
 import PageHeader from '@components/PageHeader.astro';
 import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
 import IconLink from '@components/IconLink';
+import imageConfig from '@build/image-config';
 import { getMetadata } from '@build/fetch';
-import { tags, getExcerpt } from '@data/projects';
+import { tags, getExcerpt, resolvePath } from '@data/projects';
 import { getIcon, DataIcon } from '@data/icons';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
 
-const images = import.meta.glob<string>('../assets/images/**', {
-  import: 'default',
-});
-
 const projectPreviews: ProjectPreviewData[] = await Promise.all(
   projects.map(async (project) => {
     const { links, tags, published } = project.data;
-    let imageUrl = `../assets/images/${project.data.image}`;
-    const image = images[imageUrl]
-      ? await images[imageUrl]()
+
+    const image = project.data.image
+      ? await resolvePath(project.data.image)
       : (await getMetadata(new URL(links[0]))).image;
+    const sizes = '(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw';
+    const imageProps: ImageProps | undefined = image
+      ? {
+          metadata: await imageConfig.metadataFromSizes(image, {
+            sizes,
+          }),
+          sizes,
+          alt: '',
+        }
+      : undefined;
+
     if (published) links.unshift(`/projects/${project.slug}`);
     return {
       ...project.data,
       links,
-      image: image,
+      image: imageProps,
       excerpt: getExcerpt(project),
       icons: tags
         .map((tag) => getIcon(tag))

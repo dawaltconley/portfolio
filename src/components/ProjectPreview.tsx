@@ -1,5 +1,6 @@
 import type { DataIcon, IconDefinition } from '@data/icons';
 import type { FunctionComponent } from 'preact';
+import Image, { ImageProps } from 'components/Image';
 import IconLink from '@components/IconLink';
 import classNames from 'classnames';
 import { getIconFromUrl, getDefaultIconDefinition } from '@data/icons';
@@ -48,7 +49,7 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
 const ProjectPreviewLinks: FunctionComponent<{
   links: ProjectLink[];
   class?: string;
-  image?: string;
+  image?: ImageProps;
   active?: boolean;
 }> = ({ links, image, class: propClass, active }) => {
   const [noTransition, setNoTransition] = useState(true);
@@ -73,18 +74,17 @@ const ProjectPreviewLinks: FunctionComponent<{
         <SpotlightIconLink {...link} />
       ))}
       {image && (
-        <img
-          src={image}
+        <Image
           class={classNames(
-            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute inset-0 z-10 -mb-px h-[calc(100%+1px)] w-full cursor-pointer object-cover',
+            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute inset-0 z-10 -mb-px h-[calc(100%+1px)] w-full cursor-pointer',
             {
               'clip-hide--active': alwaysVisible || active,
               'delay-[0s] duration-[0s]': alwaysVisible || noTransition,
             }
           )}
-          style={{
-            '--initial-delay': '120ms',
-          }}
+          style={{ '--initial-delay': '120ms' }}
+          imgProps={{ class: 'w-full h-full object-cover' }}
+          {...image}
         />
       )}
     </div>
@@ -95,7 +95,7 @@ interface ProjectPreviewProps {
   title: string;
   links: string[];
   icons: DataIcon[];
-  image?: string;
+  image?: ImageProps;
 }
 
 const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
