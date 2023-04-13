@@ -46,7 +46,7 @@
     "sass-tailwind-functions": "github:dawaltconley/sass-tailwind-functions#modern-update",
     "sass-themes": "^0.4.3",
     "scss-properties": "github:dawaltconley/scss-properties#6c5a41e1d2892dfde3366c258d35edc4dcc48ccf",
-    "tailwindcss": "^3.2.7"
+    "tailwindcss": "^3.3.1"
   },
   "devDependencies": {
     "@astrojs/language-server": "^0.29.6",
