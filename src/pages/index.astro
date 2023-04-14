@@ -15,19 +15,27 @@ const projects = await getCollection('projects');
 
 const projectPreviews: ProjectPreviewData[] = await Promise.all(
   projects.map(async (project) => {
-    const { links, tags, published } = project.data;
+    const { image, links, tags, published } = project.data;
 
-    const image = project.data.image
-      ? await resolvePath(project.data.image)
-      : (await getMetadata(new URL(links[0]))).image;
+    let src: string | undefined,
+      alt = '';
+
+    if (image) {
+      if (typeof image === 'object') ({ src, alt } = image);
+      else src = image;
+      src = await resolvePath(src);
+    } else {
+      src = (await getMetadata(new URL(links[0]))).image;
+    }
+
     const sizes = '(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw';
-    const imageProps: ImageProps | undefined = image
+    const imageProps: ImageProps | undefined = src
       ? {
-          metadata: await imageConfig.metadataFromSizes(image, {
+          metadata: await imageConfig.metadataFromSizes(src, {
             sizes,
           }),
           sizes,
-          alt: '',
+          alt,
         }
       : undefined;
 
