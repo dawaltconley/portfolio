@@ -10,8 +10,9 @@ then
   git lfs install
 else
   echo "installing git lfs $lfs_version"
+  tmpdir="$(mktemp -d)"
   curl -JL "https://github.com/git-lfs/git-lfs/releases/download/v$lfs_version/git-lfs-linux-amd64-v$lfs_version.tar.gz" \
-    -o /tmp/git-lfs.tar.gz
-  tar xzf /tmp/git-lfs.tar.gz -C /tmp
-  "/tmp/git-lfs-$lfs_version/install.sh"
+    -o "$tmpdir/git-lfs.tar.gz"
+  tar xzf "$tmpdir/git-lfs.tar.gz" -C "$tmpdir"
+  "$tmpdir/git-lfs-$lfs_version/install.sh" || "$tmpdir/install.sh"
 fi
