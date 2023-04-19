@@ -1,0 +1,45 @@
+version: 0.2
+
+env:
+  variables:
+    NODE_ENV: production
+    lfs_version: 3.0.2
+  parameter-store:
+    FA_PRO_TOKEN: FontAwesomeProToken
+  secrets-manager:
+    lfs_endpoint: 'LFSCredentials/AWS:Endpoint'
+    lfs_username: 'LFSCredentials/AWS:Username'
+    lfs_password: 'LFSCredentials/AWS:Password'
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo "Updating npm and node_modules"
+      - npm config set "@fortawesome:registry" https://npm.fontawesome.com/
+      - npm config set "//npm.fontawesome.com/:_authToken" $FA_PRO_TOKEN
+      - npm install --cache .npm
+      - echo "Updating git lfs"
+      - ./codebuild/install_lfs.sh "$lfs_version"
+  pre_build:
+    on-failure: ABORT
+    commands:
+      - git lfs pull "https://${lfs_username}:${lfs_password}@${lfs_endpoint}"
+  build:
+    on-failure: ABORT
+    commands:
+      - npm run build
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'dist'
+
+cache:
+  paths:
+    - '/usr/local/bin/git-lfs'
+    - 'node_modules/**/*'
+    - '.npm/**/*'
+    - '.cache/**/*'
+    - 'dist/_responsive-images/*'
