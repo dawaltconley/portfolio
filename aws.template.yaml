@@ -1,0 +1,34 @@
+# See https://github.com/dawaltconley/cfn-static-website
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: Resources for my web portfolio
+
+Resources:
+  StaticWebsite:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./node_modules/@dawaltconley/cfn-static-website/static-website.template.yaml
+      Parameters:
+        Domain: dylan.ac
+        Subdomain: web
+        Redirect: ApexToSubdomain
+        TrailingSlash: 'false'
+        Route53Dns: 'true'
+        CertificateArn: !Sub 'arn:aws:acm:us-east-1:${AWS::AccountId}:certificate/4447585b-1a22-44a1-90d5-865355e39615'
+        CloudFrontPriceClass: PriceClass_100
+        CloudFrontSecurityPolicy: TLSv1.2_2021
+        CloudFrontCachePolicy: CachingOptimized
+        CloudFrontHtmlCachePolicy: CachingDisabled
+  GitHubDeployment:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./node_modules/@dawaltconley/cfn-static-website/git-pipeline.template.yaml
+      Parameters:
+        SiteBucket: !GetAtt StaticWebsite.Outputs.SiteBucket
+        SourceLocation: https://github.com/dawaltconley/portfolio.git
+        EnvironmentImage: aws/codebuild/standard:7.0
+        CacheType: S3
+        ParameterStoreArns: !Sub >-
+          arn:aws:ssm:us-east-1:${AWS::AccountId}:parameter/FontAwesomeProToken
+        SecretsManagerArns: !Sub >-
+          arn:aws:secretsmanager:us-east-1:${AWS::AccountId}:secret:LFSCredentials/AWS-HuqTHN

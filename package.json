@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@astrojs/language-server": "^0.29.6",
+    "@dawaltconley/cfn-static-website": "github:dawaltconley/cfn-static-website#semver:^2.3.0",
     "@typescript-eslint/parser": "^5.53.0",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.6.0",
