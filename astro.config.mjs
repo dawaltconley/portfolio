@@ -11,7 +11,7 @@ const tailwindFunctions = mkTailwindFunctions(
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [preact()],
+  integrations: [preact({ compat: true })],
   vite: {
     css: {
       preprocessorOptions: {
