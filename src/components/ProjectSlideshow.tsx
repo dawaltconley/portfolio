@@ -70,8 +70,9 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     }, fadeInTime + 100);
   };
 
-  const frameId = useRef(0);
-  const animateScroll = (img: HTMLImageElement) => {
+  const frameRef = useRef(0);
+  const startScroll = () => {
+    if (!img) return;
     const start = performance.now();
     const imgHeight = img.clientHeight;
     const buffer =
@@ -89,13 +90,13 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
       img.style.transform = `translate3d(0px, ${-scrollDist.toFixed(
         6
       )}px, 0px) rotate(0.02deg)`; // rotate to force subpixel rendering on firefox
-      frameId.current = requestAnimationFrame(frame);
+      frameRef.current = requestAnimationFrame(frame);
     };
 
     requestAnimationFrame(frame);
   };
 
-  const stopAnimation = (): void => cancelAnimationFrame(frameId.current);
+  const stopScroll = (): void => cancelAnimationFrame(frameRef.current);
 
   const [nextOpacity, setNextOpacity] = useState(0);
   useEffect(() => {
@@ -106,8 +107,8 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
   useEffect(() => {
     if (!img) return;
     if (doesScroll) {
-      animateScroll(img);
-      return () => stopAnimation();
+      startScroll();
+      return () => stopScroll();
     } else if (images.length > 1) {
       let timeout = window.setTimeout(() => {
         loadNextImage();
