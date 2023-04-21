@@ -1,7 +1,8 @@
 import type { DataIcon, IconDefinition } from '@data/icons';
 import type { FunctionComponent } from 'preact';
-import Image, { ImageProps } from 'components/Image';
+import type { ImageProps } from '@components/Image';
 import IconLink from '@components/IconLink';
+import ProjectSlideshow from '@components/ProjectSlideshow';
 import classNames from 'classnames';
 import { getIconFromUrl, getDefaultIconDefinition } from '@data/icons';
 import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons/faArrowUpRightFromSquare';
@@ -69,17 +70,16 @@ const ProjectPreviewLinks: FunctionComponent<{
         <SpotlightIconLink key={link.url} {...link} />
       ))}
       {image && (
-        <Image
+        <ProjectSlideshow
+          images={[image]}
           class={classNames(
-            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute inset-0 z-10 -mb-px h-[calc(100%+1px)] w-full cursor-pointer',
+            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute -inset-1 z-10 -mb-px cursor-pointer',
             {
               'clip-hide--active': alwaysVisible || active,
               'delay-[0s] duration-[0s]': alwaysVisible,
             }
           )}
           style={{ '--initial-delay': '120ms' }}
-          imgProps={{ class: 'w-full h-full object-cover' }}
-          {...image}
         />
       )}
     </div>
