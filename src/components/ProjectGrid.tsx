@@ -67,6 +67,7 @@ const tagLabels = new Map([
 type TagData = Map<string, { label: string; count: number }>;
 
 interface ProjectPreviewData extends ProjectPreviewProps {
+  id: string;
   tags: string[];
   excerpt?: string;
 }
@@ -155,7 +156,7 @@ const ProjectGrid: FunctionComponent<{
             filter.length ? filter.some((f) => tags.includes(f)) : true
           )
           .map(({ tags, excerpt, ...project }) => (
-            <ProjectPreview {...project}>
+            <ProjectPreview key={project.id} {...project}>
               {excerpt && <p dangerouslySetInnerHTML={{ __html: excerpt }} />}
             </ProjectPreview>
           ))}

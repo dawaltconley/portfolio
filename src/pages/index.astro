@@ -43,6 +43,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
     if (published) links.unshift(`/projects/${project.slug}`);
     return {
       ...project.data,
+      id: project.slug,
       links,
       image: imageProps,
       excerpt: getExcerpt(project),
