@@ -71,23 +71,21 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
 
   const frameId = useRef(0);
   const animateScroll = (img: HTMLImageElement) => {
+    const start = performance.now();
     const imgHeight = img.clientHeight;
     const buffer =
       (containerHeight ?? 0) + Math.ceil(pixelsPerMs * (fadeInTime + 100));
-    let last = performance.now();
-    let scrollDist = 0;
-    let loadedNext = false;
+    let isLoadingNext = false;
 
     const frame: FrameRequestCallback = (now) => {
-      const interval = now - last;
-      last = now;
-      scrollDist -= pixelsPerMs * interval;
-      if (!loadedNext && imgHeight + scrollDist < buffer) {
-        loadedNext = true;
+      const scrollDist = pixelsPerMs * (now - start);
+      const scrollRemaining = imgHeight - scrollDist;
+      if (!isLoadingNext && scrollRemaining < buffer) {
+        isLoadingNext = true;
         loadNextImage();
       }
-      if (imgHeight + scrollDist < (containerHeight ?? 0)) return;
-      img.style.transform = `translate3d(0px, ${scrollDist.toFixed(
+      if (scrollRemaining < (containerHeight ?? 0)) return;
+      img.style.transform = `translate3d(0px, ${-scrollDist.toFixed(
         6
       )}px, 0px) rotate(0.02deg)`; // rotate to force subpixel rendering on firefox
       frameId.current = requestAnimationFrame(frame);
