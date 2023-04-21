@@ -30,7 +30,7 @@ const useImageProps = (
   }, [images, index]);
 
 const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
-  images,
+  images: imagesProp,
   ...divProps
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
@@ -41,6 +41,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     setContainerHeight(target.clientHeight);
   });
 
+  const [images, setImages] = useState(imagesProp);
   const [index, setIndex] = useState(0);
   const [current, currentKey] = useImageProps(images, index);
 
@@ -49,7 +50,12 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     return width < height;
   }, [current]);
 
-  if (doesScroll && images.length === 1) images.push(images[0]);
+  useEffect(() => setImages(imagesProp), [imagesProp]);
+  useEffect(() => {
+    if (doesScroll && images.length === 1) {
+      setImages((i) => [...i, i[0]]);
+    }
+  }, [images, doesScroll]);
 
   const [next, nextKey] = useImageProps(images, index + 1);
 
