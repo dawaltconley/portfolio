@@ -39,3 +39,4 @@ overrides:
       '@typescript-eslint/no-unused-vars': off # tsserver handles better
 rules:
   no-unused-vars: warn
+  prefer-const: warn
