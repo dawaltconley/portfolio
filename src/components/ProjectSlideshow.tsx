@@ -12,11 +12,10 @@ import classNames from 'classnames';
 
 export interface ProjectSlideshowProps extends ComponentProps<'div'> {
   images: [ImageProps, ...ImageProps[]];
+  scrollRate?: number;
+  crossfade?: number;
+  slideDuration?: number;
 }
-
-const pixelsPerMs = 2 / 1000;
-const fadeInTime = 1000;
-const maxWaitTime = 10000;
 
 const useImageProps = (
   images: [ImageProps, ...ImageProps[]],
@@ -31,6 +30,9 @@ const useImageProps = (
 
 const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
   images: imagesProp,
+  scrollRate = 2,
+  crossfade = 1000,
+  slideDuration = 10000,
   ...divProps
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
@@ -67,22 +69,24 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
   const [showNextImage, setShowNextImage] = useState(false);
   const loadNextImage = useCallback(() => {
     setShowNextImage(true);
-    setTimeout(() => {
+    const timeout = window.setTimeout(() => {
       setIndex((i) => {
         const next = i + 1;
         return next < images.length ? next : 0;
       });
       setShowNextImage(false);
-    }, fadeInTime + 100);
-  }, [images]);
+    }, crossfade + 100);
+    return () => window.clearTimeout(timeout);
+  }, [images, crossfade]);
 
   const frameRef = useRef(0);
   const startScroll = useCallback(() => {
     if (!img) return;
     const start = performance.now();
     const imgHeight = img.clientHeight;
+    const pixelsPerMs = scrollRate / 1000;
     const buffer =
-      (containerHeight ?? 0) + Math.ceil(pixelsPerMs * (fadeInTime + 100));
+      (containerHeight ?? 0) + Math.ceil(pixelsPerMs * (crossfade + 100));
     let isLoadingNext = false;
 
     const frame: FrameRequestCallback = (now) => {
@@ -100,7 +104,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     };
 
     requestAnimationFrame(frame);
-  }, [img, containerHeight, loadNextImage]);
+  }, [img, crossfade, scrollRate, containerHeight, loadNextImage]);
 
   const stopScroll = useCallback(
     (): void => cancelAnimationFrame(frameRef.current),
@@ -121,10 +125,18 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     } else if (images.length > 1) {
       const timeout = window.setTimeout(() => {
         loadNextImage();
-      }, maxWaitTime);
+      }, slideDuration);
       return () => window.clearTimeout(timeout);
     }
-  }, [images, img, startScroll, stopScroll, loadNextImage, doesScroll]);
+  }, [
+    images,
+    img,
+    doesScroll,
+    slideDuration,
+    startScroll,
+    stopScroll,
+    loadNextImage,
+  ]);
 
   return (
     <div
@@ -156,7 +168,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
             class: 'w-full h-full object-cover object-top',
             style: {
               opacity: nextOpacity.toString(),
-              transition: `opacity ${fadeInTime}ms ease-in`,
+              transition: `opacity ${crossfade}ms ease-in`,
             },
           }}
         />
