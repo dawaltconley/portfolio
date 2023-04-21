@@ -52,12 +52,7 @@ const ProjectPreviewLinks: FunctionComponent<{
   image?: ImageProps;
   active?: boolean;
 }> = ({ links, image, class: propClass, active }) => {
-  const [noTransition, setNoTransition] = useState(true);
-
   const alwaysVisible = !image;
-  useEffect(() => {
-    setNoTransition(alwaysVisible);
-  }, [image]);
 
   return (
     <div
@@ -65,8 +60,8 @@ const ProjectPreviewLinks: FunctionComponent<{
         propClass,
         'theme-brand pointer-events-none relative z-20 flex w-full items-center justify-center overflow-hidden border-2 border-theme-tx text-xl font-semibold',
         {
-          'aspect-video': Boolean(image),
-          'min-aspect-[42%]': Boolean(!image),
+          'aspect-video': !alwaysVisible,
+          'min-aspect-[42%]': alwaysVisible,
         }
       )}
     >
@@ -79,7 +74,7 @@ const ProjectPreviewLinks: FunctionComponent<{
             'clip-hide group-hover:clip-hide--active pointer-events-auto absolute inset-0 z-10 -mb-px h-[calc(100%+1px)] w-full cursor-pointer',
             {
               'clip-hide--active': alwaysVisible || active,
-              'delay-[0s] duration-[0s]': alwaysVisible || noTransition,
+              'delay-[0s] duration-[0s]': alwaysVisible,
             }
           )}
           style={{ '--initial-delay': '120ms' }}
