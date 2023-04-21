@@ -7,6 +7,8 @@ let g:ale_linters = {
 \ 'astro': ['eslint', 'stylelint'],
 \ 'typescript': ['eslint', 'tsserver'],
 \ 'javascript': ['eslint', 'tsserver'],
+\ 'typescriptreact': ['eslint', 'tsserver'],
+\ 'javascriptreact': ['eslint', 'tsserver'],
 \ 'css': ['stylelint'],
 \ 'scss': ['stylelint']
 \}

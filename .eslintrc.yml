@@ -3,6 +3,7 @@ env:
   es2022: true
 extends:
   - 'eslint:recommended'
+  - 'plugin:@typescript-eslint/recommended'
   - 'plugin:astro/recommended'
   - 'prettier'
 parser: '@typescript-eslint/parser'
@@ -14,5 +15,27 @@ overrides:
     parserOptions:
       parser: '@typescript-eslint/parser'
       extraFileExtensions: ['.astro']
+  - files: ['*.tsx']
+    parser: '@typescript-eslint/parser'
+    plugins:
+      - '@typescript-eslint'
+    extends:
+      - 'plugin:@typescript-eslint/recommended'
+      - 'preact'
+      - 'prettier'
+    rules:
+      no-undef: off
+      no-duplicate-imports: off
+      '@typescript-eslint/no-duplicate-imports': error
+      no-unused-vars: off
+      '@typescript-eslint/no-unused-vars': off # tsserver handles better
+      jest/no-deprecated-functions: off
+  - files: ['*.astro', '*.ts', '.*tsx']
+    rules:
+      no-undef: off
+      no-duplicate-imports: off
+      '@typescript-eslint/no-duplicate-imports': error
+      no-unused-vars: off
+      '@typescript-eslint/no-unused-vars': off # tsserver handles better
 rules:
   no-unused-vars: warn
