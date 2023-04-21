@@ -5,7 +5,7 @@ class SpotlightButton {
   }
 
   element: HTMLElement;
-  isAnimating: boolean = false;
+  isAnimating = false;
   size: {
     w: number;
     h: number;

@@ -5,7 +5,7 @@ import MetaScraperImage from 'metascraper-image';
 const ms = MetaScraper([MetaScraperImage()]);
 
 const getMetadata = async (url: URL, duration = '1w'): Promise<Metadata> => {
-  let html = await EleventyFetch(url.href, {
+  const html = await EleventyFetch(url.href, {
     duration,
     type: 'text',
   }).catch((e: Error) => {
@@ -16,12 +16,12 @@ const getMetadata = async (url: URL, duration = '1w'): Promise<Metadata> => {
       throw e;
     }
   });
-  let cache = new AssetCache<Metadata>(html);
+  const cache = new AssetCache<Metadata>(html);
   if (cache.isCacheValid(duration)) {
     return cache.getCachedValue();
   }
   try {
-    let metadata = await ms({ url: url.href, html });
+    const metadata = await ms({ url: url.href, html });
     await cache.save(metadata, 'json');
     return metadata;
   } catch (e) {

@@ -58,7 +58,7 @@ const searchPaths: string[] = [
 ];
 
 const resolvePath = async (file: string): Promise<string> => {
-  for (let p of searchPaths) {
+  for (const p of searchPaths) {
     const resolved = path.resolve(p, file);
     if (await fileExists(resolved)) return resolved;
   }

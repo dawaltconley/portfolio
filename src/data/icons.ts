@@ -1,3 +1,5 @@
+/* eslint-disable no-duplicate-imports, @typescript-eslint/no-duplicate-imports */
+
 import type { IconDefinition as FaIconDefinition } from '@fortawesome/fontawesome-common-types';
 import type { IconifyIcon } from '@iconify/types';
 
@@ -254,7 +256,7 @@ const getIconDefinitions = (
 
 const getDefaultIconDefinition = (icon: DataIcon): IconDefinition => {
   let defaultIcon: IconDefinition | undefined;
-  for (let style of iconStyles) {
+  for (const style of iconStyles) {
     defaultIcon = icon.style[style];
     if (defaultIcon) break;
   }
