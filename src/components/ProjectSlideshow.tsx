@@ -131,7 +131,6 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
       ref={divRef}
       {...divProps}
       class={classNames('relative-fallback', divProps.class?.toString())}
-      style={{ perspective: '100px', transform: 'translateZ(0)' }}
     >
       <Image
         {...current}
@@ -143,7 +142,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
         imgProps={{
           ...current.imgProps,
           class: doesScroll
-            ? 'w-full transition-transform duration-[20ms] linear'
+            ? 'w-full'
             : 'w-full h-full object-cover object-top',
         }}
       />
