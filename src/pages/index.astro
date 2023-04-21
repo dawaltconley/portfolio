@@ -28,7 +28,8 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
       src = (await getMetadata(new URL(links[0]))).image;
     }
 
-    const sizes = '(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw';
+    const sizes =
+      '(min-width: 1536px) 484px, (min-width: 1280px) 399px, (min-width: 1024px) 476px, (min-width: 768px) 348px, (min-width: 640px) 284px, 100vw';
     const imageProps: ImageProps | undefined = src
       ? {
           metadata: await imageConfig.metadataFromSizes(src, {
