@@ -41,7 +41,7 @@ const isColorScheme = (s: string | null | undefined): s is ColorScheme =>
 
 const loadTheme = (): number | null => {
   const saved = window.localStorage.getItem('theme');
-  return (saved && parseInt(saved)) || null;
+  return (saved && parseInt(saved, 10)) || null;
 };
 const saveTheme = (n: number): void => {
   window.localStorage.setItem('theme', n.toString());
@@ -73,7 +73,7 @@ const ThemeControls: FunctionComponent<ThemeControlsProps> = ({
 
   const nextTheme = (): void =>
     setTheme((current) => {
-      let next = current + 1;
+      const next = current + 1;
       return next < maxThemes ? next : 0;
     });
 
@@ -87,21 +87,21 @@ const ThemeControls: FunctionComponent<ThemeControlsProps> = ({
     if (savedTheme) setTheme(savedTheme);
 
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const useDefaultColorScheme = (): void => {
+    const applyDefaultColorScheme = (): void => {
       const saved = loadColorScheme();
       if (saved) {
         setIsManualColorScheme(true);
         setColorScheme(saved);
-        mq.removeEventListener('change', useDefaultColorScheme);
+        mq.removeEventListener('change', applyDefaultColorScheme);
       } else {
         setColorScheme(mq.matches ? 'dark' : 'light');
       }
     };
-    mq.addEventListener('change', useDefaultColorScheme);
-    useDefaultColorScheme();
+    mq.addEventListener('change', applyDefaultColorScheme);
+    applyDefaultColorScheme();
 
     return () => {
-      mq.removeEventListener('change', useDefaultColorScheme);
+      mq.removeEventListener('change', applyDefaultColorScheme);
     };
   }, []);
 
@@ -114,7 +114,7 @@ const ThemeControls: FunctionComponent<ThemeControlsProps> = ({
     if (!colorScheme) return;
     document.documentElement.dataset.colorScheme = colorScheme;
     if (isManualColorScheme) saveColorScheme(colorScheme);
-  }, [colorScheme]);
+  }, [colorScheme, isManualColorScheme]);
 
   return (
     <div class={`flex ${className ?? ''}`}>

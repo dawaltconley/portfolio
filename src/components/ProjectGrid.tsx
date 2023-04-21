@@ -157,7 +157,10 @@ const ProjectGrid: FunctionComponent<{
           )
           .map(({ tags, excerpt, ...project }) => (
             <ProjectPreview key={project.id} {...project}>
-              {excerpt && <p dangerouslySetInnerHTML={{ __html: excerpt }} />}
+              {
+                // eslint-disable-next-line react/no-danger
+                excerpt && <p dangerouslySetInnerHTML={{ __html: excerpt }} />
+              }
             </ProjectPreview>
           ))}
       </ul>
@@ -165,6 +168,7 @@ const ProjectGrid: FunctionComponent<{
       <nav class="space-x-3 text-center leading-tight">
         {Array.from(tags.entries()).map(([tag, { label, count }]) => (
           <ProjectFilter
+            key={tag}
             tags={tag}
             active={filter}
             handleFilter={handleFilter}

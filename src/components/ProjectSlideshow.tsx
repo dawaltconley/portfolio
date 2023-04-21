@@ -65,19 +65,19 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
   }, []);
 
   const [showNextImage, setShowNextImage] = useState(false);
-  const loadNextImage = () => {
+  const loadNextImage = useCallback(() => {
     setShowNextImage(true);
     setTimeout(() => {
       setIndex((i) => {
-        let next = i + 1;
+        const next = i + 1;
         return next < images.length ? next : 0;
       });
       setShowNextImage(false);
     }, fadeInTime + 100);
-  };
+  }, [images]);
 
   const frameRef = useRef(0);
-  const startScroll = () => {
+  const startScroll = useCallback(() => {
     if (!img) return;
     const start = performance.now();
     const imgHeight = img.clientHeight;
@@ -100,9 +100,12 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     };
 
     requestAnimationFrame(frame);
-  };
+  }, [img, containerHeight, loadNextImage]);
 
-  const stopScroll = (): void => cancelAnimationFrame(frameRef.current);
+  const stopScroll = useCallback(
+    (): void => cancelAnimationFrame(frameRef.current),
+    []
+  );
 
   const [nextOpacity, setNextOpacity] = useState(0);
   useEffect(() => {
@@ -116,12 +119,12 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
       startScroll();
       return () => stopScroll();
     } else if (images.length > 1) {
-      let timeout = window.setTimeout(() => {
+      const timeout = window.setTimeout(() => {
         loadNextImage();
       }, maxWaitTime);
       return () => window.clearTimeout(timeout);
     }
-  }, [images, img, containerHeight, doesScroll]);
+  }, [images, img, startScroll, stopScroll, loadNextImage, doesScroll]);
 
   return (
     <div

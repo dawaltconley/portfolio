@@ -1,8 +1,8 @@
 import type { JSX, ComponentProps } from 'preact';
 import type { IconDefinition as FaIconDefinition } from '@fortawesome/fontawesome-common-types';
-import type { IconifyIcon } from '@iconify/types';
+import type { IconifyIcon as IconifyIconDefinition } from '@iconify/types';
 
-type IconDefinition = FaIconDefinition | IconifyIcon;
+type IconDefinition = FaIconDefinition | IconifyIconDefinition;
 
 interface IconProps extends Omit<ComponentProps<'svg'>, 'icon'> {
   icon: IconDefinition;
@@ -15,7 +15,7 @@ interface IconPropsFa extends IconProps {
 }
 
 interface IconPropsIconify extends IconProps {
-  icon: IconifyIcon;
+  icon: IconifyIconDefinition;
 }
 
 const FontAwesomeIcon = ({
@@ -29,20 +29,12 @@ const FontAwesomeIcon = ({
   if (Array.isArray(svgPathData)) {
     svgContent = (
       <g class="fa-duotone-group">
-        <path
-          className="fa-secondary"
-          fill="currentColor"
-          d={svgPathData[0]}
-        ></path>
-        <path
-          className="fa-primary"
-          fill="currentColor"
-          d={svgPathData[1]}
-        ></path>
+        <path className="fa-secondary" fill="currentColor" d={svgPathData[0]} />
+        <path className="fa-primary" fill="currentColor" d={svgPathData[1]} />
       </g>
     );
   } else {
-    svgContent = <path fill="currentColor" d={svgPathData}></path>;
+    svgContent = <path fill="currentColor" d={svgPathData} />;
   }
   return (
     <svg
@@ -68,7 +60,7 @@ const IconifyIcon = ({
   ...attributes
 }: IconPropsIconify): JSX.Element => {
   let innerHtml = icon.body;
-  if (title) innerHtml = `<title>${title}</title>` + innerHtml;
+  if (title) innerHtml = `<title>${title}</title>${innerHtml}`;
   const { left = 0, top = 0, width = 16, height = 16 } = icon;
   return (
     <svg
@@ -79,6 +71,7 @@ const IconifyIcon = ({
       focusable="false"
       role="img"
       {...attributes}
+      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: innerHtml }}
     />
   );
@@ -96,4 +89,4 @@ const Icon = ({
 
 export default Icon;
 export type { IconDefinition, IconProps, IconPropsFa, IconPropsIconify };
-export { IconifyIcon, FaIconDefinition };
+export { IconifyIcon, FontAwesomeIcon };

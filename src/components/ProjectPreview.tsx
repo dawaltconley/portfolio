@@ -31,7 +31,7 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
     return () => {
       SpotlightButton.instances.get(button)?.disconnect();
     };
-  }, [ref.current]);
+  }, []);
 
   return (
     <a
@@ -66,7 +66,7 @@ const ProjectPreviewLinks: FunctionComponent<{
       )}
     >
       {links.map((link) => (
-        <SpotlightIconLink {...link} />
+        <SpotlightIconLink key={link.url} {...link} />
       ))}
       {image && (
         <Image
@@ -152,6 +152,7 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
               (icon) =>
                 icon.style.simple && (
                   <IconLink
+                    key={icon.url}
                     icon={icon.style.simple}
                     title={icon.name}
                     tag="li"
