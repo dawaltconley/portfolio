@@ -2,7 +2,13 @@
 title: Onyx Renewable Partners
 links:
   - mailto:web@dylan.ac
-image: 'onyxrenewables/onyx-1.png'
+images:
+  - onyxrenewables/onyx-1.png
+  - onyxrenewables/onyx-2.png
+  - onyxrenewables/onyx-3.png
+  - onyxrenewables/onyx-4.png
+  - onyxrenewables/onyx-5.png
+  - onyxrenewables/onyx-6.png
 tags:
   - website
   - jekyll

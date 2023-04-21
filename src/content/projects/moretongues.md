@@ -3,7 +3,10 @@ title: More Tongues Than Teeth
 links:
   - https://www.moretongues.com
   - https://github.com/dawaltconley/mt3/
-image: moretongues/mt3-1.png
+images:
+  - moretongues/mt3-1.png
+  - moretongues/mt3-2.png
+  - moretongues/mt3-3.png
 tags:
   - website
   - jekyll

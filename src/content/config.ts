@@ -7,14 +7,16 @@ const projects = defineCollection({
     repository: z.string().url().optional(),
     tags: z.array(z.string()),
     excerpt: z.string().optional(),
-    image: z
-      .union([
-        z.string(),
-        z.object({
-          src: z.string(),
-          alt: z.string(),
-        }),
-      ])
+    images: z
+      .array(
+        z.union([
+          z.string(),
+          z.object({
+            src: z.string(),
+            alt: z.string(),
+          }),
+        ])
+      )
       .optional(),
     published: z.boolean().optional(),
   }),

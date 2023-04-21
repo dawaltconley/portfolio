@@ -6,7 +6,6 @@ import PageHeader from '@components/PageHeader.astro';
 import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
 import IconLink from '@components/IconLink';
 import imageConfig from '@build/image-config';
-import { getMetadata } from '@build/fetch';
 import { tags, getExcerpt, resolvePath } from '@data/projects';
 import { getIcon, DataIcon } from '@data/icons';
 import { getCollection } from 'astro:content';
@@ -15,29 +14,27 @@ const projects = await getCollection('projects');
 
 const projectPreviews: ProjectPreviewData[] = await Promise.all(
   projects.map(async (project) => {
-    const { image, links, tags, published } = project.data;
-
-    let src: string | undefined,
-      alt = '';
-
-    if (image) {
-      if (typeof image === 'object') ({ src, alt } = image);
-      else src = image;
-      src = await resolvePath(src);
-    } else {
-      src = (await getMetadata(new URL(links[0]))).image;
-    }
+    const { images, links, tags, published } = project.data;
 
     const sizes =
       '(min-width: 1536px) 484px, (min-width: 1280px) 399px, (min-width: 1024px) 476px, (min-width: 768px) 348px, (min-width: 640px) 284px, 100vw';
-    const imageProps: ImageProps | undefined = src
-      ? {
-          metadata: await imageConfig.metadataFromSizes(src, {
-            sizes,
-          }),
-          sizes,
-          alt,
-        }
+    const imageProps: ImageProps[] | undefined = images
+      ? await Promise.all(
+          images
+            .map((image) =>
+              typeof image === 'object' ? image : { src: image, alt: '' }
+            )
+            .map(async ({ src, alt }) => ({
+              metadata: await imageConfig.metadataFromSizes(
+                await resolvePath(src),
+                {
+                  sizes,
+                }
+              ),
+              sizes,
+              alt,
+            }))
+        )
       : undefined;
 
     if (published) links.unshift(`/projects/${project.slug}`);
@@ -45,7 +42,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
       ...project.data,
       id: project.slug,
       links,
-      image: imageProps,
+      images: imageProps,
       excerpt: getExcerpt(project),
       icons: tags
         .map((tag) => getIcon(tag))

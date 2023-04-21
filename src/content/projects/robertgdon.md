@@ -3,7 +3,10 @@ title: 'Robert Don: Web Portfolio'
 links:
   - https://robertgdon.netlify.app
   - https://github.com/dawaltconley/rob/
-image: robertgdon/rob-1.png
+images:
+  - robertgdon/rob-1.png
+  - robertgdon/rob-2.png
+  - robertgdon/rob-3.png
 tags:
   - website
   - jekyll

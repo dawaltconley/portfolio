@@ -7,7 +7,14 @@ tags:
   - 11ty
   - sass
   - nunjucks
-image: ./jahleel/home-1.png
+images:
+  - ./jahleel/home-1.png
+  - ./jahleel/bio-1.png
+  - ./jahleel/bio-2.png
+  - ./jahleel/film-1.png
+  - ./jahleel/film-2.png
+  - ./jahleel/film-3.png
+  - ./jahleel/home-2.png
 ---
 
 A web portfolio for Jahleel's film and acting work.

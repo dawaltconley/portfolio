@@ -47,13 +47,17 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
   );
 };
 
+const isNotEmpty = (
+  images: ImageProps[]
+): images is [ImageProps, ...ImageProps[]] => images.length > 0;
+
 const ProjectPreviewLinks: FunctionComponent<{
   links: ProjectLink[];
   class?: string;
-  image?: ImageProps;
+  images?: ImageProps[];
   active?: boolean;
-}> = ({ links, image, class: propClass, active }) => {
-  const alwaysVisible = !image;
+}> = ({ links, images, class: propClass, active }) => {
+  const alwaysVisible = !images;
 
   return (
     <div
@@ -69,9 +73,9 @@ const ProjectPreviewLinks: FunctionComponent<{
       {links.map((link) => (
         <SpotlightIconLink key={link.url} {...link} />
       ))}
-      {image && (
+      {images && isNotEmpty(images) && (
         <ProjectSlideshow
-          images={[image]}
+          images={images}
           class={classNames(
             'clip-hide group-hover:clip-hide--active pointer-events-auto absolute -inset-1 z-10 -mb-px cursor-pointer',
             {
@@ -90,13 +94,13 @@ interface ProjectPreviewProps {
   title: string;
   links: string[];
   icons: DataIcon[];
-  image?: ImageProps;
+  images?: ImageProps[];
 }
 
 const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
   title,
   links,
-  image,
+  images,
   icons,
   children,
 }) => {
@@ -167,7 +171,7 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
               href={links[0]}
               onTouchMove={() => setCancelTap(true)}
               onTouchEnd={(e) => {
-                if (!cancelTap && image) {
+                if (!cancelTap && images) {
                   e.preventDefault();
                   setIsActive((a) => !a);
                 }
@@ -181,8 +185,8 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
         {children && <div class="clear-both mt-2 leading-5">{children}</div>}
       </div>
       <ProjectPreviewLinks
-        class={image ? '' : 'flex-grow basis-full'}
-        image={image}
+        class={images ? '' : 'flex-grow basis-full'}
+        images={images}
         links={projectLinks}
         active={isActive}
       />

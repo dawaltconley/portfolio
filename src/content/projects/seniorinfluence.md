@@ -2,7 +2,10 @@
 title: Senior Influence
 links:
   - https://www.seniorinfluence.com
-image: seniorinfluence/si-1.png
+images:
+  - ./seniorinfluence/si-1.png
+  - ./seniorinfluence/si-2.png
+  - ./seniorinfluence/si-3.png
 tags:
   - website
   - jekyll
