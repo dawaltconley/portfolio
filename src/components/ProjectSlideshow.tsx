@@ -14,12 +14,20 @@ export interface ProjectSlideshowProps extends ComponentProps<'div'> {
   images: [ImageProps, ...ImageProps[]];
 }
 
-const getImageKey = (image: ImageProps, index: number): string =>
-  index + Object.values(image.metadata)[0][0].url;
-
 const pixelsPerMs = 2 / 1000;
 const fadeInTime = 1000;
 const maxWaitTime = 10000;
+
+const useImageProps = (
+  images: [ImageProps, ...ImageProps[]],
+  index: number
+): [ImageProps, string] =>
+  useMemo(() => {
+    const i = index > images.length - 1 ? 0 : index;
+    const image = images[i];
+    const key = i + Object.values(image.metadata)[0][0].url;
+    return [image, key];
+  }, [images, index]);
 
 const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
   images,
@@ -34,10 +42,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
   });
 
   const [index, setIndex] = useState(0);
-  const [current, currentKey] = useMemo(() => {
-    const props = images[index];
-    return [props, getImageKey(props, index)];
-  }, [images, index]);
+  const [current, currentKey] = useImageProps(images, index);
 
   const doesScroll = useMemo(() => {
     const { width, height } = Object.values(current.metadata)[0][0];
@@ -46,11 +51,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
 
   if (doesScroll && images.length === 1) images.push(images[0]);
 
-  const [next, nextKey] = useMemo(() => {
-    let i = index + 1;
-    if (i > images.length - 1) i = 0;
-    return [images[i], getImageKey(images[i], i)];
-  }, [images, index]);
+  const [next, nextKey] = useImageProps(images, index + 1);
 
   const imgRef = useCallback((img: HTMLImageElement | null) => {
     if (!img) return;
