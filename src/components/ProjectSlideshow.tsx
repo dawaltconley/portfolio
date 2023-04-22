@@ -111,11 +111,6 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     []
   );
 
-  const [nextOpacity, setNextOpacity] = useState(0);
-  useEffect(() => {
-    setNextOpacity(() => (showNextImage ? 1 : 0));
-  }, [showNextImage]);
-
   // either scroll or set a timer for the next image
   useEffect(() => {
     if (!img) return;
@@ -165,10 +160,9 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
           class="absolute inset-0"
           imgProps={{
             ...next.imgProps,
-            class: 'w-full h-full object-cover object-top',
+            class: 'fade-in w-full h-full object-cover object-top',
             style: {
-              opacity: nextOpacity.toString(),
-              transition: `opacity ${crossfade}ms ease-in`,
+              animationDuration: `${crossfade}ms`,
             },
           }}
         />

@@ -1,0 +1,34 @@
+@layer base {
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@layer utilities {
+  .fade-in {
+    animation-name: fade-in;
+    animation-fill-mode: both;
+    animation-timing-function: 'ease-in';
+  }
+
+  .animate-on-load {
+    animation-fill-mode: both;
+    animation-duration: 1s;
+    animation-delay: var(--animation-load-delay, 0s);
+  }
+
+  .animate-on-scroll {
+    --scroll-animation-delay: calc(
+      0.05s + (var(--animation-stagger, 0) * 0.18s) +
+        var(--animation-load-delay, 0s)
+    );
+    animation-fill-mode: both;
+    animation-duration: 0.8s;
+    animation-delay: var(--scroll-animation-delay);
+  }
+}
