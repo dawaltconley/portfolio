@@ -10,6 +10,53 @@ import {
 } from 'preact/hooks';
 import classNames from 'classnames';
 
+const useScrollAnimation = ({
+  scrollRate = 0,
+  containerHeight = 0,
+}: {
+  scrollRate?: number;
+  containerHeight?: number;
+}) => {
+  const frameRef = useRef(0);
+  const startScroll = useCallback(
+    (img: HTMLImageElement) => {
+      const start = performance.now();
+      const imgHeight = img.clientHeight;
+      const pixelsPerMs = scrollRate / 1000;
+      // const buffer =
+      //   (containerHeight ?? 0) + Math.ceil(pixelsPerMs * (crossfade + 100));
+      // let isLoadingNext = false;
+
+      const frame: FrameRequestCallback = (now) => {
+        const scrollDist = pixelsPerMs * (now - start);
+        const scrollRemaining = imgHeight - scrollDist;
+        // if (!isLoadingNext && scrollRemaining < buffer) {
+        //   isLoadingNext = true;
+        //   loadNext(current);
+        // }
+        if (scrollRemaining < containerHeight) return;
+        img.style.transform = `translate3d(0px, ${-scrollDist.toFixed(
+          6
+        )}px, 0px) rotate(0.02deg)`; // rotate to force subpixel rendering on firefox
+        frameRef.current = requestAnimationFrame(frame);
+      };
+
+      requestAnimationFrame(frame);
+    },
+    [scrollRate, containerHeight]
+  );
+
+  const stopScroll = useCallback(
+    (): void => cancelAnimationFrame(frameRef.current),
+    []
+  );
+
+  return {
+    startScroll,
+    stopScroll,
+  };
+};
+
 export interface ProjectSlideshowProps extends ComponentProps<'div'> {
   image: ImageProps;
   scrollRate?: number;
@@ -24,6 +71,10 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
   crossfade = 1000,
   ...divProps
 }) => {
+  const [current, setCurrent] = useState(image);
+  const [next, setNext] = useState<ImageProps>();
+  const [key, setKey] = useState(true); // allows transitioning into the same image, if it's scrolled
+
   const divRef = useRef<HTMLDivElement>(null);
   const [img, setImg] = useState<HTMLImageElement>();
 
@@ -32,10 +83,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     setContainerHeight(target.clientHeight);
   });
 
-  const [current, setCurrent] = useState(image);
-  const [next, setNext] = useState<ImageProps>();
-  const [key, setKey] = useState(true); // allows transitioning into the same image, if it's scrolled
-
+  // TODO move into hook?
   const doesScroll: boolean = useMemo(() => {
     return (
       scrollRate > 0 &&
@@ -69,42 +117,15 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     return () => window.clearTimeout(timeout);
   }, [image]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const frameRef = useRef(0);
-  const startScroll = useCallback(() => {
-    if (!img) return;
-    const start = performance.now();
-    const imgHeight = img.clientHeight;
-    const pixelsPerMs = scrollRate / 1000;
-    const buffer =
-      (containerHeight ?? 0) + Math.ceil(pixelsPerMs * (crossfade + 100));
-    let isLoadingNext = false;
-
-    const frame: FrameRequestCallback = (now) => {
-      const scrollDist = pixelsPerMs * (now - start);
-      const scrollRemaining = imgHeight - scrollDist;
-      if (!isLoadingNext && scrollRemaining < buffer) {
-        isLoadingNext = true;
-        loadNext(current);
-      }
-      if (scrollRemaining < (containerHeight ?? 0)) return;
-      img.style.transform = `translate3d(0px, ${-scrollDist.toFixed(
-        6
-      )}px, 0px) rotate(0.02deg)`; // rotate to force subpixel rendering on firefox
-      frameRef.current = requestAnimationFrame(frame);
-    };
-
-    requestAnimationFrame(frame);
-  }, [img, crossfade, scrollRate, containerHeight, loadNext]);
-
-  const stopScroll = useCallback(
-    (): void => cancelAnimationFrame(frameRef.current),
-    []
-  );
+  const { startScroll, stopScroll } = useScrollAnimation({
+    scrollRate,
+    containerHeight,
+  });
 
   // start scroll if image supports it
   useEffect(() => {
     if (!img || !doesScroll) return;
-    const timeout = window.setTimeout(startScroll, scrollDelay);
+    const timeout = window.setTimeout(() => startScroll(img), scrollDelay);
     return () => {
       window.clearTimeout(timeout);
       stopScroll();
