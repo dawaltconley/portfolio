@@ -53,7 +53,17 @@ const ProjectPreviewLinks: FunctionComponent<{
   image?: ImageProps;
   active?: boolean;
 }> = ({ links, image, class: propClass, active }) => {
-  const alwaysVisible = !image;
+  const [shouldScroll, setShouldScroll] = useState(true);
+  const alwaysVisible = useMemo(() => !image, [image]);
+
+  useEffect(() => {
+    if (alwaysVisible) return;
+    const mq = window.matchMedia('(prefers-reduced-motion)');
+    const onChange = () => setShouldScroll(!mq.matches);
+    mq.addEventListener('change', onChange);
+    onChange();
+    return () => mq.removeEventListener('change', onChange);
+  }, [alwaysVisible]);
 
   return (
     <div
@@ -81,7 +91,7 @@ const ProjectPreviewLinks: FunctionComponent<{
           )}
           style={{ '--initial-delay': '120ms' }}
           crossfade={3000}
-          scrollRate={2}
+          scrollRate={shouldScroll ? 2 : 0}
           scrollDelay={1000}
         />
       )}
