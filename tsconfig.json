@@ -10,6 +10,7 @@
       "@layouts/*": ["layouts/*"],
       "@browser/*": ["scripts/browser/*"],
       "@build/*": ["scripts/node/*"],
+      "@hooks/*": ["scripts/hooks/*"],
       "@styles/*": ["styles/*"]
     },
     "jsx": "react-jsx",

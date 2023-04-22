@@ -9,6 +9,7 @@ import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons/faArr
 import { useState, useEffect, useMemo, useRef } from 'preact/hooks';
 
 import { SpotlightButton } from '@browser/spotlight-button';
+import useMatchMedia from '@hooks/useMatchMedia';
 
 interface ProjectLink {
   url: string;
@@ -53,17 +54,8 @@ const ProjectPreviewLinks: FunctionComponent<{
   image?: ImageProps;
   active?: boolean;
 }> = ({ links, image, class: propClass, active }) => {
-  const [shouldScroll, setShouldScroll] = useState(true);
-  const alwaysVisible = useMemo(() => !image, [image]);
-
-  useEffect(() => {
-    if (alwaysVisible) return;
-    const mq = window.matchMedia('(prefers-reduced-motion)');
-    const onChange = () => setShouldScroll(!mq.matches);
-    mq.addEventListener('change', onChange);
-    onChange();
-    return () => mq.removeEventListener('change', onChange);
-  }, [alwaysVisible]);
+  const alwaysVisible = !image;
+  const noScroll = useMatchMedia('(prefers-reduced-motion)');
 
   return (
     <div
@@ -91,7 +83,7 @@ const ProjectPreviewLinks: FunctionComponent<{
           )}
           style={{ '--initial-delay': '120ms' }}
           crossfade={3000}
-          scrollRate={shouldScroll ? 2 : 0}
+          scrollRate={noScroll ? 0 : 2}
           scrollDelay={1000}
         />
       )}
