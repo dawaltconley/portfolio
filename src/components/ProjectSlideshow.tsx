@@ -11,28 +11,17 @@ import {
 import classNames from 'classnames';
 
 export interface ProjectSlideshowProps extends ComponentProps<'div'> {
-  images: [ImageProps, ...ImageProps[]];
+  image: ImageProps;
   scrollRate?: number;
+  scrollDelay?: number;
   crossfade?: number;
-  slideDuration?: number;
 }
 
-const useImageProps = (
-  images: [ImageProps, ...ImageProps[]],
-  index: number
-): [ImageProps, string] =>
-  useMemo(() => {
-    const i = index > images.length - 1 ? 0 : index;
-    const image = images[i];
-    const key = i + Object.values(image.metadata)[0][0].url;
-    return [image, key];
-  }, [images, index]);
-
 const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
-  images: imagesProp,
+  image,
   scrollRate = 2,
+  scrollDelay = 0,
   crossfade = 1000,
-  slideDuration = 10000,
   ...divProps
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
@@ -43,41 +32,38 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     setContainerHeight(target.clientHeight);
   });
 
-  const [images, setImages] = useState(imagesProp);
   const [index, setIndex] = useState(0);
-  const [current, currentKey] = useImageProps(images, index);
+  const [current, setCurrent] = useState(image);
+  const [next, setNext] = useState<ImageProps>();
 
   const doesScroll = useMemo(() => {
     const { width, height } = Object.values(current.metadata)[0][0];
     return width < height;
   }, [current]);
 
-  useEffect(() => setImages(imagesProp), [imagesProp]);
-  useEffect(() => {
-    if (doesScroll && images.length === 1) {
-      setImages((i) => [...i, i[0]]);
-    }
-  }, [images, doesScroll]);
-
-  const [next, nextKey] = useImageProps(images, index + 1);
-
   const imgRef = useCallback((img: HTMLImageElement | null) => {
     if (!img) return;
     setImg(img);
   }, []);
 
-  const [showNextImage, setShowNextImage] = useState(false);
-  const loadNextImage = useCallback(() => {
-    setShowNextImage(true);
-    const timeout = window.setTimeout(() => {
-      setIndex((i) => {
-        const next = i + 1;
-        return next < images.length ? next : 0;
-      });
-      setShowNextImage(false);
-    }, crossfade + 100);
+  const loadNext = useCallback(
+    (image: ImageProps) => {
+      setNext(image);
+      return window.setTimeout(() => {
+        setCurrent(image);
+        setNext(undefined);
+        // setIndex((i) => (i + 1) % 2);
+        setIndex((i) => i + 1);
+      }, crossfade + 100);
+    },
+    [crossfade]
+  );
+
+  useEffect(() => {
+    if (Object.is(image, next)) return;
+    const timeout = loadNext(image);
     return () => window.clearTimeout(timeout);
-  }, [images, crossfade]);
+  }, [image]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const frameRef = useRef(0);
   const startScroll = useCallback(() => {
@@ -94,7 +80,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
       const scrollRemaining = imgHeight - scrollDist;
       if (!isLoadingNext && scrollRemaining < buffer) {
         isLoadingNext = true;
-        loadNextImage();
+        loadNext(current);
       }
       if (scrollRemaining < (containerHeight ?? 0)) return;
       img.style.transform = `translate3d(0px, ${-scrollDist.toFixed(
@@ -104,34 +90,22 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     };
 
     requestAnimationFrame(frame);
-  }, [img, crossfade, scrollRate, containerHeight, loadNextImage]);
+  }, [img, crossfade, scrollRate, containerHeight, loadNext]);
 
   const stopScroll = useCallback(
     (): void => cancelAnimationFrame(frameRef.current),
     []
   );
 
-  // either scroll or set a timer for the next image
+  // start scroll if image supports it
   useEffect(() => {
-    if (!img) return;
-    if (doesScroll) {
-      startScroll();
-      return () => stopScroll();
-    } else if (images.length > 1) {
-      const timeout = window.setTimeout(() => {
-        loadNextImage();
-      }, slideDuration);
-      return () => window.clearTimeout(timeout);
-    }
-  }, [
-    images,
-    img,
-    doesScroll,
-    slideDuration,
-    startScroll,
-    stopScroll,
-    loadNextImage,
-  ]);
+    if (!img || !doesScroll) return;
+    const timeout = window.setTimeout(startScroll, scrollDelay);
+    return () => {
+      window.clearTimeout(timeout);
+      stopScroll();
+    };
+  }, [img, doesScroll, scrollDelay, startScroll, stopScroll]);
 
   return (
     <div
@@ -141,7 +115,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     >
       <Image
         {...current}
-        key={currentKey}
+        key={index}
         class={classNames('absolute inset-0', {
           'overflow-hidden': doesScroll,
         })}
@@ -153,10 +127,10 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
             : 'w-full h-full object-cover object-top',
         }}
       />
-      {showNextImage && (
+      {next && (
         <Image
           {...next}
-          key={nextKey}
+          key={index + 1}
           class="absolute inset-0"
           imgProps={{
             ...next.imgProps,

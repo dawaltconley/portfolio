@@ -1,6 +1,19 @@
 import type { FunctionComponent, ComponentProps } from 'preact';
+import type { ImageProps } from './Image';
 import ProjectPreview, { ProjectPreviewProps } from './ProjectPreview';
 import { useState, useEffect, useMemo } from 'preact/hooks';
+
+const shuffle = <T,>(arr: T[]): T[] => {
+  const len = arr.length;
+  const remaining: T[] = [...arr];
+  const shuffled: T[] = [];
+  while (shuffled.length < len) {
+    const i = Math.floor(Math.random() * remaining.length);
+    const item = remaining.splice(i, 1)[0];
+    shuffled.push(item);
+  }
+  return shuffled;
+};
 
 const ProjectFilter: FunctionComponent<{
   handleFilter: (tags: string[]) => void;
@@ -66,9 +79,12 @@ const tagLabels = new Map([
 
 type TagData = Map<string, { label: string; count: number }>;
 
-interface ProjectPreviewData extends ProjectPreviewProps {
+const nextImageInterval = 10000;
+
+interface ProjectPreviewData extends Omit<ProjectPreviewProps, 'image'> {
   id: string;
   tags: string[];
+  images?: ImageProps[];
   excerpt?: string;
 }
 
@@ -122,6 +138,33 @@ const ProjectGrid: FunctionComponent<{
     window.addEventListener('popstate', updateFilterFromSearchParams);
   }, []);
 
+  const filteredProjects = useMemo(
+    () =>
+      projects.filter(({ tags }) =>
+        filter.length ? filter.some((f) => tags.includes(f)) : true
+      ),
+    [projects, filter]
+  );
+
+  const [imageMap, setImageMap] = useState<Map<string, number>>(new Map());
+  useEffect(() => {
+    const projectsWithImages = shuffle(
+      filteredProjects.filter((p) => p.images)
+    );
+
+    setImageMap(
+      (m) => new Map(projectsWithImages.map(({ id }) => [id, m.get(id) || 0]))
+    );
+
+    let i = 0;
+    const interval = window.setInterval(() => {
+      const { id } = projectsWithImages[i++ % projectsWithImages.length];
+      setImageMap((m) => new Map(m.set(id, (m.get(id) ?? 0) + 1)));
+    }, nextImageInterval);
+
+    return () => window.clearInterval(interval);
+  }, [filteredProjects]);
+
   return (
     <>
       <nav class="flex justify-center border-t-2 border-theme-tx">
@@ -151,18 +194,18 @@ const ProjectGrid: FunctionComponent<{
         </ProjectFilter>
       </nav>
       <ul class="my-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {projects
-          .filter(({ tags }) =>
-            filter.length ? filter.some((f) => tags.includes(f)) : true
-          )
-          .map(({ tags, excerpt, ...project }) => (
-            <ProjectPreview key={project.id} {...project}>
+        {filteredProjects.map(({ tags, excerpt, images, ...project }) => {
+          const imageIndex = imageMap.get(project.id) ?? 0;
+          const image = images && images[imageIndex % images.length];
+          return (
+            <ProjectPreview key={project.id} {...project} image={image}>
               {
                 // eslint-disable-next-line react/no-danger
                 excerpt && <p dangerouslySetInnerHTML={{ __html: excerpt }} />
               }
             </ProjectPreview>
-          ))}
+          );
+        })}
       </ul>
       <hr class="my-2 border-theme-tx/10" />
       <nav class="space-x-3 text-center leading-tight">

@@ -47,17 +47,13 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
   );
 };
 
-const isNotEmpty = (
-  images: ImageProps[]
-): images is [ImageProps, ...ImageProps[]] => images.length > 0;
-
 const ProjectPreviewLinks: FunctionComponent<{
   links: ProjectLink[];
   class?: string;
-  images?: ImageProps[];
+  image?: ImageProps;
   active?: boolean;
-}> = ({ links, images, class: propClass, active }) => {
-  const alwaysVisible = !images;
+}> = ({ links, image, class: propClass, active }) => {
+  const alwaysVisible = !image;
 
   return (
     <div
@@ -73,9 +69,9 @@ const ProjectPreviewLinks: FunctionComponent<{
       {links.map((link) => (
         <SpotlightIconLink key={link.url} {...link} />
       ))}
-      {images && isNotEmpty(images) && (
+      {image && (
         <ProjectSlideshow
-          images={images}
+          image={image}
           class={classNames(
             'clip-hide group-hover:clip-hide--active pointer-events-auto absolute -inset-1 z-10 -mb-px cursor-pointer',
             {
@@ -84,6 +80,9 @@ const ProjectPreviewLinks: FunctionComponent<{
             }
           )}
           style={{ '--initial-delay': '120ms' }}
+          crossfade={3000}
+          scrollRate={2}
+          scrollDelay={1000}
         />
       )}
     </div>
@@ -94,13 +93,13 @@ interface ProjectPreviewProps {
   title: string;
   links: string[];
   icons: DataIcon[];
-  images?: ImageProps[];
+  image?: ImageProps;
 }
 
 const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
   title,
   links,
-  images,
+  image,
   icons,
   children,
 }) => {
@@ -171,7 +170,7 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
               href={links[0]}
               onTouchMove={() => setCancelTap(true)}
               onTouchEnd={(e) => {
-                if (!cancelTap && images) {
+                if (!cancelTap && image) {
                   e.preventDefault();
                   setIsActive((a) => !a);
                 }
@@ -185,8 +184,8 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
         {children && <div class="clear-both mt-2 leading-5">{children}</div>}
       </div>
       <ProjectPreviewLinks
-        class={images ? '' : 'flex-grow basis-full'}
-        images={images}
+        class={image ? '' : 'flex-grow basis-full'}
+        image={image}
         links={projectLinks}
         active={isActive}
       />
