@@ -32,9 +32,9 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     setContainerHeight(target.clientHeight);
   });
 
-  const [index, setIndex] = useState(0);
   const [current, setCurrent] = useState(image);
   const [next, setNext] = useState<ImageProps>();
+  const [key, setKey] = useState(true); // allows transitioning into the same image, if it's scrolled
 
   const doesScroll = useMemo(() => {
     const { width, height } = Object.values(current.metadata)[0][0];
@@ -52,8 +52,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
       return window.setTimeout(() => {
         setCurrent(image);
         setNext(undefined);
-        // setIndex((i) => (i + 1) % 2);
-        setIndex((i) => i + 1);
+        setKey((k) => !k);
       }, crossfade + 100);
     },
     [crossfade]
@@ -115,7 +114,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     >
       <Image
         {...current}
-        key={index}
+        key={key}
         class={classNames('absolute inset-0', {
           'overflow-hidden': doesScroll,
         })}
@@ -130,7 +129,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
       {next && (
         <Image
           {...next}
-          key={index + 1}
+          key={!key}
           class="absolute inset-0"
           imgProps={{
             ...next.imgProps,
