@@ -36,10 +36,15 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
   const [next, setNext] = useState<ImageProps>();
   const [key, setKey] = useState(true); // allows transitioning into the same image, if it's scrolled
 
-  const doesScroll = useMemo(() => {
-    const { width, height } = Object.values(current.metadata)[0][0];
-    return width < height;
-  }, [current]);
+  const doesScroll: boolean = useMemo(() => {
+    return (
+      scrollRate > 0 &&
+      !!img &&
+      !!containerHeight &&
+      img.clientHeight >
+        containerHeight + ((scrollDelay + crossfade) * scrollRate) / 1000
+    );
+  }, [img, containerHeight, scrollRate, scrollDelay, crossfade]);
 
   const imgRef = useCallback((img: HTMLImageElement | null) => {
     if (!img) return;
@@ -121,9 +126,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
         imgRef={imgRef}
         imgProps={{
           ...current.imgProps,
-          class: doesScroll
-            ? 'w-full'
-            : 'w-full h-full object-cover object-top',
+          class: 'w-full min-h-full object-cover object-top',
         }}
       />
       {next && (
