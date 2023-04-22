@@ -1,4 +1,4 @@
-import type { FunctionComponent, ComponentProps } from 'preact';
+import type { FunctionComponent, ComponentProps, RefObject } from 'preact';
 import Image, { ImageProps } from '@components/Image';
 import useResizeObserver from '@react-hook/resize-observer';
 import {
@@ -10,41 +10,61 @@ import {
 } from 'preact/hooks';
 import classNames from 'classnames';
 
-const useScrollAnimation = ({
-  scrollRate = 0,
-  containerHeight = 0,
-}: {
-  scrollRate?: number;
-  containerHeight?: number;
-}) => {
+const useScrollAnimation = (
+  scrollingRef: HTMLElement | undefined,
+  containerRef: RefObject<HTMLElement>,
+  {
+    scrollRate = 0,
+    minScrollDuration = 0,
+  }: {
+    scrollRate?: number;
+    minScrollDuration?: number;
+  }
+) => {
+  const [containerHeight, setContainerHeight] = useState(0);
+  useResizeObserver(containerRef, ({ target }) => {
+    setContainerHeight(target.clientHeight);
+  });
+
+  // TODO move into hook?
+  const doesScroll: boolean = useMemo(() => {
+    const img = scrollingRef;
+    return (
+      scrollRate > 0 &&
+      !!img &&
+      !!containerHeight &&
+      img.clientHeight >
+        containerHeight + (minScrollDuration * scrollRate) / 1000
+    );
+  }, [scrollingRef, containerHeight, scrollRate, minScrollDuration]);
+
   const frameRef = useRef(0);
-  const startScroll = useCallback(
-    (img: HTMLImageElement) => {
-      const start = performance.now();
-      const imgHeight = img.clientHeight;
-      const pixelsPerMs = scrollRate / 1000;
-      // const buffer =
-      //   (containerHeight ?? 0) + Math.ceil(pixelsPerMs * (crossfade + 100));
-      // let isLoadingNext = false;
+  const startScroll = useCallback(() => {
+    const img = scrollingRef;
+    if (!img) return;
+    const start = performance.now();
+    const imgHeight = img.clientHeight;
+    const pixelsPerMs = scrollRate / 1000;
+    // const buffer =
+    //   (containerHeight ?? 0) + Math.ceil(pixelsPerMs * (crossfade + 100));
+    // let isLoadingNext = false;
 
-      const frame: FrameRequestCallback = (now) => {
-        const scrollDist = pixelsPerMs * (now - start);
-        const scrollRemaining = imgHeight - scrollDist;
-        // if (!isLoadingNext && scrollRemaining < buffer) {
-        //   isLoadingNext = true;
-        //   loadNext(current);
-        // }
-        if (scrollRemaining < containerHeight) return;
-        img.style.transform = `translate3d(0px, ${-scrollDist.toFixed(
-          6
-        )}px, 0px) rotate(0.02deg)`; // rotate to force subpixel rendering on firefox
-        frameRef.current = requestAnimationFrame(frame);
-      };
+    const frame: FrameRequestCallback = (now) => {
+      const scrollDist = pixelsPerMs * (now - start);
+      const scrollRemaining = imgHeight - scrollDist;
+      // if (!isLoadingNext && scrollRemaining < buffer) {
+      //   isLoadingNext = true;
+      //   loadNext(current);
+      // }
+      if (scrollRemaining < containerHeight) return;
+      img.style.transform = `translate3d(0px, ${-scrollDist.toFixed(
+        6
+      )}px, 0px) rotate(0.02deg)`; // rotate to force subpixel rendering on firefox
+      frameRef.current = requestAnimationFrame(frame);
+    };
 
-      requestAnimationFrame(frame);
-    },
-    [scrollRate, containerHeight]
-  );
+    requestAnimationFrame(frame);
+  }, [scrollingRef, scrollRate, containerHeight]);
 
   const stopScroll = useCallback(
     (): void => cancelAnimationFrame(frameRef.current),
@@ -54,6 +74,7 @@ const useScrollAnimation = ({
   return {
     startScroll,
     stopScroll,
+    doesScroll,
   };
 };
 
@@ -77,23 +98,6 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
 
   const divRef = useRef<HTMLDivElement>(null);
   const [img, setImg] = useState<HTMLImageElement>();
-
-  const [containerHeight, setContainerHeight] = useState<number>();
-  useResizeObserver(divRef, ({ target }) => {
-    setContainerHeight(target.clientHeight);
-  });
-
-  // TODO move into hook?
-  const doesScroll: boolean = useMemo(() => {
-    return (
-      scrollRate > 0 &&
-      !!img &&
-      !!containerHeight &&
-      img.clientHeight >
-        containerHeight + ((scrollDelay + crossfade) * scrollRate) / 1000
-    );
-  }, [img, containerHeight, scrollRate, scrollDelay, crossfade]);
-
   const imgRef = useCallback((img: HTMLImageElement | null) => {
     if (!img) return;
     setImg(img);
@@ -117,15 +121,19 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     return () => window.clearTimeout(timeout);
   }, [image]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { startScroll, stopScroll } = useScrollAnimation({
-    scrollRate,
-    containerHeight,
-  });
+  const { startScroll, stopScroll, doesScroll } = useScrollAnimation(
+    img,
+    divRef,
+    {
+      scrollRate,
+      minScrollDuration: crossfade + scrollDelay,
+    }
+  );
 
   // start scroll if image supports it
   useEffect(() => {
     if (!img || !doesScroll) return;
-    const timeout = window.setTimeout(() => startScroll(img), scrollDelay);
+    const timeout = window.setTimeout(startScroll, scrollDelay);
     return () => {
       window.clearTimeout(timeout);
       stopScroll();
