@@ -31,7 +31,7 @@ class ScrollAnimation {
   }: {
     scrollRate?: number;
     containerHeight?: number;
-    onScrollEnd?: () => void;
+    onScrollEnd?: (self: ScrollAnimation) => void;
   } = {}): void {
     if (this.#currentFrame) this.stop();
     const imgHeight = this.element.clientHeight;
@@ -43,7 +43,7 @@ class ScrollAnimation {
       last = now;
       const scrollRemaining = imgHeight - this.scrollPosition;
       if (scrollRemaining < containerHeight) {
-        if (onScrollEnd) onScrollEnd();
+        if (onScrollEnd) onScrollEnd(this);
         return;
       }
       this.scrollTo(this.scrollPosition);
@@ -122,6 +122,11 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
         scrollAnimation.start({
           scrollRate,
           containerHeight,
+          onScrollEnd: ({ element }) => {
+            element.style.removeProperty('transform');
+            element.style.objectPosition = 'bottom';
+            element.style.height = '100%';
+          },
         }),
       scrollDelay
     );
