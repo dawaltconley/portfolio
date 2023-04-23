@@ -95,7 +95,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
   );
 
   useEffect(() => {
-    if (Object.is(image, next)) return;
+    if (Object.is(image, current) || Object.is(image, next)) return;
     const timeout = loadNext(image);
     return () => window.clearTimeout(timeout);
   }, [image]); // eslint-disable-line react-hooks/exhaustive-deps
