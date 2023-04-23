@@ -77,8 +77,7 @@ const ProjectPreviewLinks: FunctionComponent<{
           class={classNames(
             'clip-hide group-hover:clip-hide--active pointer-events-auto absolute -inset-1 z-10 -mb-px cursor-pointer',
             {
-              'clip-hide--active': alwaysVisible || active,
-              'delay-[0s] duration-[0s]': alwaysVisible,
+              'clip-hide--active': active,
             }
           )}
           style={{ '--initial-delay': '120ms' }}
