@@ -151,6 +151,7 @@ const ProjectGrid: FunctionComponent<{
     const projectsWithImages = shuffle(
       filteredProjects.filter((p) => p.images)
     );
+    if (projectsWithImages.length === 0) return;
 
     setImageMap(
       (m) => new Map(projectsWithImages.map(({ id }) => [id, m.get(id) || 0]))
