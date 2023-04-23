@@ -76,6 +76,12 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     setContainerHeight(target.clientHeight);
   });
 
+  const doesScroll: boolean =
+    scrollRate > 0 &&
+    !!imgRef.current &&
+    imgRef.current.clientHeight >
+      containerHeight + ((scrollDelay + crossfade) * scrollRate) / 1000;
+
   const loadNext = useCallback(
     (image: ImageProps) => {
       setNext(image);
@@ -96,12 +102,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
 
   useEffect(() => {
     const img = imgRef.current;
-    if (!img) return;
-    const doesScroll: boolean =
-      scrollRate > 0 &&
-      img.clientHeight >
-        containerHeight + ((scrollDelay + crossfade) * scrollRate) / 1000;
-    if (!doesScroll) return;
+    if (!img || !doesScroll) return;
     const scrollAnimation = new ScrollAnimation(img);
     const timeout = window.setTimeout(
       () =>
@@ -115,9 +116,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
       window.clearTimeout(timeout);
       scrollAnimation.stop();
     };
-  }, [key, scrollRate, scrollDelay, crossfade, containerHeight]);
-
-  console.log('rendering', Object.values(current.metadata)[0][0].url);
+  }, [key, doesScroll, scrollRate, scrollDelay, crossfade, containerHeight]);
 
   return (
     <div
@@ -129,7 +128,7 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
         {...current}
         key={key}
         class={classNames('absolute inset-0', {
-          'overflow-hidden': true /* doesScroll */,
+          'overflow-hidden': doesScroll,
         })}
         imgRef={imgRef}
         imgProps={{
