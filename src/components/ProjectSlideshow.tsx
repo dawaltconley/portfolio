@@ -17,23 +17,27 @@ class ScrollAnimation {
     )}px, 0px) rotate(0.02deg)`; // rotate to force subpixel rendering on firefox
   }
 
-  start({ scrollRate = 0, containerHeight = 0 } = {}): void {
+  start({
+    scrollRate = 0,
+    containerHeight = 0,
+    onScrollEnd,
+  }: {
+    scrollRate?: number;
+    containerHeight?: number;
+    onScrollEnd?: () => void;
+  } = {}): void {
     if (this.#currentFrame) this.stop();
     const start = performance.now();
     const imgHeight = this.img.clientHeight;
     const pixelsPerMs = scrollRate / 1000;
-    // const buffer =
-    //   (containerHeight ?? 0) + Math.ceil(pixelsPerMs * (crossfade + 100));
-    // let isLoadingNext = false;
 
     const frame: FrameRequestCallback = (now) => {
       const scrollPosition = pixelsPerMs * (now - start);
       const scrollRemaining = imgHeight - scrollPosition;
-      // if (!isLoadingNext && scrollRemaining < buffer) {
-      //   isLoadingNext = true;
-      //   loadNext(current);
-      // }
-      if (scrollRemaining < containerHeight) return;
+      if (scrollRemaining < containerHeight) {
+        if (onScrollEnd) onScrollEnd();
+        return;
+      }
       this.setScrollPosition(scrollPosition);
       this.#currentFrame = requestAnimationFrame(frame);
     };
