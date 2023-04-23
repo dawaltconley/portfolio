@@ -5,14 +5,14 @@ import { useState, useEffect, useRef, useCallback } from 'preact/hooks';
 import classNames from 'classnames';
 
 class ScrollAnimation {
-  img: HTMLImageElement;
+  element: HTMLElement;
   #currentFrame = 0;
-  constructor(img: HTMLImageElement) {
-    this.img = img;
+  constructor(element: HTMLElement) {
+    this.element = element;
   }
 
   setScrollPosition(pixels: number) {
-    this.img.style.transform = `translate3d(0px, ${-pixels.toFixed(
+    this.element.style.transform = `translate3d(0px, ${-pixels.toFixed(
       6
     )}px, 0px) rotate(0.02deg)`; // rotate to force subpixel rendering on firefox
   }
@@ -28,7 +28,7 @@ class ScrollAnimation {
   } = {}): void {
     if (this.#currentFrame) this.stop();
     const start = performance.now();
-    const imgHeight = this.img.clientHeight;
+    const imgHeight = this.element.clientHeight;
     const pixelsPerMs = scrollRate / 1000;
 
     const frame: FrameRequestCallback = (now) => {
