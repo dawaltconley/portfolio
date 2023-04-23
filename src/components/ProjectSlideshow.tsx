@@ -1,7 +1,13 @@
 import type { FunctionComponent, ComponentProps } from 'preact';
 import Image, { ImageProps } from '@components/Image';
 import useResizeObserver from '@react-hook/resize-observer';
-import { useState, useEffect, useRef, useCallback } from 'preact/hooks';
+import {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from 'preact/hooks';
 import classNames from 'classnames';
 
 class ScrollAnimation {
@@ -78,11 +84,10 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     setContainerHeight(target.clientHeight);
   });
 
-  const doesScroll: boolean =
-    scrollRate > 0 &&
-    !!imgRef.current &&
-    imgRef.current.clientHeight >
-      containerHeight + ((scrollDelay + crossfade) * scrollRate) / 1000;
+  const doesScroll: boolean = useMemo(() => {
+    const { width, height } = Object.values(current.metadata)[0][0];
+    return width < height;
+  }, [current]);
 
   const loadNext = useCallback(
     (image: ImageProps) => {
