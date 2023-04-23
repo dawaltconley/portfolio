@@ -51,6 +51,31 @@ module.exports = {
           ),
         }
       );
+      matchUtilities(
+        {
+          'h-line': (value) => ({
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            '&::before, &::after': {
+              content: "''",
+              flex: '1 1 auto',
+              borderTopWidth: value,
+              borderTopColor: 'inherit',
+              borderTopStyle: 'inherit',
+            },
+            '&::before': {
+              marginRight: '0.5em',
+            },
+            '&::after': {
+              marginLeft: '0.5em',
+            },
+          }),
+        },
+        {
+          values: theme('borderWidth'),
+        }
+      );
     }),
   ],
 };
