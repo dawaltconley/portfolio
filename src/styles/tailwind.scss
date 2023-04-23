@@ -12,4 +12,10 @@
     height: 100%;
     z-index: 10;
   }
+
+  .clearfix::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
 }
