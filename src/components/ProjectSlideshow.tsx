@@ -6,12 +6,13 @@ import classNames from 'classnames';
 
 class ScrollAnimation {
   element: HTMLElement;
+  scrollPosition = 0;
   #currentFrame = 0;
   constructor(element: HTMLElement) {
     this.element = element;
   }
 
-  setScrollPosition(pixels: number) {
+  scrollTo(pixels: number) {
     this.element.style.transform = `translate3d(0px, ${-pixels.toFixed(
       6
     )}px, 0px) rotate(0.02deg)`; // rotate to force subpixel rendering on firefox
@@ -27,18 +28,19 @@ class ScrollAnimation {
     onScrollEnd?: () => void;
   } = {}): void {
     if (this.#currentFrame) this.stop();
-    const start = performance.now();
     const imgHeight = this.element.clientHeight;
     const pixelsPerMs = scrollRate / 1000;
+    let last = performance.now();
 
     const frame: FrameRequestCallback = (now) => {
-      const scrollPosition = pixelsPerMs * (now - start);
-      const scrollRemaining = imgHeight - scrollPosition;
+      this.scrollPosition += pixelsPerMs * (now - last);
+      last = now;
+      const scrollRemaining = imgHeight - this.scrollPosition;
       if (scrollRemaining < containerHeight) {
         if (onScrollEnd) onScrollEnd();
         return;
       }
-      this.setScrollPosition(scrollPosition);
+      this.scrollTo(this.scrollPosition);
       this.#currentFrame = requestAnimationFrame(frame);
     };
 
@@ -100,10 +102,16 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
     return () => window.clearTimeout(timeout);
   }, [image]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const scrollInstance = useRef<ScrollAnimation>();
+
   useEffect(() => {
     const img = imgRef.current;
     if (!img || !doesScroll) return;
-    const scrollAnimation = new ScrollAnimation(img);
+    const scrollAnimation =
+      scrollInstance.current?.element === img
+        ? scrollInstance.current
+        : new ScrollAnimation(img);
+    scrollInstance.current = scrollAnimation;
     const timeout = window.setTimeout(
       () =>
         scrollAnimation.start({
