@@ -86,8 +86,8 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
 
   const doesScroll: boolean = useMemo(() => {
     const { width, height } = Object.values(current.metadata)[0][0];
-    return width < height;
-  }, [current]);
+    return scrollRate > 0 && width < height;
+  }, [current, scrollRate]);
 
   const loadNext = useCallback(
     (image: ImageProps) => {
@@ -129,7 +129,14 @@ const ProjectSlideshow: FunctionComponent<ProjectSlideshowProps> = ({
       window.clearTimeout(timeout);
       scrollAnimation.stop();
     };
-  }, [key, doesScroll, scrollRate, scrollDelay, crossfade, containerHeight]);
+  }, [
+    current,
+    doesScroll,
+    scrollRate,
+    scrollDelay,
+    crossfade,
+    containerHeight,
+  ]);
 
   return (
     <div
