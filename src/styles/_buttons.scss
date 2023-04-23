@@ -18,6 +18,7 @@
 @layer components {
   .spotlight-button {
     --translate: 0, 0;
+    --active-transition: 300;
     --opacity: #{themes.if-light(0.14, 0.3)};
     --color: var(--theme-br);
     --scale: 1.35;
@@ -28,23 +29,32 @@
     }
 
     &::before {
+      --dur: calc(var(--active-transition, 300) * 1ms);
       content: '';
-      @apply pointer-events-none absolute inset-0;
+      @apply pointer-events-none absolute;
+      top: 50%;
+      left: 50%;
+      right: 50%;
+      bottom: 50%;
       border-radius: 100%;
       background-color: gray;
       background-color: var(--color, gray);
       opacity: 0.5;
       opacity: var(--opacity, 0.5);
-      transform: scale(0);
-      transition: 180ms;
-      transition-property: transform;
+      transform: translate(var(--translate, 0, 0));
+      transition: transform 80ms, left 300ms, right 300ms, top 300ms,
+        bottom 300ms;
+      transition: transform 80ms, left var(--dur), right var(--dur),
+        top var(--dur), bottom var(--dur);
       z-index: -1;
     }
 
     @include active {
       &::before {
-        transform: scale(1.2);
-        transform: scale(var(--scale, 1.2)) translate(var(--translate, 0, 0));
+        top: -20%;
+        left: -20%;
+        right: -20%;
+        bottom: -20%;
       }
     }
   }
