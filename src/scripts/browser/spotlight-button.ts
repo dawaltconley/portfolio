@@ -50,15 +50,16 @@ class SpotlightButton {
     });
   }
 
-  addListener(): void {
+  addListener(event?: MouseEvent): void {
     this.updateSize();
     this.isAnimating = false;
+    if (event) this.onMouseMove(event);
     this.element.addEventListener('mousemove', this.onMouseMove);
   }
 
   removeListener(): void {
     this.element.removeEventListener('mousemove', this.onMouseMove);
-    this.element.style.setProperty('--translate', '0, 0');
+    this.element.style.removeProperty('--translate');
   }
 
   disconnect(): void {
