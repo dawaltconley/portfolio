@@ -1,12 +1,22 @@
 import type { CollectionEntry } from 'astro:content';
-import type { ProjectImage } from '../content/config';
+import type { ProjectImage, ProjectLink } from '../content/config';
+import type { ProjectLink as ProjectPreviewLink } from '@components/ProjectPreview';
 import type { ImageProps } from '@components/Image';
+
 import { getCollection } from 'astro:content';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
 import { marked } from 'marked';
 import { compile } from 'html-to-text';
+
 import imageConfig from '@build/image-config';
+import {
+  getIcon,
+  getIconFromUrl,
+  getDefaultIconDefinition,
+  DataIcon,
+} from '@data/icons';
+import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons/faArrowUpRightFromSquare';
 
 const fileExists = (file: string): Promise<boolean> =>
   fsp
@@ -105,3 +115,40 @@ export const generateImages = (
 ): Promise<ImageProps[]> | undefined =>
   project.data.images &&
   Promise.all(project.data.images.map((image) => generateImage(image, sizes)));
+
+/*
+ * Handle icons
+ */
+
+export const getPreviewLink = (link: ProjectLink): ProjectPreviewLink => {
+  const { url, text } =
+    typeof link === 'object' ? link : { url: link, text: null };
+  const icon = getIconFromUrl(url);
+  return {
+    url,
+    text: text ?? (icon ? icon.name : 'Visit'),
+    icon: icon ? getDefaultIconDefinition(icon) : faArrowUpRightFromSquare,
+  };
+};
+
+export const getPreviewLinks = (
+  project: CollectionEntry<'projects'>
+): ProjectPreviewLink[] => {
+  const { links, published } = project.data;
+  const previewLinks = links.map(getPreviewLink);
+  if (published)
+    previewLinks.unshift({
+      url: `/projects/${project.slug}`,
+      text: 'Read more',
+      icon: faArrowUpRightFromSquare,
+    });
+
+  return previewLinks;
+};
+
+export const getIconsFromTags = (
+  project: CollectionEntry<'projects'>
+): DataIcon[] =>
+  project.data.tags
+    .map((tag) => getIcon(tag))
+    .filter((i): i is DataIcon => Boolean(i));

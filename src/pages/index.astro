@@ -1,56 +1,34 @@
 ---
-import type { ProjectLink } from '@components/ProjectPreview';
 import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
 import PageHeader from '@components/PageHeader.astro';
 import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
 import IconLink from '@components/IconLink';
-import { tags, getExcerpt, generateImages } from '@data/projects';
 import {
-  getIcon,
-  getIconFromUrl,
-  getDefaultIconDefinition,
-  DataIcon,
-} from '@data/icons';
-import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons/faArrowUpRightFromSquare';
+  tags,
+  getExcerpt,
+  generateImages,
+  getPreviewLinks,
+  getIconsFromTags,
+} from '@data/projects';
+import { getIcon } from '@data/icons';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
 
-const getProjectLink = (link: string): ProjectLink => {
-  const icon = getIconFromUrl(link);
-  return {
-    url: link,
-    text: icon ? icon.name : 'Visit',
-    icon: icon ? getDefaultIconDefinition(icon) : faArrowUpRightFromSquare,
-  };
-};
-
 const projectPreviews: ProjectPreviewData[] = await Promise.all(
   projects.map(async (project) => {
-    const { links, tags, published } = project.data;
-
     const sizes =
       '(min-width: 1536px) 484px, (min-width: 1280px) 399px, (min-width: 1024px) 476px, (min-width: 768px) 348px, (min-width: 640px) 284px, 100vw';
     const images = await generateImages(project, sizes);
 
-    const projectLinks = links.map(getProjectLink);
-    if (published)
-      projectLinks.unshift({
-        url: `/projects/${project.slug}`,
-        text: 'Read more',
-        icon: faArrowUpRightFromSquare,
-      });
-
     return {
       ...project.data,
       id: project.slug,
-      links: projectLinks,
+      links: getPreviewLinks(project),
       images: images,
       excerpt: getExcerpt(project),
-      icons: tags
-        .map((tag) => getIcon(tag))
-        .filter((i): i is DataIcon => Boolean(i)),
+      icons: getIconsFromTags(project),
     };
   })
 );
