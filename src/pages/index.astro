@@ -68,7 +68,12 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
     </p>
   </PageHeader>
   <main class="container mx-auto">
-    <ProjectGrid projects={projectPreviews} filter="website" client:load />
+    <ProjectGrid
+      client:load
+      projects={projectPreviews}
+      filter="website"
+      slideshowInterval={10000}
+    />
   </main>
   <footer class="space-x-2 p-4">
     {

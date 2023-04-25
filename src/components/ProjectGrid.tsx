@@ -62,20 +62,25 @@ const tagLabels = new Map([
 
 type TagData = Map<string, { label: string; count: number }>;
 
-const nextImageInterval = 10000;
-
-interface ProjectPreviewData extends Omit<ProjectPreviewProps, 'image'> {
+export interface ProjectPreviewData extends Omit<ProjectPreviewProps, 'image'> {
   id: string;
   tags: string[];
   images?: ImageProps[];
   excerpt?: string;
 }
 
-const ProjectGrid: FunctionComponent<{
+export interface ProjectGridProps {
   projects: ProjectPreviewData[];
   filter?: string | string[];
-}> = ({ projects, filter: initFilter }) => {
-  const [filter, setFilter] = useState(coerceToArray(initFilter ?? []));
+  slideshowInterval?: number;
+}
+
+const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
+  projects,
+  filter: initFilter = [],
+  slideshowInterval = 10000,
+}) => {
+  const [filter, setFilter] = useState(coerceToArray(initFilter));
 
   const tags: TagData = useMemo(() => {
     const tagData: TagData = new Map();
@@ -142,10 +147,10 @@ const ProjectGrid: FunctionComponent<{
     const interval = window.setInterval(() => {
       const { id } = projectsWithImages[i++ % projectsWithImages.length];
       setImageMap((m) => new Map(m.set(id, (m.get(id) ?? 0) + 1)));
-    }, nextImageInterval);
+    }, slideshowInterval);
 
     return () => window.clearInterval(interval);
-  }, [filteredProjects]);
+  }, [filteredProjects, slideshowInterval]);
 
   return (
     <>
@@ -204,4 +209,3 @@ const ProjectGrid: FunctionComponent<{
 };
 
 export default ProjectGrid;
-export type { ProjectPreviewData };
