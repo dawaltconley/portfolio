@@ -40,6 +40,8 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
       ref={ref}
       href={url}
       class="spotlight-button pointer-events-auto z-0 flex aspect-square items-center justify-center p-4 font-bold"
+      target="_blank"
+      rel="noreferrer"
     >
       <IconLink icon={icon ?? faArrowUpRightFromSquare} inline={Boolean(text)}>
         {text && <span class="ml-[0.4em]">{text}</span>}
