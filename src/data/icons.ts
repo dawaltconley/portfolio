@@ -71,6 +71,8 @@ import IconJekyllSkill from '@iconify-icons/vscode-icons/file-type-jekyll';
 
 import { definition as IconGitHubSimple } from '@fortawesome/free-brands-svg-icons/faGithub';
 import { definition as IconLinkedInSimple } from '@fortawesome/free-brands-svg-icons/faLinkedin';
+import { definition as IconEmailSimple } from '@fortawesome/pro-solid-svg-icons/faEnvelope';
+import { definition as IconPhoneSimple } from '@fortawesome/pro-solid-svg-icons/faPhone';
 
 type IconDefinition = FaIconDefinition | IconifyIcon;
 
@@ -86,6 +88,18 @@ interface DataIcon {
 }
 
 const icons: Record<string, DataIcon> = {
+  email: {
+    name: 'Email',
+    style: {
+      simple: IconEmailSimple,
+    },
+  },
+  phone: {
+    name: 'Phone',
+    style: {
+      simple: IconPhoneSimple,
+    },
+  },
   npm: {
     name: 'NPM',
     url: 'https://www.npmjs.com/',
@@ -227,7 +241,9 @@ const hostDomainIconId: Record<string, keyof typeof icons> = Object.entries(
 
 const getIconFromUrl = (url: string | URL): DataIcon | undefined => {
   try {
-    const { host } = new URL(url);
+    const { protocol, host } = new URL(url);
+    if (protocol === 'mailto:') return icons.email;
+    if (protocol === 'tel:') return icons.phone;
     return icons[hostDomainIconId[host]];
   } catch (e) {
     if (e instanceof Error && 'code' in e && e.code === 'ERR_INVALID_URL')
