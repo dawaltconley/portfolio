@@ -4,16 +4,14 @@ import type { ImageProps } from '@components/Image';
 import IconLink from '@components/IconLink';
 import ProjectSlideshow from '@components/ProjectSlideshow';
 import classNames from 'classnames';
-import { getIconFromUrl, getDefaultIconDefinition } from '@data/icons';
-import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons/faArrowUpRightFromSquare';
-import { useState, useEffect, useMemo, useRef } from 'preact/hooks';
+import { useState, useEffect, useRef } from 'preact/hooks';
 
 import { SpotlightButton } from '@browser/spotlight-button';
 import useMatchMedia from '@hooks/useMatchMedia';
 
-interface ProjectLink {
+export interface ProjectLink {
   url: string;
-  icon?: IconDefinition;
+  icon: IconDefinition;
   text?: string;
 }
 
@@ -43,7 +41,7 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
       target="_blank"
       rel="noreferrer"
     >
-      <IconLink icon={icon ?? faArrowUpRightFromSquare} inline={Boolean(text)}>
+      <IconLink icon={icon} inline={Boolean(text)}>
         {text && <span class="ml-[0.4em]">{text}</span>}
       </IconLink>
     </a>
@@ -92,9 +90,9 @@ const ProjectPreviewLinks: FunctionComponent<{
   );
 };
 
-interface ProjectPreviewProps {
+export interface ProjectPreviewProps {
   title: string;
-  links: string[];
+  links: ProjectLink[];
   icons: DataIcon[];
   image?: ImageProps;
 }
@@ -110,21 +108,6 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
 
   const [isActive, setIsActive] = useState(false);
   const [cancelTap, setCancelTap] = useState(false);
-
-  const projectLinks: ProjectLink[] = useMemo(
-    () =>
-      links.map((link) => {
-        const icon = getIconFromUrl(link);
-        return {
-          url: link,
-          icon: icon
-            ? getDefaultIconDefinition(icon)
-            : faArrowUpRightFromSquare,
-          text: icon ? icon.name : 'Visit',
-        };
-      }),
-    [links]
-  );
 
   const handleOutsideClick = (e: TouchEvent): void => {
     if (e.target && e.target !== defaultLink.current) {
@@ -171,7 +154,7 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
             <a
               ref={defaultLink}
               class="pseudo-fill-parent"
-              href={links[0]}
+              href={links[0].url}
               onTouchMove={() => setCancelTap(true)}
               onTouchEnd={(e) => {
                 if (!cancelTap && image) {
@@ -190,7 +173,7 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
       <ProjectPreviewLinks
         class={image ? '' : 'flex-grow basis-full'}
         image={image}
-        links={projectLinks}
+        links={links}
         active={isActive}
       />
     </li>
@@ -198,5 +181,4 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
 };
 
 export default ProjectPreview;
-export type { ProjectPreviewProps };
 export { ProjectPreview, ProjectPreviewLinks };

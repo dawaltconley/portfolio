@@ -1,4 +1,5 @@
 ---
+import type { ProjectLink } from '@components/ProjectPreview';
 import type { ImageProps } from '@components/Image';
 import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
@@ -7,7 +8,13 @@ import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
 import IconLink from '@components/IconLink';
 import imageConfig from '@build/image-config';
 import { tags, getExcerpt, resolvePath } from '@data/projects';
-import { getIcon, DataIcon } from '@data/icons';
+import {
+  getIcon,
+  getIconFromUrl,
+  getDefaultIconDefinition,
+  DataIcon,
+} from '@data/icons';
+import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons/faArrowUpRightFromSquare';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
@@ -37,11 +44,25 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
         )
       : undefined;
 
-    if (published) links.unshift(`/projects/${project.slug}`);
+    const projectLinks: ProjectLink[] = links.map((link) => {
+      const icon = getIconFromUrl(link);
+      return {
+        url: link,
+        text: icon ? icon.name : 'Visit',
+        icon: icon ? getDefaultIconDefinition(icon) : faArrowUpRightFromSquare,
+      };
+    });
+    if (published)
+      projectLinks.unshift({
+        url: `/projects/${project.slug}`,
+        text: 'Read more',
+        icon: faArrowUpRightFromSquare,
+      });
+
     return {
       ...project.data,
       id: project.slug,
-      links,
+      links: projectLinks,
       images: imageProps,
       excerpt: getExcerpt(project),
       icons: tags
