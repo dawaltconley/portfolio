@@ -19,7 +19,7 @@ class ScrollAnimation {
   }
 
   scrollTo(pixels: number) {
-    this.element.style.transform = `translate3d(0px, ${-pixels.toFixed(
+    this.element.style.transform = `translate3d(0px, ${pixels.toFixed(
       6
     )}px, 0px) rotate(0.02deg)`; // rotate to force subpixel rendering on firefox
   }
@@ -46,7 +46,7 @@ class ScrollAnimation {
         if (onScrollEnd) onScrollEnd(this);
         return;
       }
-      this.scrollTo(this.scrollPosition);
+      this.scrollTo(-this.scrollPosition);
       this.#currentFrame = requestAnimationFrame(frame);
     };
 
