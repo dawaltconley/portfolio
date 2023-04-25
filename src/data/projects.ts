@@ -14,9 +14,9 @@ const fileExists = (file: string): Promise<boolean> =>
       else throw e;
     });
 
-const projects = await getCollection('projects');
+export const projects = await getCollection('projects');
 
-const tags: Set<string> = new Set(
+export const tags: Set<string> = new Set(
   projects.reduce(
     (tags: string[], p) => [
       ...tags,
@@ -40,7 +40,7 @@ const convertExcerpt = compile({
   ],
 });
 
-const getExcerpt = (
+export const getExcerpt = (
   item: CollectionEntry<'projects'>,
   excerptSeparator: string | RegExp = /<!-- ?more ?-->/
 ): string => {
@@ -57,12 +57,10 @@ const searchPaths: string[] = [
   path.resolve('./src/assets/images'),
 ];
 
-const resolvePath = async (file: string): Promise<string> => {
+export const resolvePath = async (file: string): Promise<string> => {
   for (const p of searchPaths) {
     const resolved = path.resolve(p, file);
     if (await fileExists(resolved)) return resolved;
   }
   throw new Error(`Couldn't resolve path for project file: ${file}`);
 };
-
-export { projects, tags, getExcerpt, resolvePath };
