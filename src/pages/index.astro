@@ -1,13 +1,11 @@
 ---
 import type { ProjectLink } from '@components/ProjectPreview';
-import type { ImageProps } from '@components/Image';
 import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
 import PageHeader from '@components/PageHeader.astro';
 import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
 import IconLink from '@components/IconLink';
-import imageConfig from '@build/image-config';
-import { tags, getExcerpt, resolvePath } from '@data/projects';
+import { tags, getExcerpt, generateImages } from '@data/projects';
 import {
   getIcon,
   getIconFromUrl,
@@ -18,27 +16,6 @@ import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons/faArr
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
-
-type ProjectImage = { src: string; alt: string };
-const normalizeProjectImage = (image: string | ProjectImage): ProjectImage =>
-  typeof image === 'object' ? image : { src: image, alt: '' };
-
-const generateProjectImages = (
-  images: Exclude<(typeof projects)[number]['data']['images'], undefined>,
-  sizes: string
-): Promise<ImageProps[]> =>
-  Promise.all(
-    images.map(async (image) => {
-      const { src, alt } = normalizeProjectImage(image);
-      return {
-        metadata: await imageConfig.metadataFromSizes(await resolvePath(src), {
-          sizes,
-        }),
-        sizes,
-        alt,
-      };
-    })
-  );
 
 const getProjectLink = (link: string): ProjectLink => {
   const icon = getIconFromUrl(link);
@@ -51,11 +28,11 @@ const getProjectLink = (link: string): ProjectLink => {
 
 const projectPreviews: ProjectPreviewData[] = await Promise.all(
   projects.map(async (project) => {
-    const { images, links, tags, published } = project.data;
+    const { links, tags, published } = project.data;
 
     const sizes =
       '(min-width: 1536px) 484px, (min-width: 1280px) 399px, (min-width: 1024px) 476px, (min-width: 768px) 348px, (min-width: 640px) 284px, 100vw';
-    const imageProps = images && (await generateProjectImages(images, sizes));
+    const images = await generateImages(project, sizes);
 
     const projectLinks = links.map(getProjectLink);
     if (published)
@@ -69,7 +46,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
       ...project.data,
       id: project.slug,
       links: projectLinks,
-      images: imageProps,
+      images: images,
       excerpt: getExcerpt(project),
       icons: tags
         .map((tag) => getIcon(tag))

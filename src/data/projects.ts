@@ -1,9 +1,12 @@
 import type { CollectionEntry } from 'astro:content';
+import type { ProjectImage } from '../content/config';
+import type { ImageProps } from '@components/Image';
 import { getCollection } from 'astro:content';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
 import { marked } from 'marked';
 import { compile } from 'html-to-text';
+import imageConfig from '@build/image-config';
 
 const fileExists = (file: string): Promise<boolean> =>
   fsp
@@ -16,6 +19,10 @@ const fileExists = (file: string): Promise<boolean> =>
 
 export const projects = await getCollection('projects');
 
+/*
+ * Handle tags
+ */
+
 export const tags: Set<string> = new Set(
   projects.reduce(
     (tags: string[], p) => [
@@ -25,6 +32,10 @@ export const tags: Set<string> = new Set(
     []
   )
 );
+
+/*
+ * Handle excerpts
+ */
 
 const convertExcerpt = compile({
   baseElements: {
@@ -51,6 +62,10 @@ export const getExcerpt = (
   return convertExcerpt(marked.parse(excerpt));
 };
 
+/*
+ * Handle images
+ */
+
 const searchPaths: string[] = [
   path.resolve('.'),
   path.resolve('./src/content/projects'),
@@ -64,3 +79,29 @@ export const resolvePath = async (file: string): Promise<string> => {
   }
   throw new Error(`Couldn't resolve path for project file: ${file}`);
 };
+
+export const normalizeImage = (
+  image: ProjectImage
+): Exclude<ProjectImage, string> =>
+  typeof image === 'object' ? image : { src: image, alt: '' };
+
+export const generateImage = async (
+  image: ProjectImage,
+  sizes: string
+): Promise<ImageProps> => {
+  const { src, alt } = normalizeImage(image);
+  return {
+    metadata: await imageConfig.metadataFromSizes(await resolvePath(src), {
+      sizes,
+    }),
+    sizes,
+    alt,
+  };
+};
+
+export const generateImages = (
+  project: CollectionEntry<'projects'>,
+  sizes: string
+): Promise<ImageProps[]> | undefined =>
+  project.data.images &&
+  Promise.all(project.data.images.map((image) => generateImage(image, sizes)));
