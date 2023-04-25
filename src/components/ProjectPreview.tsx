@@ -126,12 +126,13 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
     [links]
   );
 
+  const handleOutsideClick = (e: TouchEvent): void => {
+    if (e.target && e.target !== defaultLink.current) {
+      setIsActive(false);
+    }
+  };
+
   useEffect(() => {
-    const handleOutsideClick = (e: TouchEvent): void => {
-      if (e.target && e.target !== defaultLink.current) {
-        setIsActive(false);
-      }
-    };
     window.addEventListener('touchend', handleOutsideClick, {
       passive: true,
     });
