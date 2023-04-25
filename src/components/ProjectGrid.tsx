@@ -1,58 +1,41 @@
-import type { FunctionComponent, ComponentProps } from 'preact';
+import type { FunctionComponent } from 'preact';
 import type { ImageProps } from './Image';
 import ProjectPreview, { ProjectPreviewProps } from './ProjectPreview';
+import { makeFilter } from './Filter';
 import { useState, useEffect, useMemo } from 'preact/hooks';
+import classNames from 'classnames';
+import { coerceToArray, shuffle } from '@browser/utils';
 
-const shuffle = <T,>(arr: T[]): T[] => {
-  const len = arr.length;
-  const remaining: T[] = [...arr];
-  const shuffled: T[] = [];
-  while (shuffled.length < len) {
-    const i = Math.floor(Math.random() * remaining.length);
-    const item = remaining.splice(i, 1)[0];
-    shuffled.push(item);
-  }
-  return shuffled;
-};
+const ProjectFilterTab = makeFilter(({ isActive, onClick, children }) => (
+  <button
+    class={classNames(
+      'spotlight-button spotlight-button--no-js block overflow-hidden border-l-2 border-theme-tx bg-theme-bg p-4 font-medium uppercase leading-none transition-all duration-300 last:border-r-2',
+      {
+        'bg-theme-br text-white': isActive,
+      }
+    )}
+    style={{
+      '--scale': 1.5,
+      ...(isActive ? { '--opacity': 0.3, '--color': 'var(--theme-bg)' } : {}),
+    }}
+    onClick={onClick}
+  >
+    {children}
+  </button>
+));
 
-const ProjectFilter: FunctionComponent<{
-  handleFilter: (tags: string[]) => void;
-  tags: string | string[];
-  active?: string[];
-  style?: 'tab' | 'link';
-}> = ({
-  tags: initTags,
-  style = 'link',
-  active = [],
-  handleFilter,
-  children,
-}) => {
-  const tags = useMemo(() => ([] as string[]).concat(initTags), [initTags]);
-  const isActive = tags.every((tag) => active.includes(tag));
-  const props: ComponentProps<'button'> = useMemo(() => {
-    if (style === 'tab')
-      return {
-        class: `spotlight-button spotlight-button--no-js block overflow-hidden border-l-2 border-theme-tx bg-theme-bg p-4 font-medium uppercase leading-none transition-all duration-300 last:border-r-2 ${
-          isActive ? 'bg-theme-br text-white' : ''
-        }`,
-        style: {
-          '--scale': 1.5,
-          ...(isActive
-            ? { '--opacity': 0.3, '--color': 'var(--theme-bg)' }
-            : {}),
-        },
-      };
-    return {
-      class: `text-xs ${isActive ? 'font-semibold' : 'text-theme-tx/80'}`,
-    };
-  }, [style, isActive]);
-  return (
-    <button {...props} onClick={() => handleFilter(tags)}>
-      {style === 'link' && (isActive ? '[-] ' : '[+] ')}
-      {children}
-    </button>
-  );
-};
+const ProjectFilterLink = makeFilter(({ isActive, onClick, children }) => (
+  <button
+    class={classNames('text-xs', {
+      'font-semibold': isActive,
+      'text-theme-tx/80': !isActive,
+    })}
+    onClick={onClick}
+  >
+    {isActive ? '[-] ' : '[+] '}
+    {children}
+  </button>
+));
 
 const tagLabels = new Map([
   ['website', 'website'],
@@ -92,9 +75,7 @@ const ProjectGrid: FunctionComponent<{
   projects: ProjectPreviewData[];
   filter?: string | string[];
 }> = ({ projects, filter: initFilter }) => {
-  const [filter, setFilter] = useState(
-    ([] as string[]).concat(initFilter ?? [])
-  );
+  const [filter, setFilter] = useState(coerceToArray(initFilter ?? []));
 
   const tags: TagData = useMemo(() => {
     const tagData: TagData = new Map();
@@ -169,30 +150,27 @@ const ProjectGrid: FunctionComponent<{
   return (
     <>
       <nav class="flex justify-center border-t-2 border-theme-tx">
-        <ProjectFilter
+        <ProjectFilterTab
           tags="website"
-          style="tab"
           active={filter}
           handleFilter={handleFilter}
         >
           Websites
-        </ProjectFilter>
-        <ProjectFilter
+        </ProjectFilterTab>
+        <ProjectFilterTab
           tags="app"
-          style="tab"
           active={filter}
           handleFilter={handleFilter}
         >
           Apps
-        </ProjectFilter>
-        <ProjectFilter
+        </ProjectFilterTab>
+        <ProjectFilterTab
           tags={['npm', 'aws']}
-          style="tab"
           active={filter}
           handleFilter={handleFilter}
         >
           Packages
-        </ProjectFilter>
+        </ProjectFilterTab>
       </nav>
       <ul class="my-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {filteredProjects.map(({ tags, excerpt, images, ...project }) => {
@@ -211,12 +189,14 @@ const ProjectGrid: FunctionComponent<{
       <hr class="my-2 border-theme-tx/10" />
       <nav class="space-x-3 text-center leading-tight">
         {Array.from(tags.entries()).map(([tag, { label, count }]) => (
-          <ProjectFilter
+          <ProjectFilterLink
             key={tag}
             tags={tag}
             active={filter}
             handleFilter={handleFilter}
-          >{`${label} (${count})`}</ProjectFilter>
+          >
+            {`${label} (${count})`}
+          </ProjectFilterLink>
         ))}
       </nav>
     </>
