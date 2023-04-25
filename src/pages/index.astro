@@ -19,39 +19,45 @@ import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
 
+type ProjectImage = { src: string; alt: string };
+const normalizeProjectImage = (image: string | ProjectImage): ProjectImage =>
+  typeof image === 'object' ? image : { src: image, alt: '' };
+
+const generateProjectImages = (
+  images: Exclude<(typeof projects)[number]['data']['images'], undefined>,
+  sizes: string
+): Promise<ImageProps[]> =>
+  Promise.all(
+    images.map(async (image) => {
+      const { src, alt } = normalizeProjectImage(image);
+      return {
+        metadata: await imageConfig.metadataFromSizes(await resolvePath(src), {
+          sizes,
+        }),
+        sizes,
+        alt,
+      };
+    })
+  );
+
+const getProjectLink = (link: string): ProjectLink => {
+  const icon = getIconFromUrl(link);
+  return {
+    url: link,
+    text: icon ? icon.name : 'Visit',
+    icon: icon ? getDefaultIconDefinition(icon) : faArrowUpRightFromSquare,
+  };
+};
+
 const projectPreviews: ProjectPreviewData[] = await Promise.all(
   projects.map(async (project) => {
     const { images, links, tags, published } = project.data;
 
     const sizes =
       '(min-width: 1536px) 484px, (min-width: 1280px) 399px, (min-width: 1024px) 476px, (min-width: 768px) 348px, (min-width: 640px) 284px, 100vw';
-    const imageProps: ImageProps[] | undefined = images
-      ? await Promise.all(
-          images
-            .map((image) =>
-              typeof image === 'object' ? image : { src: image, alt: '' }
-            )
-            .map(async ({ src, alt }) => ({
-              metadata: await imageConfig.metadataFromSizes(
-                await resolvePath(src),
-                {
-                  sizes,
-                }
-              ),
-              sizes,
-              alt,
-            }))
-        )
-      : undefined;
+    const imageProps = images && (await generateProjectImages(images, sizes));
 
-    const projectLinks: ProjectLink[] = links.map((link) => {
-      const icon = getIconFromUrl(link);
-      return {
-        url: link,
-        text: icon ? icon.name : 'Visit',
-        icon: icon ? getDefaultIconDefinition(icon) : faArrowUpRightFromSquare,
-      };
-    });
+    const projectLinks = links.map(getProjectLink);
     if (published)
       projectLinks.unshift({
         url: `/projects/${project.slug}`,
