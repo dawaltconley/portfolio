@@ -1,7 +1,6 @@
 ---
 import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
-import PageHeader from '@components/PageHeader.astro';
 import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
 import {
   getExcerpt,
@@ -31,45 +30,78 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
 );
 ---
 
-<Layout title="My projects">
-  <PageHeader
-    tag="header"
-    class="-mt-14 flex flex-col pt-14 font-serif"
-    layerClass="title-heavy-shadow theme-brand layer-border"
+<Layout title="My projects" colorScheme="dark">
+  <div
+    class="relative flex min-h-[60vh] flex-col overflow-hidden bg-gray-900 pt-[10vh]"
   >
+    <svg
+      class="absolute left-0 top-0 h-full"
+      version="1.1"
+      viewBox="0 0 433 264"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="gradient-1">
+          <stop offset="0" stop-opacity="0.1"></stop>
+          <stop offset="1" stop-opacity="0.5"></stop>
+        </linearGradient>
+        <linearGradient id="gradient-2" gradientTransform="rotate(60)">
+          <stop offset="0" stop-opacity="0.1"></stop>
+          <stop offset="1" stop-opacity="0.5"></stop>
+        </linearGradient>
+        <clipPath id="sloped-div-top" clipPathUnits="objectBoundingBox"
+          ><path d="m0,0 c0.7,0.2,1,1,1,1 H0"></path></clipPath
+        >
+      </defs>
+      <g>
+        <path fill="url(#gradient-1)" d="m21 264c15-164 47-264 47-264h-68v264z"
+        ></path>
+        <path fill="url(#gradient-2)" d="m433 0c-206 0-433 58-433 58v-58z"
+        ></path>
+      </g>
+    </svg>
     <h1
-      class="container mx-auto mb-2 mt-auto text-7xl font-semibold leading-[0.85]"
+      class="container relative z-10 mx-auto mb-64 mt-8 text-7xl font-extrabold leading-[0.85]"
     >
       Dylan Awalt-Conley
     </h1>
-    <p class="container mx-auto mb-8 text-3xl font-medium">
+    <p class="container relative z-10 mx-auto mb-8 hidden text-3xl font-light">
       Some of my websites and JavaScript things.
     </p>
-  </PageHeader>
-  <main class="container mx-auto">
-    <ProjectGrid
-      client:load
-      projects={projectPreviews}
-      filter="website"
-      slideshowInterval={10000}
-    />
+  </div>
+  <main class="relative">
+    <div
+      class="clip-top absolute bottom-full left-0 w-full bg-indigo-950 pb-8 pt-16"
+    >
+      <div class="container mx-auto">
+        <h2 class="text-6xl font-extrabold">Work</h2>
+        <p class="max-w-[70%] text-2xl font-extralight">
+          Some of my websites and JavaScript&nbsp;things.
+        </p>
+      </div>
+    </div>
+    <div class="w-full bg-indigo-950 pb-8">
+      <div class="container mx-auto">
+        <ProjectGrid
+          client:load
+          projects={projectPreviews}
+          filter="website"
+          slideshowInterval={10000}
+        />
+      </div>
+    </div>
   </main>
 </Layout>
 
-<style lang="scss" is:global>
-  .title-heavy-shadow {
-    [data-color-scheme='light'] & * {
-      text-shadow: 0.05em 0.05em 0px var(--theme-tx);
-    }
-    [data-color-scheme='dark'] & * {
-      text-shadow: 0.05em 0.05em 0px var(--theme-bg);
-    }
+<style lang="scss">
+  #gradient-1 stop {
+    stop-color: theme('colors.indigo.900');
+  }
+  #gradient-2 stop {
+    stop-color: theme('colors.rose.900');
   }
 
-  .layer-border {
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
-    border-bottom-color: var(--theme-tx);
-    margin-bottom: -2px;
+  .clip-top {
+    clip-path: url(#sloped-div-top);
   }
 </style>
