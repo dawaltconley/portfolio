@@ -1,7 +1,9 @@
 ---
 import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
+import Header from '@components/Header.astro';
 import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
+import { contactLinks } from '@data/site';
 import {
   getExcerpt,
   generateImages,
@@ -31,9 +33,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
 ---
 
 <Layout title="My projects" colorScheme="dark">
-  <div
-    class="relative flex min-h-[60vh] flex-col overflow-hidden bg-gray-900 pt-[10vh]"
-  >
+  <div class="relative flex min-h-[60vh] flex-col overflow-hidden bg-gray-900">
     <svg
       class="absolute left-0 top-0 h-full"
       version="1.1"
@@ -60,6 +60,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
         ></path>
       </g>
     </svg>
+    <Header links={contactLinks} class="mb-[10vh] py-6" />
     <h1
       class="container relative z-10 mx-auto mb-64 mt-8 text-7xl font-extrabold leading-[0.85]"
     >
