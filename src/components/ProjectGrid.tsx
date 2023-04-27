@@ -5,18 +5,21 @@ import { makeFilter } from './Filter';
 import { useState, useEffect, useMemo } from 'preact/hooks';
 import classNames from 'classnames';
 import { coerceToArray, shuffle } from '@browser/utils';
+import twColors from 'tailwindcss/colors';
 
 const ProjectFilterTab = makeFilter(({ isActive, onClick, children }) => (
   <button
     class={classNames(
-      'spotlight-button spotlight-button--no-js block overflow-hidden border-l-2 border-theme-tx bg-theme-bg p-4 font-medium uppercase leading-none transition-all duration-300 last:border-r-2',
+      'spotlight-button spotlight-button--no-js block overflow-hidden rounded-full px-5 py-4 uppercase leading-none text-indigo-50 transition-all',
       {
-        'bg-theme-br text-white': isActive,
+        'spotlight-button--active bg-indigo-700 text-white hover:bg-indigo-500':
+          isActive,
       }
     )}
     style={{
       '--scale': 1.5,
-      ...(isActive ? { '--opacity': 0.3, '--color': 'var(--theme-bg)' } : {}),
+      '--opacity': 0.3,
+      '--color': twColors.indigo['700'],
     }}
     onClick={onClick}
   >
@@ -27,8 +30,8 @@ const ProjectFilterTab = makeFilter(({ isActive, onClick, children }) => (
 const ProjectFilterLink = makeFilter(({ isActive, onClick, children }) => (
   <button
     class={classNames('text-xs', {
-      'font-semibold': isActive,
-      'text-theme-tx/80': !isActive,
+      'font-semibold text-rose-100': isActive,
+      'text-indigo-300': !isActive,
     })}
     onClick={onClick}
   >
@@ -154,7 +157,7 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
 
   return (
     <>
-      <nav class="flex justify-center border-t-2 border-theme-tx">
+      <nav class="flex justify-center space-x-4">
         <ProjectFilterTab
           tags="website"
           active={filter}
@@ -191,7 +194,7 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
           );
         })}
       </ul>
-      <hr class="my-2 border-theme-tx/10" />
+      <hr class="my-2 border-indigo-300/30" />
       <nav class="space-x-3 text-center leading-tight">
         {Array.from(tags.entries()).map(([tag, { label, count }]) => (
           <ProjectFilterLink
