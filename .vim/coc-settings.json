@@ -5,6 +5,7 @@
   "css.validate": false,
   "scss.validate": false,
   "tailwindCSS.enable": true,
+  "tailwindCSS.lint.invalidConfigPath": "ignore",
   "languageserver": {
     "astro": {
       "command": "npx",
