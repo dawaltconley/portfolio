@@ -3,15 +3,12 @@ import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
 import PageHeader from '@components/PageHeader.astro';
 import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
-import IconLink from '@components/IconLink';
 import {
-  tags,
   getExcerpt,
   generateImages,
   getPreviewLinks,
   getIconsFromTags,
 } from '@data/projects';
-import { getIcon } from '@data/icons';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
@@ -57,25 +54,6 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
       slideshowInterval={10000}
     />
   </main>
-  <footer class="space-x-2 p-4">
-    {
-      Array.from(tags).map((tag) => {
-        const icon = getIcon(tag);
-        return (
-          icon &&
-          icon.style.skill && (
-            <IconLink
-              icon={icon.style.skill}
-              title={icon.name}
-              url={icon.url}
-              class="icon-component--skill inline-block"
-              data-icon={tag}
-            />
-          )
-        );
-      })
-    }
-  </footer>
 </Layout>
 
 <style lang="scss" is:global>
