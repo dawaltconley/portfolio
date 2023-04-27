@@ -96,35 +96,8 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
         <span class="relative -left-4 -top-12">{title}</span>
       </div>
       <div class="absolute inset-0 z-10 flex flex-col p-4 sm:p-8 md:p-4 2xl:p-8">
-        <div class="relative z-20 flex justify-end space-x-2">
-          {links.map((link) => (
-            <SpotlightIconLink
-              key={link.url}
-              url={link.url}
-              icon={link.icon}
-              text={link.text}
-            />
-          ))}
-        </div>
-        <header class="items-last-baseline mt-auto flex">
-          <h2 class="mr-auto font-serif text-4xl font-semibold leading-none">
-            <a
-              ref={defaultLink}
-              class="pseudo-fill-parent"
-              href={links[0].url}
-              onTouchMove={() => setCancelTap(true)}
-              onTouchEnd={(e) => {
-                if (!cancelTap && image) {
-                  e.preventDefault();
-                  setIsActive((a) => !a);
-                }
-                setCancelTap(false);
-              }}
-            >
-              {title}
-            </a>
-          </h2>
-          <ul class="ml-2 flex space-x-2 text-indigo-400/50">
+        <div class="relative z-20 flex space-x-2">
+          <ul class="mr-auto flex items-center space-x-2 text-indigo-400/50">
             {icons.map(
               (icon) =>
                 icon.style.simple && (
@@ -137,8 +110,33 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
                 )
             )}
           </ul>
-        </header>
-        {children && <div class="clear-both mt-2 leading-5">{children}</div>}
+          {links.map((link) => (
+            <SpotlightIconLink
+              key={link.url}
+              url={link.url}
+              icon={link.icon}
+              text={link.text}
+            />
+          ))}
+        </div>
+        <h2 class="mt-auto font-serif text-4xl font-semibold leading-none">
+          <a
+            ref={defaultLink}
+            class="pseudo-fill-parent"
+            href={links[0].url}
+            onTouchMove={() => setCancelTap(true)}
+            onTouchEnd={(e) => {
+              if (!cancelTap && image) {
+                e.preventDefault();
+                setIsActive((a) => !a);
+              }
+              setCancelTap(false);
+            }}
+          >
+            {title}
+          </a>
+        </h2>
+        <div class="mt-2 leading-5">{children}</div>
       </div>
       {image && (
         <ProjectSlideshow
