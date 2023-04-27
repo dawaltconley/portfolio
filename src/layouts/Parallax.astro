@@ -1,15 +1,9 @@
 ---
-import Layout from './Base.astro';
-
-export interface Props {
-  title: string;
-  class?: string;
-}
-
-const { title, class: className } = Astro.props;
+import Layout, { Props } from './Base.astro';
+export type { Props };
 ---
 
-<Layout title={title} class={`parallax ${className ?? ''}`}>
+<Layout {...Astro.props}>
   <div class="parallax__page">
     <slot />
   </div>
