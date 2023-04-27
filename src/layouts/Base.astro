@@ -1,16 +1,18 @@
 ---
+import type { ColorScheme } from '@components/ThemeControls';
 import '@styles/global.scss';
 
 export interface Props {
   title: string;
   class?: string;
+  colorScheme?: ColorScheme;
 }
 
-const { title, class: className } = Astro.props;
+const { title, class: className, colorScheme } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="0" data-color-scheme={colorScheme ?? ''}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />

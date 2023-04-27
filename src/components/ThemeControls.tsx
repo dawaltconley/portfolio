@@ -35,7 +35,7 @@ const Button: FunctionComponent<{
   );
 };
 
-type ColorScheme = 'light' | 'dark';
+export type ColorScheme = 'light' | 'dark';
 const isColorScheme = (s: string | null | undefined): s is ColorScheme =>
   s === 'light' || s === 'dark';
 
