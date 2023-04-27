@@ -71,12 +71,10 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
     </p>
   </div>
   <main class="relative">
-    <div
-      class="clip-top absolute bottom-full left-0 w-full bg-indigo-950 pb-8 pt-16"
-    >
-      <div class="container mx-auto">
+    <div class="clip-top absolute bottom-full left-0 w-full pb-8 pt-16">
+      <div class="container relative mx-auto">
         <h2 class="text-6xl font-extrabold">Work</h2>
-        <p class="max-w-[70%] text-2xl font-extralight">
+        <p class="text-2xl font-extralight">
           Some of my websites and JavaScript&nbsp;things.
         </p>
       </div>
@@ -102,7 +100,10 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
     stop-color: theme('colors.rose.900');
   }
 
-  .clip-top {
+  .clip-top::before {
+    content: '';
+    @apply absolute inset-0 bg-indigo-950;
+    min-width: 40rem;
     clip-path: url(#sloped-div-top);
   }
 </style>
