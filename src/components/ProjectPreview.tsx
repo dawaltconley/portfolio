@@ -37,56 +37,14 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
     <a
       ref={ref}
       href={url}
-      class="spotlight-button pointer-events-auto z-0 flex aspect-square items-center justify-center p-4 font-bold"
+      class="spotlight-button pointer-events-auto z-0 flex items-center justify-center p-2 font-semibold"
       target="_blank"
       rel="noreferrer"
     >
-      <IconLink icon={icon} inline={Boolean(text)}>
+      <IconLink class="pointer-events-none" icon={icon} inline={Boolean(text)}>
         {text && <span class="ml-[0.4em]">{text}</span>}
       </IconLink>
     </a>
-  );
-};
-
-const ProjectPreviewLinks: FunctionComponent<{
-  links: ProjectLink[];
-  class?: string;
-  image?: ImageProps;
-  active?: boolean;
-}> = ({ links, image, class: propClass, active }) => {
-  const alwaysVisible = !image;
-  const noScroll = useMatchMedia('(prefers-reduced-motion)');
-
-  return (
-    <div
-      class={classNames(
-        propClass,
-        'theme-brand pointer-events-none relative z-20 flex w-full items-center justify-center overflow-hidden border-2 border-theme-tx text-xl font-semibold',
-        {
-          'aspect-video': !alwaysVisible,
-          'min-aspect-[42%]': alwaysVisible,
-        }
-      )}
-    >
-      {links.map((link) => (
-        <SpotlightIconLink key={link.url} {...link} />
-      ))}
-      {image && (
-        <ProjectSlideshow
-          image={image}
-          class={classNames(
-            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute -inset-1 z-10 -mb-px cursor-pointer',
-            {
-              'clip-hide--active': active,
-            }
-          )}
-          style={{ '--initial-delay': '120ms' }}
-          crossfade={3000}
-          scrollRate={noScroll ? 0 : 2}
-          scrollDelay={1000}
-        />
-      )}
-    </div>
   );
 };
 
@@ -97,7 +55,7 @@ export interface ProjectPreviewProps {
   image?: ImageProps;
 }
 
-const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
+export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
   title,
   links,
   image,
@@ -108,6 +66,7 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
 
   const [isActive, setIsActive] = useState(false);
   const [cancelTap, setCancelTap] = useState(false);
+  const noScroll = useMatchMedia('(prefers-reduced-motion)');
 
   const handleOutsideClick = (e: TouchEvent): void => {
     if (e.target && e.target !== defaultLink.current) {
@@ -126,31 +85,29 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
 
   return (
     <li
-      class={classNames(
-        'box-shadow-button group relative flex list-none flex-col-reverse duration-300',
-        {
-          'box-shadow-button--active': isActive,
-        }
-      )}
+      class="group relative z-10 list-none overflow-hidden rounded bg-gray-900 text-indigo-300 duration-300 min-aspect-video"
       onFocusCapture={() => setIsActive(true)}
       onBlurCapture={() => setIsActive(false)}
     >
-      <div class="z-10 flex-grow border-x-2 border-b-2 border-theme-tx bg-theme-bg p-2 font-serif">
-        <header>
-          <ul class="float-right ml-4 flex space-x-2">
-            {icons.map(
-              (icon) =>
-                icon.style.simple && (
-                  <IconLink
-                    key={icon.url}
-                    icon={icon.style.simple}
-                    title={icon.name}
-                    tag="li"
-                  />
-                )
-            )}
-          </ul>
-          <h2 class="mr-auto text-2xl font-semibold leading-none underline decoration-theme-br decoration-2 underline-offset-2">
+      <div
+        class="absolute inset-0 font-serif text-[12vmax] font-semibold leading-[0.82] text-gray-800/20"
+        aria-hidden="true"
+      >
+        <span class="relative -left-4 -top-12">{title}</span>
+      </div>
+      <div class="absolute inset-0 z-10 flex flex-col p-4 sm:p-8 md:p-4 2xl:p-8">
+        <div class="relative z-20 flex justify-end space-x-2">
+          {links.map((link) => (
+            <SpotlightIconLink
+              key={link.url}
+              url={link.url}
+              icon={link.icon}
+              text={link.text}
+            />
+          ))}
+        </div>
+        <header class="items-last-baseline mt-auto flex">
+          <h2 class="mr-auto font-serif text-4xl font-semibold leading-none">
             <a
               ref={defaultLink}
               class="pseudo-fill-parent"
@@ -167,18 +124,39 @@ const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
               {title}
             </a>
           </h2>
+          <ul class="ml-2 flex space-x-2 text-indigo-400/50">
+            {icons.map(
+              (icon) =>
+                icon.style.simple && (
+                  <IconLink
+                    key={icon.url}
+                    icon={icon.style.simple}
+                    title={icon.name}
+                    tag="li"
+                  />
+                )
+            )}
+          </ul>
         </header>
         {children && <div class="clear-both mt-2 leading-5">{children}</div>}
       </div>
-      <ProjectPreviewLinks
-        class={image ? '' : 'flex-grow basis-full'}
-        image={image}
-        links={links}
-        active={isActive}
-      />
+      {image && (
+        <ProjectSlideshow
+          image={image}
+          class={classNames(
+            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute -inset-1 z-10 -mb-px cursor-pointer',
+            {
+              'clip-hide--active': isActive,
+            }
+          )}
+          style={{ '--initial-delay': '120ms' }}
+          crossfade={3000}
+          scrollRate={noScroll ? 0 : 2}
+          scrollDelay={1000}
+        />
+      )}
     </li>
   );
 };
 
 export default ProjectPreview;
-export { ProjectPreview, ProjectPreviewLinks };
