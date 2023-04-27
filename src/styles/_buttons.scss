@@ -31,7 +31,7 @@
     &::before {
       --dur: calc(var(--active-transition, 300) * 1ms);
       content: '';
-      @apply pointer-events-none absolute;
+      @apply pointer-events-auto absolute m-auto aspect-square;
       top: 50%;
       left: 50%;
       right: 50%;
