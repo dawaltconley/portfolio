@@ -3,14 +3,14 @@ import Layout, { Props } from './Base.astro';
 export type { Props };
 ---
 
-<Layout {...Astro.props}>
+<Layout class={'parallax ' + className ?? ''} {...props}>
   <div class="parallax__page">
     <slot />
   </div>
 </Layout>
 
 <style is:global lang="scss">
-  @use 'sass-parallax' with (
+  @use 'sass-parallax' as parallax with (
     $perspective: 100px,
     $css-properties: true
   );
