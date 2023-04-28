@@ -175,7 +175,6 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
           );
         })}
       </ul>
-      <hr class="my-2 border-indigo-300/30" />
       <nav class="space-x-3 text-center leading-tight">
         {Array.from(tags.entries()).map(([tag, { label, count }]) => (
           <ProjectFilterLink
