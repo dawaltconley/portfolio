@@ -86,22 +86,13 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
         <span class="relative -left-4 -top-12">{title}</span>
       </div>
       <div class="absolute inset-0 z-10 flex flex-col p-4 sm:p-8 md:p-4 2xl:p-8">
-        <div class="relative z-20 flex justify-end space-x-2">
-          {links.map((link) => (
-            <SpotlightIconLink
-              key={link.url}
-              url={link.url}
-              icon={link.icon}
-              text={link.text}
-            />
-          ))}
-        </div>
-        <div class="mt-auto">
+        <div class="order-2 mt-auto">
           <h2 class="inline text-left font-serif text-4xl font-semibold leading-none">
             <a
               ref={defaultLink}
               class="pseudo-fill-parent"
               href={links[0].url}
+              tabIndex={-1}
               onTouchMove={() => setCancelTap(true)}
               onTouchEnd={(e) => {
                 if (!cancelTap && image) {
@@ -128,7 +119,17 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
             )}
           </ul>
         </div>
-        <div class="mt-2 leading-5">{children}</div>
+        <div class="order-3 mt-2 leading-5">{children}</div>
+        <div class="relative z-20 order-1 flex justify-end space-x-2">
+          {links.map((link) => (
+            <SpotlightIconLink
+              key={link.url}
+              url={link.url}
+              icon={link.icon}
+              text={link.text}
+            />
+          ))}
+        </div>
       </div>
       {image && (
         <ProjectSlideshow
