@@ -142,7 +142,7 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
         <ProjectSlideshow
           image={image}
           class={classNames(
-            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute -inset-1 z-10 -mb-px cursor-pointer',
+            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute -inset-px z-10 -mb-px cursor-pointer',
             {
               'clip-hide--active': isActive,
             }
