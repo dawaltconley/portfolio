@@ -4,6 +4,7 @@ import type { ImageProps } from '@components/Image';
 import IconLink from '@components/IconLink';
 import ProjectSlideshow from '@components/ProjectSlideshow';
 import classNames from 'classnames';
+import twColors from 'tailwindcss/colors';
 import { useState, useEffect, useRef } from 'preact/hooks';
 
 import useSpotlightButton from '@hooks/useSpotlightButton';
@@ -28,6 +29,10 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
       ref={ref}
       href={url}
       class="spotlight-button pointer-events-auto z-0 flex items-center justify-center p-2 font-semibold"
+      style={{
+        '--color': twColors.pink['800'],
+        '--opacity': 0.3,
+      }}
       target="_blank"
       rel="noreferrer"
     >

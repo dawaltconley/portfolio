@@ -13,14 +13,14 @@ const ProjectFilterTab = makeFilter(({ isActive, onClick, children }) => (
     class={classNames(
       'spotlight-button spotlight-button--no-js block overflow-hidden rounded-full px-5 py-4 uppercase leading-none text-indigo-50 transition-all',
       {
-        'spotlight-button--active bg-indigo-700 text-white hover:bg-indigo-500':
+        'spotlight-button--active bg-pink-800 text-white hover:bg-pink-700':
           isActive,
       }
     )}
     style={{
       '--scale': 1.5,
-      '--opacity': 0.3,
-      '--color': twColors.indigo['700'],
+      '--opacity': 0.4,
+      '--color': twColors.pink['800'],
     }}
     onClick={onClick}
   >
@@ -31,7 +31,7 @@ const ProjectFilterTab = makeFilter(({ isActive, onClick, children }) => (
 const ProjectFilterLink = makeFilter(({ isActive, onClick, children }) => (
   <button
     class={classNames('text-xs', {
-      'font-semibold text-rose-100': isActive,
+      'font-semibold text-pink-100': isActive,
       'text-indigo-300': !isActive,
     })}
     onClick={onClick}

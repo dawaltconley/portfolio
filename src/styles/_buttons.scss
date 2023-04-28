@@ -20,7 +20,7 @@
     --translate: 0, 0;
     --active-transition: 300;
     --opacity: #{themes.if-light(0.14, 0.3)};
-    --color: var(--theme-br);
+    --color: theme('colors.pink.800');
     --scale: 1.35;
     @apply relative z-10 block;
 
