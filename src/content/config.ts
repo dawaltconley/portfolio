@@ -1,3 +1,4 @@
+import { ProjectTag } from '@data/tags';
 import { z, defineCollection } from 'astro:content';
 
 const projectLink = z.union([
@@ -24,7 +25,7 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     links: z.array(projectLink),
-    tags: z.array(z.string()),
+    tags: z.array(z.enum(ProjectTag)),
     excerpt: z.string().optional(),
     images: z.array(projectImage).optional(),
     published: z.boolean().optional(),

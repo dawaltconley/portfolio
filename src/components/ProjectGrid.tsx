@@ -1,5 +1,6 @@
 import type { FunctionComponent } from 'preact';
 import type { ImageProps } from './Image';
+import { ProjectTag, labels as tagLabels, isProjectTag } from '@data/tags';
 import ProjectPreview, { ProjectPreviewProps } from './ProjectPreview';
 import { makeFilter } from './Filter';
 import { useState, useEffect, useMemo } from 'preact/hooks';
@@ -40,41 +41,18 @@ const ProjectFilterLink = makeFilter(({ isActive, onClick, children }) => (
   </button>
 ));
 
-const tagLabels = new Map([
-  ['website', 'website'],
-  ['app', 'app'],
-  ['cli', 'command line'],
-  ['audio', 'audio'],
-  ['parser', 'parser'],
-  ['component', 'component'],
-  ['npm', 'NPM'],
-  ['nextjs', 'Next.js'],
-  ['11ty', 'Eleventy'],
-  ['nunjucks', 'Nunjucks'],
-  ['liquid', 'Liquid'],
-  ['jekyll', 'Jekyll'],
-  ['javascript', 'JavaScript'],
-  ['typescript', 'TypeScript'],
-  ['react', 'React'],
-  ['node', 'Node.js'],
-  ['sass', 'Sass'],
-  ['tailwind', 'Tailwind'],
-  ['aws', 'Amazon Web Services'],
-  ['cloudformation', 'CloudFormation'],
-]);
-
-type TagData = Map<string, { label: string; count: number }>;
+type TagData = Map<ProjectTag, { label: string; count: number }>;
 
 export interface ProjectPreviewData extends Omit<ProjectPreviewProps, 'image'> {
   id: string;
-  tags: string[];
+  tags: ProjectTag[];
   images?: ImageProps[];
   excerpt?: string;
 }
 
 export interface ProjectGridProps {
   projects: ProjectPreviewData[];
-  filter?: string | string[];
+  filter?: ProjectTag | ProjectTag[];
   slideshowInterval?: number;
 }
 
@@ -86,15 +64,16 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
   const [filter, setFilter] = useState(coerceToArray(initFilter));
 
   const tags: TagData = useMemo(() => {
-    const tagData: TagData = new Map();
-    tagLabels.forEach((label, tag) => tagData.set(tag, { label, count: 0 }));
+    const tagData: TagData = new Map(
+      ProjectTag.map((tag) => [tag, { label: tagLabels[tag], count: 0 }])
+    );
     projects.forEach(({ tags }) =>
       tags.forEach((t) => {
         const data = tagData.get(t);
         if (data) {
           data.count++;
         } else {
-          tagData.set(t, { count: 1, label: tagLabels.get(t) ?? t });
+          tagData.set(t, { count: 1, label: t });
         }
       })
     );
@@ -113,11 +92,13 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
   };
 
   const updateFilterFromSearchParams = (): void => {
-    const savedFilters = new URLSearchParams(location.search).get('filter');
-    if (savedFilters) setFilter(savedFilters.split(','));
+    const paramData = new URLSearchParams(location.search).get('filter');
+    const savedFilters = paramData?.split(',').filter(isProjectTag);
+    if (savedFilters) setFilter(savedFilters);
   };
 
-  const handleFilter = (tags: string[]): void => {
+  const handleFilter = (filters: string[]): void => {
+    const tags = filters.filter(isProjectTag);
     setFilter(tags);
     updateSearchParams(tags);
   };

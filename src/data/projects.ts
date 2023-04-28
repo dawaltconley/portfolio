@@ -3,7 +3,6 @@ import type { ProjectImage, ProjectLink } from '../content/config';
 import type { ProjectLink as ProjectPreviewLink } from '@components/ProjectPreview';
 import type { ImageProps } from '@components/Image';
 
-import { getCollection } from 'astro:content';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
 import { marked } from 'marked';
@@ -26,22 +25,6 @@ const fileExists = (file: string): Promise<boolean> =>
       if (e.code === 'ENOENT') return false;
       else throw e;
     });
-
-export const projects = await getCollection('projects');
-
-/*
- * Handle tags
- */
-
-export const tags: Set<string> = new Set(
-  projects.reduce(
-    (tags: string[], p) => [
-      ...tags,
-      ...p.data.tags.map((t: string) => t.toLowerCase()),
-    ],
-    []
-  )
-);
 
 /*
  * Handle excerpts
