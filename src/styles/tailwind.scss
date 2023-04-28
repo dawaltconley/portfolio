@@ -10,6 +10,13 @@
     scroll-behavior: smooth;
   }
 
+  body,
+  .parallax__page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
   .relative-fallback {
     position: relative;
   }
