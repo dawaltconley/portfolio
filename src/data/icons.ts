@@ -71,8 +71,8 @@ import IconJekyllSkill from '@iconify-icons/vscode-icons/file-type-jekyll';
 
 import { definition as IconGitHubSimple } from '@fortawesome/free-brands-svg-icons/faGithub';
 import { definition as IconLinkedInSimple } from '@fortawesome/free-brands-svg-icons/faLinkedin';
-import { definition as IconEmailSimple } from '@fortawesome/pro-solid-svg-icons/faEnvelope';
-import { definition as IconPhoneSimple } from '@fortawesome/pro-solid-svg-icons/faPhone';
+import { definition as IconEmailSimple } from '@fortawesome/pro-regular-svg-icons/faEnvelope';
+import { definition as IconPhoneSimple } from '@fortawesome/pro-regular-svg-icons/faPhone';
 
 type IconDefinition = FaIconDefinition | IconifyIcon;
 

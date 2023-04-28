@@ -28,7 +28,7 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
     <a
       ref={ref}
       href={url}
-      class="spotlight-button pointer-events-auto z-0 flex items-center justify-center p-2 font-semibold"
+      class="spotlight-button pointer-events-auto z-0 flex items-center justify-center p-2 font-medium"
       style={{
         '--color': twColors.pink['800'],
         '--opacity': 0.3,

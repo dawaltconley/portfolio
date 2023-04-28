@@ -15,7 +15,7 @@ import {
   getDefaultIconDefinition,
   DataIcon,
 } from '@data/icons';
-import { faArrowUpRightFromSquare } from '@fortawesome/pro-solid-svg-icons/faArrowUpRightFromSquare';
+import { faArrowUpRightFromSquare } from '@fortawesome/pro-regular-svg-icons/faArrowUpRightFromSquare';
 
 const fileExists = (file: string): Promise<boolean> =>
   fsp
