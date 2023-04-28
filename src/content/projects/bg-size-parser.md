@@ -4,7 +4,7 @@ links:
   - https://www.npmjs.com/package/bg-size-parser
   - https://github.com/dawaltconley/bg-size-parser
 tags:
-  - npm
+  - package
   - parser
   - javascript
 ---

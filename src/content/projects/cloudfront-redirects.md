@@ -3,6 +3,7 @@ title: CloudFront Redirects
 links:
   - https://github.com/dawaltconley/cloudfront-redirects
 tags:
+  - package
   - aws
   - cloudformation
 excerpt: >-

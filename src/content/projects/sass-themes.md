@@ -4,7 +4,7 @@ links:
   - https://www.npmjs.com/package/sass-themes
   - https://github.com/dawaltconley/sass-themes
 tags:
-  - npm
+  - package
   - sass
 ---
 

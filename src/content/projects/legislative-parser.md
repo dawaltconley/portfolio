@@ -4,7 +4,7 @@ links:
   - https://www.npmjs.com/package/legislative-parser
   - https://github.com/dawaltconley/legislative-parser
 tags:
-  - npm
+  - package
   - parser
   - typescript
   - javascript

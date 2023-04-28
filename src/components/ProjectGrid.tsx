@@ -154,7 +154,7 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
           Apps
         </ProjectFilterTab>
         <ProjectFilterTab
-          tags={['npm', 'aws']}
+          tags={'package'}
           active={filter}
           handleFilter={handleFilter}
         >

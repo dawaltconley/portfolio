@@ -4,7 +4,7 @@ links:
   - https://www.npmjs.com/package/sass-cast
   - https://github.com/dawaltconley/sass-cast
 tags:
-  - npm
+  - package
   - javascript
   - sass
 excerpt: >-

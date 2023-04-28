@@ -3,7 +3,7 @@ title: scss-properties
 links:
   - https://github.com/dawaltconley/scss-properties
 tags:
-  - npm
+  - package
   - sass
 ---
 

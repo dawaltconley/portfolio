@@ -4,7 +4,7 @@ links:
   - https://www.npmjs.com/package/sass-parallax
   - https://github.com/dawaltconley/sass-parallax
 tags:
-  - npm
+  - package
   - sass
 ---
 

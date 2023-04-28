@@ -4,7 +4,7 @@ links:
   - https://www.npmjs.com/package/@dawaltconley/header-basic
   - https://github.com/dawaltconley/header
 tags:
-  - npm
+  - package
   - component
   - sass
   - nunjucks

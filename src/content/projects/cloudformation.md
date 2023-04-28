@@ -3,6 +3,7 @@ title: CloudFormation Templates
 links:
   - https://github.com/dawaltconley/cfn-static-website
 tags:
+  - package
   - aws
   - cloudformation
 excerpt: >-

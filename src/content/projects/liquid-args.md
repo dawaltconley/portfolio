@@ -4,7 +4,7 @@ links:
   - https://www.npmjs.com/package/liquid-args
   - https://github.com/dawaltconley/liquid-args
 tags:
-  - npm
+  - package
   - parser
   - javascript
   - typescript
