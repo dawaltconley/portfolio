@@ -6,23 +6,15 @@ import { faBrush } from '@fortawesome/pro-solid-svg-icons/faBrush';
 import { faSun } from '@fortawesome/pro-solid-svg-icons/faSun';
 import { faMoon } from '@fortawesome/pro-solid-svg-icons/faMoon';
 
+import useSpotlightButton from '@hooks/useSpotlightButton';
 import Icon from './Icon';
-import { SpotlightButton } from '@browser/spotlight-button';
 
 const Button: FunctionComponent<{
   icon: IconDefinition;
   onClick?: () => void;
 }> = ({ icon, onClick }) => {
   const button = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    const btn = button.current;
-    if (!btn) return;
-    if (!SpotlightButton.isActive(btn)) new SpotlightButton(btn);
-    return () => {
-      SpotlightButton.instances.get(btn)?.disconnect();
-    };
-  }, []);
+  useSpotlightButton(button);
 
   return (
     <button

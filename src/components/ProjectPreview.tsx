@@ -6,7 +6,7 @@ import ProjectSlideshow from '@components/ProjectSlideshow';
 import classNames from 'classnames';
 import { useState, useEffect, useRef } from 'preact/hooks';
 
-import { SpotlightButton } from '@browser/spotlight-button';
+import useSpotlightButton from '@hooks/useSpotlightButton';
 import useMatchMedia from '@hooks/useMatchMedia';
 
 export interface ProjectLink {
@@ -21,17 +21,7 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
   text,
 }) => {
   const ref = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    const button = ref.current;
-    if (!button) return;
-    if (!SpotlightButton.isActive(button)) {
-      new SpotlightButton(button);
-    }
-    return () => {
-      SpotlightButton.instances.get(button)?.disconnect();
-    };
-  }, []);
+  useSpotlightButton(ref);
 
   return (
     <a
