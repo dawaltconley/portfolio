@@ -35,4 +35,8 @@
   .items-last-baseline {
     align-items: last baseline;
   }
+
+  .bottom-almost-full {
+    bottom: calc(100% - 1px);
+  }
 }
