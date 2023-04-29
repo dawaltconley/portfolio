@@ -44,7 +44,7 @@
     "preact": "^10.13.1",
     "sass": "^1.58.3",
     "sass-parallax": "^0.6.1",
-    "sass-tailwind-functions": "github:dawaltconley/sass-tailwind-functions#modern-update",
+    "sass-tailwind-functions": "^1.1.0",
     "sass-themes": "^0.4.3",
     "scss-properties": "github:dawaltconley/scss-properties#6c5a41e1d2892dfde3366c258d35edc4dcc48ccf",
     "tailwindcss": "^3.3.1"
