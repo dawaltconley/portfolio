@@ -17,7 +17,7 @@ module.exports = {
   },
   plugins: [
     require('sass-themes/tailwind'),
-    plugin(({ matchUtilities, theme }) => {
+    plugin(({ matchUtilities, matchComponents, theme }) => {
       matchUtilities(
         {
           'min-aspect': (value) => ({
@@ -51,7 +51,7 @@ module.exports = {
           ),
         }
       );
-      matchUtilities(
+      matchComponents(
         {
           'h-line': (value) => ({
             display: 'flex',
