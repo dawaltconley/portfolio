@@ -11,6 +11,9 @@ const tailwindFunctions = mkTailwindFunctions(
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://web.dylan.ac',
+  output: 'static',
+  trailingSlash: 'never',
   integrations: [preact({ compat: true })],
   vite: {
     css: {
