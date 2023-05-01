@@ -5,18 +5,5 @@
   "css.validate": false,
   "scss.validate": false,
   "tailwindCSS.enable": true,
-  "tailwindCSS.lint.invalidConfigPath": "ignore",
-  "languageserver": {
-    "astro": {
-      "command": "npx",
-      "filetypes": ["astro"],
-      "args": ["astro-ls", "--stdio"],
-      "initializationOptions": {
-        "environment": "node",
-        "typescript": {
-          "serverPath": "typescript/lib/tsserverlibrary.js"
-        }
-      }
-    }
-  }
+  "tailwindCSS.lint.invalidConfigPath": "ignore"
 }
