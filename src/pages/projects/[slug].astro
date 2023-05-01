@@ -1,6 +1,7 @@
 ---
 import Layout from '@layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import { getExcerpt } from '@data/projects';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -9,16 +10,16 @@ export async function getStaticPaths() {
     .filter((p) => p.data.published)
     .map((project) => ({
       params: { slug: project.slug },
-      props: project,
+      props: { project },
     }));
 }
 
-const project = Astro.props;
+const { project } = Astro.props;
 const { title } = project.data;
 const { Content } = await project.render();
 ---
 
-<Layout title={title}>
+<Layout title={title} description={getExcerpt(project)}>
   <header>
     <h1>{title}</h1>
   </header>
