@@ -161,7 +161,7 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
           Packages
         </ProjectFilterTab>
       </nav>
-      <ul class="my-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <ul class="my-8 grid gap-4 md:grid-cols-2 md:grid-rows-3 xl:grid-cols-3 xl:grid-rows-2">
         {filteredProjects.map(({ tags, excerpt, images, ...project }) => {
           const imageIndex = imageMap.get(project.id) ?? 0;
           const image = images && images[imageIndex % images.length];
