@@ -51,7 +51,7 @@
     "tailwindcss": "^3.3.1"
   },
   "devDependencies": {
-    "@astrojs/language-server": "^0.29.6",
+    "@astrojs/language-server": "^1.0.0",
     "@dawaltconley/cfn-static-website": "github:dawaltconley/cfn-static-website#semver:^2.3.0",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.53.0",
