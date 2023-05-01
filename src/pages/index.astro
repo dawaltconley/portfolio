@@ -17,7 +17,7 @@ const projects = await getCollection('projects');
 const projectPreviews: ProjectPreviewData[] = await Promise.all(
   projects.map(async (project) => {
     const sizes =
-      '(min-width: 1536px) 484px, (min-width: 1280px) 399px, (min-width: 1024px) 476px, (min-width: 768px) 348px, (min-width: 640px) 284px, 100vw';
+      '(min-width: 1536px) 482px, (min-width: 1280px) 397px, (min-width: 1024px) 474px, (min-width: 768px) 346px, (min-width: 640px) 579px, 100vw';
     const images = await generateImages(project, sizes);
 
     return {
