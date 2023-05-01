@@ -4,11 +4,12 @@ import '@styles/global.scss';
 
 export interface Props {
   title: string;
+  description?: string;
   class?: string;
   colorScheme?: ColorScheme;
 }
 
-const { title, class: className, colorScheme } = Astro.props;
+const { title, description, class: className, colorScheme } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -19,6 +20,7 @@ const { title, class: className, colorScheme } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    {description && <meta name="description" content={description} />}
   </head>
   <body class={className ?? ''}>
     <slot />
