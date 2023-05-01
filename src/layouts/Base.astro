@@ -6,11 +6,18 @@ import '@styles/global.scss';
 export interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
   class?: string;
   colorScheme?: ColorScheme;
 }
 
-const { title, description, class: className, colorScheme } = Astro.props;
+const {
+  title,
+  description,
+  class: className,
+  ogImage = '/og-default.png',
+  colorScheme,
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -21,6 +28,14 @@ const { title, description, class: className, colorScheme } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content="{description}" />}
+    <meta property="og:image" content={ogImage} />
+
     <Favicon />
   </head>
   <body class={className ?? ''}>
