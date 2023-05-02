@@ -100,7 +100,10 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
       >
         <span class="relative -left-4 -top-12">{title}</span>
       </div>
-      <div class="absolute inset-0 z-10 flex flex-col p-4 sm:p-8 md:p-4 2xl:p-8">
+      <div
+        class="text-overflow-fade absolute inset-0 z-10 flex flex-col p-4 sm:p-8 md:p-4 2xl:p-8"
+        style={{ '--fade-color': twColors.gray['900'] }}
+      >
         <div class="order-2 mt-auto">
           <h2 class="inline text-left font-serif text-4xl font-semibold leading-[0.8]">
             <a
