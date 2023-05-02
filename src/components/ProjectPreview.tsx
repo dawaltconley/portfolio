@@ -161,8 +161,8 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
           )}
           style={{ '--initial-delay': '120ms' }}
           crossfade={3000}
-          scrollRate={noScroll ? 0 : 2}
-          scrollDelay={1000}
+          scrollRate={noScroll ? 0 : 2.7}
+          scrollDelay={100}
         />
       )}
     </li>
