@@ -102,7 +102,7 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
       </div>
       <div class="absolute inset-0 z-10 flex flex-col p-4 sm:p-8 md:p-4 2xl:p-8">
         <div class="order-2 mt-auto">
-          <h2 class="inline text-left font-serif text-4xl font-semibold leading-none">
+          <h2 class="inline text-left font-serif text-4xl font-semibold leading-[0.8]">
             <a
               ref={defaultLink}
               class="pseudo-fill-parent"
@@ -134,7 +134,7 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
             )}
           </ul>
         </div>
-        <div class="order-3 mt-2 leading-5">{children}</div>
+        <div class="order-3 mt-2 leading-snug">{children}</div>
         <div class="pointer-events-none relative z-20 order-1 flex justify-end space-x-2">
           {links.map((link) => (
             <SpotlightIconLink
