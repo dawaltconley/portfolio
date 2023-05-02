@@ -30,11 +30,10 @@ phases:
     on-failure: ABORT
     commands:
       - npm run build
-
-artifacts:
-  files:
-    - '**/*'
-  base-directory: 'dist'
+  post_build:
+    commands:
+      - aws s3 sync dist s3://$SITE_BUCKET --exclude="*.html" --cache-control 'max-age=31536000'
+      - aws s3 sync dist s3://$SITE_BUCKET --exclude="*" --include="*.html" --cache-control 'no-cache'
 
 cache:
   paths:
