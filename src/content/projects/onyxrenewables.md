@@ -4,12 +4,12 @@ links:
   - url: mailto:web@dylan.ac
     text: Request a link
 images:
-  - onyxrenewables/onyx-1.png
-  - onyxrenewables/onyx-2.png
-  - onyxrenewables/team-1.png
-  - onyxrenewables/team-2.png
-  - onyxrenewables/news.png
-  - onyxrenewables/onyx-3.png
+  - _onyxrenewables/onyx-1.png
+  - _onyxrenewables/onyx-2.png
+  - _onyxrenewables/team-1.png
+  - _onyxrenewables/team-2.png
+  - _onyxrenewables/news.png
+  - _onyxrenewables/onyx-3.png
 tags:
   - website
   - jekyll

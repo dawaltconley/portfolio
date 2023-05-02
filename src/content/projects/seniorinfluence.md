@@ -3,9 +3,9 @@ title: Senior Influence
 links:
   - https://www.seniorinfluence.com
 images:
-  - ./seniorinfluence/si-1.png
-  - ./seniorinfluence/si-2.png
-  - ./seniorinfluence/si-3.png
+  - _seniorinfluence/si-1.png
+  - _seniorinfluence/si-2.png
+  - _seniorinfluence/si-3.png
 tags:
   - website
   - jekyll

@@ -9,10 +9,10 @@ tags:
   - tailwind
   - nunjucks
 images:
-  - 42renew/home-1.png
-  - 42renew/home-4.png
-  - 42renew/post-1.png
-  - 42renew/team-3.png
+  - _42renew/home-1.png
+  - _42renew/home-4.png
+  - _42renew/post-1.png
+  - _42renew/team-3.png
 ---
 
 I designed and currently maintain the website for 42 Renewables LLC.
