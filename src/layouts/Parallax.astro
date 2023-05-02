@@ -1,6 +1,8 @@
 ---
 import Layout, { Props } from './Base.astro';
 export type { Props };
+
+const { class: className, ...props } = Astro.props
 ---
 
 <Layout class={'parallax ' + className ?? ''} {...props}>
