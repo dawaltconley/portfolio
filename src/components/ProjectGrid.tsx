@@ -36,7 +36,6 @@ const ProjectFilterLink = makeFilter(({ isActive, onClick, children }) => (
     })}
     onClick={onClick}
   >
-    {isActive ? '[-] ' : '[+] '}
     {children}
   </button>
 ));
@@ -175,6 +174,9 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
           );
         })}
       </ul>
+      <h3 class="flex font-extrabold text-rose-100 after:mb-[0.36em] after:ml-2 after:grow after:border-b-4 after:border-indigo-300/30">
+        Project tags
+      </h3>
       <nav class="space-x-3 text-center leading-tight">
         {Array.from(tags.entries()).map(([tag, { label, count }]) => (
           <ProjectFilterLink
