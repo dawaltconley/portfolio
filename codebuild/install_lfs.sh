@@ -3,7 +3,7 @@
 lfs_version="$1"
 
 if command -v git-lfs &> /dev/null \
-  && [ "$(git lfs --version | cut -c9-13)" = "$lfs_version" ]
+  && [[ "$(git lfs --version)" =~ "/${lfs_version} " ] ]
 then
   echo "using cached binary for git lfs"
   git lfs --version
