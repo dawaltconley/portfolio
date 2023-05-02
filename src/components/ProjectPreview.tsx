@@ -16,10 +16,15 @@ export interface ProjectLink {
   text?: string;
 }
 
-const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
+interface SpotlightIconLinkProps extends ProjectLink {
+  isActive: boolean;
+}
+
+const SpotlightIconLink: FunctionComponent<SpotlightIconLinkProps> = ({
   url,
   icon,
   text,
+  isActive,
 }) => {
   const ref = useRef<HTMLAnchorElement>(null);
   useSpotlightButton(ref);
@@ -28,7 +33,12 @@ const SpotlightIconLink: FunctionComponent<ProjectLink> = ({
     <a
       ref={ref}
       href={url}
-      class="spotlight-button pointer-events-auto z-0 flex items-center justify-center p-2 font-medium"
+      class={classNames(
+        'spotlight-button z-0 flex items-center justify-center p-2 font-medium group-hover:pointer-events-auto',
+        {
+          'pointer-events-auto': isActive,
+        }
+      )}
       style={{
         '--color': twColors.pink['800'],
         '--opacity': 0.3,
@@ -125,13 +135,14 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
           </ul>
         </div>
         <div class="order-3 mt-2 leading-5">{children}</div>
-        <div class="relative z-20 order-1 flex justify-end space-x-2">
+        <div class="pointer-events-none relative z-20 order-1 flex justify-end space-x-2">
           {links.map((link) => (
             <SpotlightIconLink
               key={link.url}
               url={link.url}
               icon={link.icon}
               text={link.text}
+              isActive={isActive}
             />
           ))}
         </div>
@@ -140,9 +151,9 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
         <ProjectSlideshow
           image={image}
           class={classNames(
-            'clip-hide group-hover:clip-hide--active pointer-events-auto absolute -inset-px z-10 -mb-px cursor-pointer',
+            'clip-hide group-hover:clip-hide--active pointer-events-none absolute -inset-px z-10 -mb-px cursor-pointer',
             {
-              'clip-hide--active': isActive,
+              'clip-hide--active delay-0': isActive,
             }
           )}
           style={{ '--initial-delay': '120ms' }}
