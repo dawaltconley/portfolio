@@ -10,12 +10,9 @@ tags:
   - nunjucks
 images:
   - 42renew/home-1.png
-  - 42renew/home-2.png
-  - 42renew/home-3.png
+  - 42renew/home-4.png
   - 42renew/post-1.png
-  - 42renew/post-2.png
-  - 42renew/team-1.png
-  - 42renew/team-2.png
+  - 42renew/team-3.png
 ---
 
 I designed and currently maintain the website for 42 Renewables LLC.

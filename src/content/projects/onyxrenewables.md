@@ -6,10 +6,10 @@ links:
 images:
   - onyxrenewables/onyx-1.png
   - onyxrenewables/onyx-2.png
+  - onyxrenewables/team-1.png
+  - onyxrenewables/team-2.png
+  - onyxrenewables/news.png
   - onyxrenewables/onyx-3.png
-  - onyxrenewables/onyx-4.png
-  - onyxrenewables/onyx-5.png
-  - onyxrenewables/onyx-6.png
 tags:
   - website
   - jekyll
