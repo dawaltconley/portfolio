@@ -190,6 +190,7 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
           scrollRate={noScroll ? 0 : 2.7}
           scrollDelay={100}
         />
+        // TODO pass scroll settings through context or props
       )}
     </li>
   );
