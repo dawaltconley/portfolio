@@ -1,7 +1,7 @@
 ---
 title: Onyx Renewable Partners
 links:
-  - url: mailto:web@dylan.ac
+  - url: mailto:info@dylan.ac
     text: Request a link
 images:
   - _onyxrenewables/onyx-1.png
