@@ -3,11 +3,11 @@ import type { ProjectImage, ProjectLink } from '../content/config';
 import type { ProjectLink as ProjectPreviewLink } from '@components/ProjectPreview';
 import type { ImageProps } from '@components/Image';
 
-import fsp from 'node:fs/promises';
 import path from 'node:path';
 import { marked } from 'marked';
 import { compile } from 'html-to-text';
 
+import { fileExists } from '@build/utils';
 import imageConfig from '@build/image-config';
 import {
   getIcon,
@@ -16,15 +16,6 @@ import {
   DataIcon,
 } from '@data/icons';
 import { faArrowUpRightFromSquare } from '@fortawesome/pro-regular-svg-icons/faArrowUpRightFromSquare';
-
-const fileExists = (file: string): Promise<boolean> =>
-  fsp
-    .stat(file)
-    .then(() => true)
-    .catch((e) => {
-      if (e.code === 'ENOENT') return false;
-      else throw e;
-    });
 
 /*
  * Handle excerpts
