@@ -9,15 +9,8 @@ export interface Props extends HTMLAttributes<'picture'>, FromSizesOptions {
   imgProps?: HTMLAttributes<'img'>;
 }
 
-const {
-  src,
-  alt,
-  sizes,
-  widths,
-  formats,
-  imgProps = {},
-  ...pictureProps
-} = Astro.props;
+const { src, alt, sizes, widths, formats, imgProps, ...pictureProps } =
+  Astro.props;
 
 const sources = await images.sourceFromSizes(src, {
   ...imgProps,
