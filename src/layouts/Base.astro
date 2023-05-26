@@ -38,11 +38,15 @@ const {
 
     <Favicon />
 
-    <script
-      defer
-      data-domain="web.dylan.ac"
-      src="https://plausible.io/js/script.js"
-    ></script>
+    {
+      import.meta.env.PROD && (
+        <script
+          defer
+          data-domain="web.dylan.ac"
+          src="https://plausible.io/js/script.js"
+        />
+      )
+    }
   </head>
   <body class={className ?? ''}>
     <slot />
