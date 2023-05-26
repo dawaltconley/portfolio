@@ -32,8 +32,20 @@ phases:
       - npm run build
   post_build:
     commands:
-      - aws s3 sync --delete dist s3://$SITE_BUCKET --exclude="*.html" --cache-control 'max-age=31536000' --size-only
-      - aws s3 sync --delete dist s3://$SITE_BUCKET --exclude="*" --include="*.html" --cache-control 'no-cache'
+      - |
+        aws s3 sync --delete dist s3://$SITE_BUCKET \
+          --cache-control 'max-age=31536000' \
+          --exclude="*" \
+          --include="_astro/*" \
+          --include="_responsive-images/*" \
+          --include="fonts/*" \
+          --size-only
+      - |
+        aws s3 sync --delete dist s3://$SITE_BUCKET \
+          --cache-control 'no-cache' \
+          --exclude="_astro/*" \
+          --exclude="_responsive-images/*" \
+          --exclude="fonts/*"
 
 cache:
   paths:
