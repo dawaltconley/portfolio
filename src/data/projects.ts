@@ -74,13 +74,10 @@ export const generateImage = async (
   sizes: string
 ): Promise<ImageProps> => {
   const { src, alt } = normalizeImage(image);
-  return {
-    metadata: await imageConfig.metadataFromSizes(await resolvePath(src), {
-      sizes,
-    }),
+  return imageConfig.metadataFromSizes(await resolvePath(src), {
     sizes,
     alt,
-  };
+  });
 };
 
 export const generateImages = (
