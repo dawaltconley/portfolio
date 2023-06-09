@@ -136,19 +136,21 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
     return () => window.clearInterval(interval);
   }, [filteredProjects, slideshowInterval]);
 
-  const projectComponents = filteredProjects.map(
-    ({ tags, excerpt, images, ...project }) => {
-      const imageIndex = imageMap.get(project.id) ?? 0;
-      const image = images && images[imageIndex % images.length];
-      return (
-        <ProjectPreview key={project.id} {...project} image={image}>
-          {
-            // eslint-disable-next-line react/no-danger
-            excerpt && <p dangerouslySetInnerHTML={{ __html: excerpt }} />
-          }
-        </ProjectPreview>
-      );
-    }
+  const projectComponents = useMemo(
+    () =>
+      filteredProjects.map(({ tags, excerpt, images, ...project }) => {
+        const imageIndex = imageMap.get(project.id) ?? 0;
+        const image = images && images[imageIndex % images.length];
+        return (
+          <ProjectPreview key={project.id} {...project} image={image}>
+            {
+              // eslint-disable-next-line react/no-danger
+              excerpt && <p dangerouslySetInnerHTML={{ __html: excerpt }} />
+            }
+          </ProjectPreview>
+        );
+      }),
+    [filteredProjects, imageMap]
   );
 
   return (
