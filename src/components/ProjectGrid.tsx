@@ -2,6 +2,7 @@ import type { FunctionComponent } from 'preact';
 import type { ImageProps } from './Image';
 import { ProjectTag, labels as tagLabels, isProjectTag } from '@data/tags';
 import ProjectPreview, { ProjectPreviewProps } from './ProjectPreview';
+import PagedGrid from './PagedGrid';
 import { makeFilter } from './Filter';
 import { useState, useEffect, useMemo } from 'preact/hooks';
 import classNames from 'classnames';
@@ -135,9 +136,24 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
     return () => window.clearInterval(interval);
   }, [filteredProjects, slideshowInterval]);
 
+  const projectComponents = filteredProjects.map(
+    ({ tags, excerpt, images, ...project }) => {
+      const imageIndex = imageMap.get(project.id) ?? 0;
+      const image = images && images[imageIndex % images.length];
+      return (
+        <ProjectPreview key={project.id} {...project} image={image}>
+          {
+            // eslint-disable-next-line react/no-danger
+            excerpt && <p dangerouslySetInnerHTML={{ __html: excerpt }} />
+          }
+        </ProjectPreview>
+      );
+    }
+  );
+
   return (
     <>
-      <nav class="flex justify-center space-x-4">
+      <nav class="mb-8 flex justify-center space-x-4">
         <ProjectFilterTab
           tags="website"
           active={filter}
@@ -160,21 +176,8 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
           Packages
         </ProjectFilterTab>
       </nav>
-      <ul class="my-8 grid gap-4 md:grid-cols-2 md:grid-rows-3 xl:grid-cols-3 xl:grid-rows-2">
-        {filteredProjects.map(({ tags, excerpt, images, ...project }) => {
-          const imageIndex = imageMap.get(project.id) ?? 0;
-          const image = images && images[imageIndex % images.length];
-          return (
-            <ProjectPreview key={project.id} {...project} image={image}>
-              {
-                // eslint-disable-next-line react/no-danger
-                excerpt && <p dangerouslySetInnerHTML={{ __html: excerpt }} />
-              }
-            </ProjectPreview>
-          );
-        })}
-      </ul>
-      <h3 class="flex font-extrabold text-rose-100 after:mb-[0.36em] after:ml-2 after:grow after:border-b-4 after:border-indigo-300/30">
+      <PagedGrid components={projectComponents} tag="ul" perPage={6} />
+      <h3 class="mt-4 flex font-extrabold text-pink-100 after:mb-[0.36em] after:ml-2 after:grow after:border-b-4 after:border-indigo-300/30">
         Project tags
       </h3>
       <nav class="space-x-3 text-center leading-tight">
