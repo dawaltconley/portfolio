@@ -4,6 +4,7 @@ import { faChevronLeft } from '@fortawesome/pro-solid-svg-icons/faChevronLeft';
 import { faChevronRight } from '@fortawesome/pro-solid-svg-icons/faChevronRight';
 import Icon from '@components/Icon';
 import classNames from 'classnames';
+import twColors from 'tailwindcss/colors';
 
 interface PageButtonProps extends Omit<ComponentProps<'button'>, 'ref'> {
   page: number;
@@ -24,13 +25,19 @@ const PageButton: FunctionComponent<PageButtonProps> = ({
   return (
     <button
       className={classNames(
-        'block h-[2rem] min-w-[2rem] rounded-full bg-gray-900 px-2 text-center leading-none duration-300',
+        'block h-[2rem] min-w-[2rem] overflow-hidden rounded-full px-2 text-center leading-none duration-300',
         className?.toString(),
         className2?.toString(),
         {
-          'hover:bg-pink-800': !isCurrent,
+          'spotlight-button spotlight-button--no-js active:bg-pink-800':
+            !isCurrent,
         }
       )}
+      style={{
+        '--scale': 1.5,
+        '--opacity': 0.4,
+        '--color': twColors.pink['800'],
+      }}
       onClick={() => handleClick(page)}
       disabled={isCurrent}
       {...props}
