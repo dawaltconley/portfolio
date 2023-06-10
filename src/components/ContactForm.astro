@@ -1,0 +1,95 @@
+<form
+  id="contact-form"
+  class="form mx-auto max-w-prose"
+  method="post"
+  action="https://api.dylan.ac/contact"
+>
+  <input
+    type="text"
+    name="name"
+    class="form__field form__field--half"
+    placeholder="Name"
+    required
+  />
+  <input
+    type="email"
+    name="email"
+    class="form__field form__field--half"
+    placeholder="Email"
+    required
+  />
+  <input
+    type="text"
+    name="subject"
+    class="form__field"
+    placeholder="Subject"
+    required
+  />
+  <input
+    type="text"
+    name="fax_number"
+    class="form__field form__field--special"
+    tabindex="-1"
+    autocomplete="off"
+  />
+  <textarea
+    name="message"
+    class="form__field h-36 w-full"
+    placeholder="Enter your message here"
+    required></textarea>
+  <button class="form__button col-span-2 justify-self-center">Submit</button>
+  <!--
+  <input
+    type="submit"
+    class="form__button col-span-2 justify-self-center"
+    value="Submit"
+  />
+  -->
+</form>
+
+<style lang="scss">
+  .form {
+    @apply grid grid-cols-2 gap-5 text-slate-700;
+
+    &__field {
+      @apply col-span-2 block rounded-md px-4 py-3;
+
+      &--half {
+        @apply sm:col-span-1;
+      }
+
+      &--special {
+        @apply hidden;
+      }
+    }
+
+    &__button {
+      @apply w-24 max-w-full rounded-full bg-pink-800 px-4 py-3 text-white duration-300 hover:bg-pink-700;
+    }
+  }
+</style>
+
+<script>
+  const contactForm = document.getElementById(
+    'contact-form'
+  ) as HTMLFormElement;
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(contactForm);
+    const subject = data.get('subject');
+    if (!subject) throw new Error('Missing subject');
+    data.set('subject', `[${window.location.host}] ${subject}`);
+    console.log(data);
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: data,
+      });
+      console.log(await response.json());
+    } catch (e) {
+      // NetworkError when attempting to fetch resource (bad CORS)
+      console.error(e);
+    }
+  });
+</script>

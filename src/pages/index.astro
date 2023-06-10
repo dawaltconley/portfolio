@@ -3,6 +3,7 @@ import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
 import Header from '@components/Header.astro';
 import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
+import ContactForm from '@components/ContactForm.astro';
 import { contactLinks } from '@data/site';
 import {
   getExcerpt,
@@ -94,6 +95,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
       </div>
     </div>
   </main>
+  <div class="container mx-auto py-8"><ContactForm /></div>
 </Layout>
 
 <style lang="scss">
