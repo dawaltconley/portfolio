@@ -4,11 +4,11 @@ export interface Props {
   tag?: 'header' | 'div';
 }
 
-const { tag, class: className } = Astro.props;
+const { tag, class: className = '' } = Astro.props;
 const Wrapper = tag ?? 'div';
 ---
 
-<Wrapper class={`page-header ${className ?? ''}`}>
+<Wrapper class={`page-header ${className}`}>
   <slot />
 </Wrapper>
 
@@ -23,7 +23,7 @@ const Wrapper = tag ?? 'div';
     &::before,
     &::after {
       content: '';
-      @apply fixed top-0 left-0 w-full;
+      @apply fixed left-0 top-0 w-full;
       height: var(--height);
       pointer-events: none;
     }

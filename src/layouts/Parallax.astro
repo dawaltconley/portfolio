@@ -2,10 +2,10 @@
 import Layout, { Props } from './Base.astro';
 export type { Props };
 
-const { class: className, ...props } = Astro.props
+const { class: className = '', ...props } = Astro.props;
 ---
 
-<Layout class={'parallax ' + className ?? ''} {...props}>
+<Layout class={`parallax ${className}`} {...props}>
   <div class="parallax__page">
     <slot />
   </div>

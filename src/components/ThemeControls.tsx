@@ -57,7 +57,7 @@ interface ThemeControlsProps {
 
 const ThemeControls: FunctionComponent<ThemeControlsProps> = ({
   themes: maxThemes = 1,
-  class: className,
+  class: className = '',
 }) => {
   const [theme, setTheme] = useState(0);
   const [colorScheme, setColorScheme] = useState<ColorScheme | null>(null);
@@ -109,7 +109,7 @@ const ThemeControls: FunctionComponent<ThemeControlsProps> = ({
   }, [colorScheme, isManualColorScheme]);
 
   return (
-    <div class={`flex ${className ?? ''}`}>
+    <div class={`flex ${className}`}>
       {maxThemes > 1 && <Button icon={faBrush} onClick={nextTheme} />}
       {colorScheme && (
         <Button

@@ -9,7 +9,7 @@ export interface Props {
   tag?: 'header' | 'div';
 }
 
-const { tag, class: className, layerClass } = Astro.props;
+const { tag, class: className = '', layerClass = '' } = Astro.props;
 const clipPath: ClipPath = [
   [0, 0],
   [0.4, 0],
@@ -22,11 +22,11 @@ const initPath = clipPath
 const Wrapper = tag ?? 'div';
 ---
 
-<Wrapper class={`page-header ${className ?? ''}`}>
+<Wrapper class={`page-header ${className}`}>
   <Header links={contactLinks} />
   <slot />
   <div
-    class={`page-header__layer ${className ?? ''} ${layerClass ?? ''}`}
+    class={`page-header__layer ${className} ${layerClass}`}
     aria-hidden="true"
     style={`--clip-path: ${initPath}`}
     data-clip-path={JSON.stringify(clipPath)}
