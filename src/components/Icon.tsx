@@ -2,26 +2,27 @@ import type { JSX, ComponentProps } from 'preact';
 import type { IconDefinition as FaIconDefinition } from '@fortawesome/fontawesome-common-types';
 import type { IconifyIcon as IconifyIconDefinition } from '@iconify/types';
 
-type IconDefinition = FaIconDefinition | IconifyIconDefinition;
+export type IconDefinition = FaIconDefinition | IconifyIconDefinition;
 
-interface IconProps extends Omit<ComponentProps<'svg'>, 'icon'> {
+export interface IconProps extends Omit<ComponentProps<'svg'>, 'icon'> {
   icon: IconDefinition;
   class?: string;
   title?: string;
 }
 
-interface IconPropsFa extends IconProps {
+export interface IconPropsFa extends IconProps {
   icon: FaIconDefinition;
 }
 
-interface IconPropsIconify extends IconProps {
+export interface IconPropsIconify extends IconProps {
   icon: IconifyIconDefinition;
 }
 
-const FontAwesomeIcon = ({
+export const FontAwesomeIcon = ({
   icon,
-  class: className,
   title,
+  className = '',
+  class: className2 = '',
   ...attributes
 }: IconPropsFa): JSX.Element => {
   const [width, height, , , svgPathData] = icon.icon;
@@ -39,7 +40,7 @@ const FontAwesomeIcon = ({
   return (
     <svg
       viewBox={`0 0 ${width} ${height}`}
-      className={`svg-inline--fa fa-${icon.iconName} ${className}`}
+      className={`svg-inline--fa fa-${icon.iconName} ${className} ${className2}`}
       data-prefix={icon.prefix}
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
@@ -53,9 +54,8 @@ const FontAwesomeIcon = ({
   );
 };
 
-const IconifyIcon = ({
+export const IconifyIcon = ({
   icon,
-  class: className,
   title,
   ...attributes
 }: IconPropsIconify): JSX.Element => {
@@ -64,7 +64,6 @@ const IconifyIcon = ({
   const { left = 0, top = 0, width = 16, height = 16 } = icon;
   return (
     <svg
-      className={className}
       viewBox={`${left} ${top} ${width} ${height}`}
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
@@ -76,17 +75,12 @@ const IconifyIcon = ({
     />
   );
 };
-const Icon = ({
-  icon,
-  class: className,
-  ...attributes
-}: IconProps): JSX.Element =>
+
+const Icon = ({ icon, ...attributes }: IconProps): JSX.Element =>
   'iconName' in icon ? (
-    <FontAwesomeIcon icon={icon} className={className} {...attributes} />
+    <FontAwesomeIcon icon={icon} {...attributes} />
   ) : (
-    <IconifyIcon icon={icon} className={className} {...attributes} />
+    <IconifyIcon icon={icon} {...attributes} />
   );
 
 export default Icon;
-export type { IconDefinition, IconProps, IconPropsFa, IconPropsIconify };
-export { IconifyIcon, FontAwesomeIcon };
