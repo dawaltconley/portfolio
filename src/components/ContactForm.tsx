@@ -1,6 +1,12 @@
 import type { JSX } from 'preact';
 import { useState, useRef } from 'preact/hooks';
 import classNames from 'classnames';
+import Icon, { IconDefinition } from './Icon';
+
+import { faEnvelope as faInitial } from '@fortawesome/pro-solid-svg-icons/faEnvelope';
+import { faSpinnerThird as faSubmitting } from '@fortawesome/pro-solid-svg-icons/faSpinnerThird';
+import { faXmark as faError } from '@fortawesome/pro-solid-svg-icons/faXmark';
+import { faCheck as faSuccess } from '@fortawesome/pro-solid-svg-icons/faCheck';
 
 const styles = {
   form: 'grid grid-cols-2 gap-5 text-slate-700',
@@ -85,6 +91,13 @@ export default function ContactForm({
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<ContactFormStatus>('initial');
 
+  const icons: Record<typeof status, IconDefinition> = {
+    initial: faInitial,
+    submitting: faSubmitting,
+    error: faError,
+    success: faSuccess,
+  };
+
   const buttonText: Record<typeof status, string> = {
     initial: 'Submit',
     submitting: 'Sending...',
@@ -168,13 +181,21 @@ export default function ContactForm({
       <button
         class={classNames(
           styles.formButton,
-          'col-span-2 justify-self-center disabled:bg-pink-900',
+          'col-span-2 justify-self-center font-medium disabled:bg-pink-900',
           {
             'text-white hover:bg-pink-700': status === 'initial',
           }
         )}
         disabled={status !== 'initial'}
       >
+        <Icon
+          icon={icons[status]}
+          width="1em"
+          height="1em"
+          class={classNames('fa-inline mr-1.5', {
+            'fa-spin': status === 'submitting',
+          })}
+        />
         {buttonText[status]}
       </button>
       {/* <p class="font-bold text-white">{status}</p> */}
