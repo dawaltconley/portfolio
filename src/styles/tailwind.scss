@@ -44,10 +44,6 @@
     align-items: last baseline;
   }
 
-  .bottom-almost-full {
-    bottom: calc(100% - 1px);
-  }
-
   .text-overflow-fade::after {
     content: '';
     position: absolute;

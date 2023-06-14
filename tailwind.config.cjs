@@ -14,6 +14,11 @@ module.exports = {
       sans: ['Metropolis', 'sans-serif'],
       serif: ['Erode-Variable', 'Erode', 'serif'],
     },
+    extend: {
+      inset: {
+        'almost-full': 'calc(100% - 1px)',
+      },
+    },
   },
   plugins: [
     require('sass-themes/tailwind'),
