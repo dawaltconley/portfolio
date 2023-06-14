@@ -33,3 +33,14 @@ Resources:
           arn:aws:ssm:us-east-1:${AWS::AccountId}:parameter/FontAwesomeProToken
         SecretsManagerArns: !Sub >-
           arn:aws:secretsmanager:us-east-1:${AWS::AccountId}:secret:LFSCredentials/AWS-HuqTHN
+  ContactFormApi: # see https://github.com/dawaltconley/contact-api/blob/main/docs/template.md
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./node_modules/@dawaltconley/contact-api/dist/build/template.yaml
+      Parameters:
+        Email: 'web@dylan.ac'
+        Honeypot: 'fax_number'
+        ApiDomain: dylan.ac
+        ApiSubdomain: api
+        CertificateArn: !Sub 'arn:aws:acm:us-east-1:${AWS::AccountId}:certificate/4447585b-1a22-44a1-90d5-865355e39615'
+        AllowOrigin: '*'
