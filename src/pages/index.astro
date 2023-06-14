@@ -87,7 +87,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
         </p>
       </div>
     </div>
-    <div class="w-full bg-indigo-950 pb-8">
+    <div class="w-full bg-indigo-950 pb-4">
       <div class="container mx-auto">
         <ProjectGrid
           client:load
@@ -98,12 +98,19 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
       </div>
     </div>
   </main>
-  <div class="container mx-auto py-8">
-    <ContactForm
-      action="https://api.dylan.ac/contact"
-      method="POST"
-      client:visible
-    />
+  <div
+    class="clip-bottom relative h-24 min-h-[6vw] bg-pink-700 after:bg-indigo-950"
+  >
+  </div>
+  <div class="relative flex min-h-[60vh] flex-col bg-pink-700">
+    <div class="container m-auto pb-24 pt-16">
+      <h2 class="mb-8 text-center text-6xl font-extrabold">Contact</h2>
+      <ContactForm
+        action="https://api.dylan.ac/contact"
+        method="POST"
+        client:visible
+      />
+    </div>
   </div>
 </Layout>
 
