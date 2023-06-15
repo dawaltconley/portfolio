@@ -78,7 +78,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
   </div>
   <main class="relative">
     <div
-      class="clip-top absolute bottom-almost-full left-0 w-full pb-4 pt-16 before:bg-indigo-950"
+      class="clip-top absolute -right-1 bottom-almost-full left-0 pb-4 pt-16 before:bg-indigo-950"
     >
       <div class="container relative mx-auto">
         <h2 class="text-6xl font-extrabold">Work</h2>
@@ -97,12 +97,12 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
         />
       </div>
     </div>
+    <div
+      class="clip-bottom absolute -right-1 left-0 top-almost-full h-24 min-h-[6vw] after:bg-indigo-950"
+    >
+    </div>
   </main>
-  <div
-    class="clip-bottom relative h-24 min-h-[6vw] bg-pink-700 after:bg-indigo-950"
-  >
-  </div>
-  <div class="relative flex min-h-[60vh] flex-col bg-pink-700">
+  <div class="flex min-h-[60vh] flex-col bg-pink-700 pt-24">
     <div class="container m-auto pb-24 pt-16">
       <h2 class="mb-8 text-center text-6xl font-extrabold">Contact</h2>
       <ContactForm
