@@ -1,5 +1,5 @@
 import type { FunctionComponent, JSX } from 'preact';
-import { useState, useRef } from 'preact/hooks';
+import { useState, useEffect, useRef } from 'preact/hooks';
 import classNames from 'classnames';
 import Icon from './Icon';
 
@@ -21,11 +21,12 @@ const requiredFields = ['name', 'email', 'subject', 'message'] as const;
 const isValid = (data: FormData): boolean =>
   requiredFields.every((field) => data.get(field));
 
-const getFormData = (form: HTMLFormElement): FormData => {
-  const data = new FormData(form);
-  const subject = data.get('subject');
-  if (subject) data.set('subject', `[${window.location.host}] ${subject}`);
-  return data;
+const copyFormData = (data: FormData): FormData => {
+  const copy = new FormData();
+  for (const [key, value] of data.entries()) {
+    copy.append(key, value);
+  }
+  return copy;
 };
 
 const formDataToSearchParams = (formData: FormData): URLSearchParams => {
@@ -43,23 +44,26 @@ interface SubmitFormOps {
 }
 
 const submitForm = (
-  formData: FormData,
+  data: FormData,
   { action, method, encType }: Required<SubmitFormOps>
 ): Promise<Response> => {
   const target = new URL(action);
   const opts: RequestInit = { method, redirect: 'follow' };
+  const dataCopy = copyFormData(data);
+  const subject = dataCopy.get('subject');
+  if (subject) dataCopy.set('subject', `[${window.location.host}] ${subject}`);
 
   if (method === 'GET') {
     if (encType === 'multipart/form-data')
       throw new Error(
         'Unupported: GET method with multipart/form-data encoding'
       );
-    target.search = formDataToSearchParams(formData).toString();
+    target.search = formDataToSearchParams(dataCopy).toString();
   } else if (method === 'POST') {
     opts.body =
       encType === 'application/x-www-form-urlencoded'
-        ? formDataToSearchParams(formData)
-        : formData;
+        ? formDataToSearchParams(dataCopy)
+        : dataCopy;
   } else {
     throw new Error(`Invalid ${method} request method`);
   }
@@ -89,12 +93,14 @@ export default function ContactForm({
 }: ContactFormGetProps | ContactFormPostProps): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const formData = useRef<FormData>();
+
   const [status, setStatus] = useState<ContactFormStatus>('initial');
+  const [errorMessage, setErrorMessage] = useState<string>();
 
   const handleSubmit = async (
     e: JSX.TargetedEvent<HTMLFormElement>
   ): Promise<void> => {
-    console.log('submitting');
     e.preventDefault();
     const container = containerRef.current;
     const form = formRef.current;
@@ -103,31 +109,55 @@ export default function ContactForm({
     container.style.minHeight = `${container.clientHeight.toString()}px`;
     setStatus('submitting');
 
-    const data = getFormData(form);
+    const data = new FormData(form);
     if (!isValid(data)) {
-      console.error('Missing required fields in contact form');
-      return setStatus('error');
+      return handleError('Missing required fields in contact form');
     }
+    formData.current = data;
 
     try {
       const response = await submitForm(data, { action, method, encType });
       if (response.status >= 400) {
-        console.error(await response.json());
-        return setStatus('error');
+        const body = await response.json();
+        console.error(body);
+        if ('message' in body && typeof body.message === 'string') {
+          return handleError(`${response.status}: ${body.message}`);
+        }
+        return handleError(`Status code ${response.status}`);
       }
       return setStatus('success');
     } catch (e) {
       // NetworkError when attempting to fetch resource (bad CORS)
       console.error(e);
-      return setStatus('error');
+      return e instanceof Error
+        ? handleError(`${e.name}: ${e.message}`)
+        : handleError();
+    }
+  };
+
+  const handleError = (message?: string): void => {
+    setErrorMessage(message);
+    setStatus('error');
+  };
+
+  const restoreForm = (form: HTMLFormElement, data: FormData): void => {
+    for (const [name, value] of data.entries()) {
+      const field = form.querySelector(`[name=${name}]`);
+      if (field && 'value' in field) field.value = value;
     }
   };
 
   const showForm = status === 'initial' || status === 'error';
 
+  useEffect(() => {
+    const form = formRef.current;
+    const data = formData.current;
+    if (form && data && showForm) restoreForm(form, data);
+  }, [showForm]);
+
   return (
     <div ref={containerRef} class="mx-auto max-w-prose text-center">
-      <FormMessage status={status} />
+      <FormMessage status={status} errorMessage={errorMessage} />
       {showForm && (
         <form
           ref={formRef}
