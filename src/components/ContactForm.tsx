@@ -204,68 +204,69 @@ const FormMessage: FunctionComponent<FormMessageProps> = ({
   status,
   errorMessage,
 }) => {
-  switch (status) {
-    case 'initial':
-      return <InitialMessage />;
-    case 'submitting':
-      return <SendingMessage />;
-    case 'error':
-      return <ErrorMessage message={errorMessage} />;
-    case 'success':
-      return <SuccessMessage />;
-  }
+  const title: Record<typeof status, string | JSX.Element> = {
+    initial: 'Have a project?',
+    submitting: 'Sending...',
+    error: 'Oops!',
+    success: 'Message received!',
+  };
+
+  return (
+    <>
+      <h2 class="mb-8 text-6xl font-extrabold">{title[status]}</h2>
+      <div class="mb-12 text-xl font-medium">
+        {status === 'submitting' ? (
+          <SendingMessage />
+        ) : status === 'error' ? (
+          <ErrorMessage message={errorMessage} />
+        ) : status === 'success' ? (
+          <SuccessMessage />
+        ) : (
+          <InitialMessage />
+        )}
+      </div>
+    </>
+  );
 };
 
 const InitialMessage = () => (
   <>
-    <h2 class="mb-8 text-6xl font-extrabold">Have a project?</h2>
-    <div class="mb-12 text-xl font-medium">
-      <p>Let’s discuss!</p>
-      <p>
-        Please message me with{' '}
-        <span class="whitespace-nowrap">any relevant details.</span>
-      </p>
-    </div>
+    <p>Let’s discuss!</p>
+    <p>
+      Please message me with{' '}
+      <span class="whitespace-nowrap">any relevant details.</span>
+    </p>
   </>
 );
 
 const SendingMessage = () => (
-  <>
-    <h2 class="mb-8 text-6xl font-extrabold">Sending...</h2>
-    <Icon icon={faLoading} width="1em" height="1em" class="fa-spin text-6xl" />
-  </>
+  <Icon icon={faLoading} width="1em" height="1em" class="fa-spin text-6xl" />
 );
 
 const ErrorMessage: FunctionComponent<{ message?: string }> = ({ message }) => (
   <>
-    <h2 class="mb-8 text-6xl font-extrabold">Oops!</h2>
-    <div class="mb-12 text-xl font-medium">
-      <p>Something went wrong.</p>
-      {message && (
-        <pre class="my-2 inline-block rounded-md bg-slate-900 px-4 py-1 text-red-300">
-          {message}
-        </pre>
-      )}
-      <p>
-        Please try again, or{' '}
-        <a
-          class="underline duration-100 hover:text-blue-300"
-          href="https://github.com/dawaltconley/portfolio/issues"
-        >
-          open an issue on GitHub
-        </a>{' '}
-        if the problem persists.
-      </p>
-    </div>
+    <p>Something went wrong:.</p>
+    {message && (
+      <pre class="my-2 inline-block rounded-md bg-slate-900 px-4 py-1 text-red-300">
+        {message}
+      </pre>
+    )}
+    <p>
+      Please try again, or{' '}
+      <a
+        class="underline duration-100 hover:text-blue-300"
+        href="https://github.com/dawaltconley/portfolio/issues"
+      >
+        open an issue on GitHub
+      </a>{' '}
+      if the problem persists.
+    </p>
   </>
 );
 
 const SuccessMessage = () => (
   <>
-    <h2 class="mb-8 text-6xl font-extrabold">Message received!</h2>
-    <div class="mb-12 text-xl font-medium">
-      <p>Thank you for contacting me.</p>
-      <p>I'll be in touch soon.</p>
-    </div>
+    <p>Thank you for contacting me.</p>
+    <p>I'll be in touch soon.</p>
   </>
 );
