@@ -156,7 +156,10 @@ export default function ContactForm({
   }, [showForm]);
 
   return (
-    <div ref={containerRef} class="mx-auto max-w-prose text-center">
+    <div
+      ref={containerRef}
+      class="mx-auto flex max-w-prose flex-col items-center justify-center text-center"
+    >
       <FormMessage status={status} errorMessage={errorMessage} />
       {showForm && (
         <form
@@ -244,7 +247,11 @@ const FormMessage: FunctionComponent<FormMessageProps> = ({
   return (
     <>
       <h2 class="mb-8 text-6xl font-extrabold">{title[status]}</h2>
-      <div class="mb-12 text-xl font-medium">
+      <div
+        class={classNames('mb-12 text-xl font-medium', {
+          'min-h-[6rem]': status === 'submitting' || status === 'success',
+        })}
+      >
         {status === 'submitting' ? (
           <SendingMessage />
         ) : status === 'error' ? (
