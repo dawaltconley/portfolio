@@ -275,9 +275,9 @@ const SendingMessage = () => (
 
 const ErrorMessage: FunctionComponent<{ message?: string }> = ({ message }) => (
   <>
-    <p>Something went wrong:.</p>
+    <p>Something went wrong.</p>
     {message && (
-      <pre class="my-2 inline-block rounded-md bg-slate-900 px-4 py-1 text-red-300">
+      <pre class="my-2 inline-block rounded-md bg-slate-900 px-4 py-1 text-sm text-red-300">
         {message}
       </pre>
     )}
