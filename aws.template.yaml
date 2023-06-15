@@ -39,6 +39,7 @@ Resources:
       TemplateURL: ./node_modules/@dawaltconley/contact-api/dist/build/template.yaml
       Parameters:
         Email: 'web@dylan.ac'
+        Required: 'name,email'
         Honeypot: 'fax_number'
         ApiDomain: dylan.ac
         ApiSubdomain: api
