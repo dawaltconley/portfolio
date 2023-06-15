@@ -78,7 +78,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
   </div>
   <main class="relative">
     <div
-      class="clip-top absolute -right-1 bottom-almost-full left-0 pb-4 pt-16 before:bg-indigo-950"
+      class="slope-top absolute -right-1 bottom-almost-full left-0 pb-4 pt-16 before:bg-indigo-950"
     >
       <div class="container relative mx-auto">
         <h2 class="text-6xl font-extrabold">Work</h2>
@@ -87,7 +87,9 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
         </p>
       </div>
     </div>
-    <div class="w-full bg-indigo-950 pb-4">
+    <div
+      class="slope-border-bottom w-full bg-indigo-950 pb-4 after:border-gray-200"
+    >
       <div class="container mx-auto">
         <ProjectGrid
           client:load
@@ -97,12 +99,8 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
         />
       </div>
     </div>
-    <div
-      class="clip-bottom absolute -right-1 left-0 top-almost-full h-24 min-h-[6vw] after:bg-indigo-950"
-    >
-    </div>
   </main>
-  <div class="flex min-h-[60vh] flex-col bg-pink-800 pt-24">
+  <div class="pt-slope-border flex min-h-[60vh] flex-col bg-pink-800">
     <div class="container m-auto pb-24 pt-16">
       <ContactForm action="https://api.dylan.ac/contact" client:visible />
     </div>
@@ -117,7 +115,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
     stop-color: theme('colors.pink.900');
   }
 
-  .clip-top::before {
+  .slope-top::before {
     content: '';
     position: absolute;
     top: 0px;
@@ -128,7 +126,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
     clip-path: url(#sloped-div-top);
   }
 
-  .clip-bottom::after {
+  %slope-bottom::after {
     content: '';
     position: absolute;
     top: 0px;
@@ -137,5 +135,23 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
     height: 100%;
     min-width: 40rem;
     clip-path: url(#sloped-div-bottom);
+  }
+
+  :root {
+    --slope-border-height: max(6rem, 6vw);
+  }
+
+  .slope-border-bottom {
+    @extend %slope-bottom;
+    &::after {
+      @apply absolute -right-1 left-0 top-almost-full w-auto bg-inherit;
+      height: 6rem;
+      height: var(--slope-border-height, 6rem);
+    }
+  }
+
+  .pt-slope-border {
+    padding-top: 6rem;
+    padding-top: var(--slope-border-height, 6rem);
   }
 </style>
