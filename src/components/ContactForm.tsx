@@ -10,9 +10,10 @@ import { faCheck as faSuccess } from '@fortawesome/pro-solid-svg-icons/faCheck';
 
 const styles = {
   form: 'grid grid-cols-2 gap-5 text-slate-700',
-  formField: 'col-span-2 block rounded-md px-4 py-3',
+  formField:
+    'col-span-2 block rounded-md px-4 py-2 sm:py-3 focus-visible:outline outline-blue-300',
   formButton:
-    'w-32 max-w-full rounded-full bg-pink-800 px-4 py-3 text-white duration-300',
+    'w-32 max-w-full rounded-full px-4 py-3 text-white duration-300 transition-colors focus-visible:outline outline-blue-100',
 };
 
 type ContactFormStatus = 'initial' | 'submitting' | 'error' | 'success';
@@ -181,9 +182,10 @@ export default function ContactForm({
       <button
         class={classNames(
           styles.formButton,
-          'col-span-2 justify-self-center font-medium disabled:bg-pink-900',
+          'col-span-2 justify-self-center bg-indigo-500 font-medium disabled:bg-indigo-950',
           {
-            'text-white hover:bg-pink-700': status === 'initial',
+            'text-white hover:bg-indigo-400 focus-visible:bg-indigo-400':
+              status === 'initial',
           }
         )}
         disabled={status !== 'initial'}
