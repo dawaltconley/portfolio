@@ -1,12 +1,10 @@
-import type { JSX } from 'preact';
+import type { FunctionComponent, JSX } from 'preact';
 import { useState, useRef } from 'preact/hooks';
 import classNames from 'classnames';
-import Icon, { IconDefinition } from './Icon';
+import Icon from './Icon';
 
-import { faEnvelope as faInitial } from '@fortawesome/pro-solid-svg-icons/faEnvelope';
-import { faSpinnerThird as faSubmitting } from '@fortawesome/pro-solid-svg-icons/faSpinnerThird';
-import { faXmark as faError } from '@fortawesome/pro-solid-svg-icons/faXmark';
-import { faCheck as faSuccess } from '@fortawesome/pro-solid-svg-icons/faCheck';
+import { faEnvelope as faSubmitIcon } from '@fortawesome/pro-solid-svg-icons/faEnvelope';
+import { faSpinnerThird as faLoading } from '@fortawesome/pro-solid-svg-icons/faSpinnerThird';
 
 const styles = {
   form: 'grid grid-cols-2 gap-5 text-slate-700',
@@ -89,31 +87,20 @@ export default function ContactForm({
   method = 'GET',
   encType = 'application/x-www-form-urlencoded',
 }: ContactFormGetProps | ContactFormPostProps): JSX.Element {
+  const containerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<ContactFormStatus>('initial');
-
-  const icons: Record<typeof status, IconDefinition> = {
-    initial: faInitial,
-    submitting: faSubmitting,
-    error: faError,
-    success: faSuccess,
-  };
-
-  const buttonText: Record<typeof status, string> = {
-    initial: 'Submit',
-    submitting: 'Sending...',
-    error: 'Failed',
-    success: 'Sent!',
-  };
 
   const handleSubmit = async (
     e: JSX.TargetedEvent<HTMLFormElement>
   ): Promise<void> => {
     console.log('submitting');
     e.preventDefault();
+    const container = containerRef.current;
     const form = formRef.current;
-    if (!form) return;
+    if (!container || !form) return;
 
+    container.style.minHeight = `${container.clientHeight.toString()}px`;
     setStatus('submitting');
 
     const data = getFormData(form);
@@ -136,71 +123,149 @@ export default function ContactForm({
     }
   };
 
+  const showForm = status === 'initial' || status === 'error';
+
   return (
-    <form
-      ref={formRef}
-      class={classNames(styles.form, 'form mx-auto max-w-prose')}
-      method={method.toLowerCase()}
-      encType={encType}
-      action={action.toString()}
-      onSubmit={handleSubmit}
-    >
-      <input
-        type="text"
-        name="name"
-        class={classNames(styles.formField, 'sm:col-span-1')}
-        placeholder="Name"
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        class={classNames(styles.formField, 'sm:col-span-1')}
-        placeholder="Email"
-        required
-      />
-      <input
-        type="text"
-        name="subject"
-        class={styles.formField}
-        placeholder="Subject"
-        required
-      />
-      <input
-        type="text"
-        name="fax_number"
-        class={classNames(styles.formField, 'special-input')}
-        tabIndex={-1}
-        autocomplete="off"
-      />
-      <textarea
-        name="message"
-        class={classNames(styles.formField, 'min-h-[10rem] w-full')}
-        placeholder="Enter your message here"
-        required
-      />
-      <button
-        class={classNames(
-          styles.formButton,
-          'col-span-2 justify-self-center bg-indigo-500 font-medium disabled:bg-indigo-950',
-          {
-            'text-white hover:bg-indigo-400 focus-visible:bg-indigo-400':
-              status === 'initial',
-          }
-        )}
-        disabled={status !== 'initial'}
-      >
-        <Icon
-          icon={icons[status]}
-          width="1em"
-          height="1em"
-          class={classNames('fa-inline mr-1.5', {
-            'fa-spin': status === 'submitting',
-          })}
-        />
-        {buttonText[status]}
-      </button>
-      {/* <p class="font-bold text-white">{status}</p> */}
-    </form>
+    <div ref={containerRef} class="mx-auto max-w-prose text-center">
+      <FormMessage status={status} />
+      {showForm && (
+        <form
+          ref={formRef}
+          class={classNames(styles.form)}
+          method={method.toLowerCase()}
+          encType={encType}
+          action={action.toString()}
+          onSubmit={handleSubmit}
+        >
+          <input
+            type="text"
+            name="name"
+            class={classNames(styles.formField, 'sm:col-span-1')}
+            placeholder="Name"
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            class={classNames(styles.formField, 'sm:col-span-1')}
+            placeholder="Email"
+            required
+          />
+          <input
+            type="text"
+            name="subject"
+            class={styles.formField}
+            placeholder="Subject"
+            required
+          />
+          <input
+            type="text"
+            name="fax_number"
+            class={classNames(styles.formField, 'special-input')}
+            tabIndex={-1}
+            autocomplete="off"
+          />
+          <textarea
+            name="message"
+            class={classNames(styles.formField, 'min-h-[10rem] w-full')}
+            placeholder="Enter your message here"
+            required
+          />
+          <button
+            class={classNames(
+              styles.formButton,
+              'col-span-2 justify-self-center bg-indigo-500 font-medium disabled:bg-indigo-950',
+              {
+                'text-white hover:bg-indigo-400 focus-visible:bg-indigo-400':
+                  status === 'initial',
+              }
+            )}
+          >
+            <Icon
+              icon={faSubmitIcon}
+              width="1em"
+              height="1em"
+              class="fa-inline mr-1.5"
+            />
+            Submit
+          </button>
+        </form>
+      )}
+    </div>
   );
 }
+
+interface FormMessageProps {
+  status: ContactFormStatus;
+  errorMessage?: string;
+}
+
+const FormMessage: FunctionComponent<FormMessageProps> = ({
+  status,
+  errorMessage,
+}) => {
+  switch (status) {
+    case 'initial':
+      return <InitialMessage />;
+    case 'submitting':
+      return <SendingMessage />;
+    case 'error':
+      return <ErrorMessage message={errorMessage} />;
+    case 'success':
+      return <SuccessMessage />;
+  }
+};
+
+const InitialMessage = () => (
+  <>
+    <h2 class="mb-8 text-6xl font-extrabold">Have a project?</h2>
+    <div class="mb-12 text-xl font-medium">
+      <p>Let’s discuss!</p>
+      <p>
+        Please message me with{' '}
+        <span class="whitespace-nowrap">any relevant details.</span>
+      </p>
+    </div>
+  </>
+);
+
+const SendingMessage = () => (
+  <>
+    <h2 class="mb-8 text-6xl font-extrabold">Sending...</h2>
+    <Icon icon={faLoading} width="1em" height="1em" class="fa-spin text-6xl" />
+  </>
+);
+
+const ErrorMessage: FunctionComponent<{ message?: string }> = ({ message }) => (
+  <>
+    <h2 class="mb-8 text-6xl font-extrabold">Oops!</h2>
+    <div class="mb-12 text-xl font-medium">
+      <p>Something went wrong.</p>
+      {message && (
+        <pre class="my-2 inline-block rounded-md bg-slate-900 px-4 py-1 text-red-300">
+          {message}
+        </pre>
+      )}
+      <p>
+        Please try again, or{' '}
+        <a
+          class="underline duration-100 hover:text-blue-300"
+          href="https://github.com/dawaltconley/portfolio/issues"
+        >
+          open an issue on GitHub
+        </a>{' '}
+        if the problem persists.
+      </p>
+    </div>
+  </>
+);
+
+const SuccessMessage = () => (
+  <>
+    <h2 class="mb-8 text-6xl font-extrabold">Message received!</h2>
+    <div class="mb-12 text-xl font-medium">
+      <p>Thank you for contacting me.</p>
+      <p>I'll be in touch soon.</p>
+    </div>
+  </>
+);
