@@ -78,8 +78,8 @@ interface ContactFormProps {
 }
 
 interface ContactFormGetProps extends ContactFormProps {
-  method: 'GET';
-  encType: 'application/x-www-form-urlencoded';
+  method?: 'GET';
+  encType?: 'application/x-www-form-urlencoded';
 }
 
 interface ContactFormPostProps extends ContactFormProps {
