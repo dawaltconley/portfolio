@@ -207,7 +207,7 @@ export default function ContactForm({
           <button
             class={classNames(
               styles.formButton,
-              'spotlight-button spotlight-button--no-js col-span-2 justify-self-center overflow-hidden bg-[#3e3c9f] font-medium text-white disabled:bg-indigo-950'
+              'spotlight-button spotlight-button--no-js col-span-2 justify-self-center overflow-hidden bg-[#3e3c9f] font-medium text-white disabled:bg-indigo-950 disabled:text-pink-300/70 disabled:before:opacity-0'
             )}
             style={{
               '--color': 'white',
