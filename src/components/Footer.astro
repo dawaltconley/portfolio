@@ -17,13 +17,13 @@ const githubIcon = getIconDefinition('github', 'simple');
     class="container mx-auto items-baseline justify-center text-center sm:flex md:max-w-screen-md"
   >
     <div>
-      <p class="mb-1 sm:mb-0 sm:inline">
+      <p class="mb-1 sm:mb-0 [@media(min-width:350px)]:inline">
         &copy; <time datetime="2023">2023</time>
       </p>
-      <span class="mx-1 hidden sm:inline">&mdash;</span>
-      <p class="sm:inline">
+      <span class="mx-1 hidden [@media(min-width:350px)]:inline">&mdash;</span>
+      <p class="[@media(min-width:350px)]:inline">
         Built using
-        <span class="ml-2 space-x-3 text-lg">
+        <span class="ml-2 space-x-3 text-lg whitespace-nowrap">
           {
             icons.map(
               ({ name, url, style }) =>
