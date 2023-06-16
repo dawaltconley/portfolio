@@ -44,4 +44,4 @@ Resources:
         ApiDomain: dylan.ac
         ApiSubdomain: api
         CertificateArn: !Sub 'arn:aws:acm:us-east-1:${AWS::AccountId}:certificate/4447585b-1a22-44a1-90d5-865355e39615'
-        AllowOrigin: '*'
+        AllowOrigin: 'web.dylan.ac'
