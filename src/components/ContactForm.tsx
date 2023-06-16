@@ -9,9 +9,9 @@ import { faSpinnerThird as faLoading } from '@fortawesome/pro-solid-svg-icons/fa
 const styles = {
   form: 'grid grid-cols-2 gap-4 sm:gap-5 text-slate-700',
   formField:
-    'col-span-2 block rounded-md px-4 py-3 focus-visible:outline outline-blue-300',
+    'col-span-2 block rounded-md px-4 py-3 focus-visible:outline outline-2 outline-blue-300',
   formButton:
-    'w-32 max-w-full rounded-full px-4 py-3 text-white duration-300 transition-colors focus-visible:outline outline-blue-100',
+    'w-32 max-w-full rounded-full px-4 py-3 text-white duration-300 transition-colors focus-visible:outline outline-2 outline-blue-100',
 };
 
 type ContactFormStatus = 'initial' | 'submitting' | 'error' | 'success';
