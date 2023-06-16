@@ -45,6 +45,13 @@ import IconReactColor from '@iconify-icons/logos/react';
 import IconReactSkill from '@iconify-icons/skill-icons/react-dark';
 // import IconReactColor from '@iconify-icons/skill-icons/react-light';
 
+import IconPreactSimple from '@iconify-icons/simple-icons/preact';
+import IconPreactColor from '@iconify-icons/logos/preact';
+
+import IconAstroSimple from '@iconify-icons/simple-icons/astro';
+import IconAstroColor from '@iconify-icons/logos/astro-icon';
+import IconAstroSkill from '@iconify-icons/skill-icons/astro';
+
 import IconNextSimple from '@iconify-icons/simple-icons/nextdotjs';
 import IconNextColor from '@iconify-icons/logos/nextjs-icon';
 import IconNextSkill from '@iconify-icons/skill-icons/nextjs-dark';
@@ -169,6 +176,23 @@ const icons: Record<string, DataIcon> = {
       simple: IconReactSimple,
       color: IconReactColor,
       skill: IconReactSkill,
+    },
+  },
+  preact: {
+    name: 'Preact',
+    url: 'https://preactjs.com',
+    style: {
+      simple: IconPreactSimple,
+      color: IconPreactColor,
+    },
+  },
+  astro: {
+    name: 'Astro.js',
+    url: 'https://astro.build/',
+    style: {
+      simple: IconAstroSimple,
+      color: IconAstroColor,
+      skill: IconAstroSkill,
     },
   },
   nextjs: {
