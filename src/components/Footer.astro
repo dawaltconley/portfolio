@@ -13,31 +13,32 @@ const githubIcon = getIconDefinition('github', 'simple');
 ---
 
 <footer class={`py-4 bg-slate-900 text-indigo-300 ${className}`}>
-  <div class="container mx-auto flex flex-wrap justify-between text-center">
-    <div class="w-full text-left">
-      <span>This site was built using</span>
-      <ul class="ml-2 inline-flex space-x-3 text-lg">
+  <div
+    class="container mx-auto flex items-baseline justify-between space-x-4 text-center md:max-w-screen-md"
+  >
+    <p>
+      <span>&copy; <time datetime="2023">2023</time> —</span>
+      Built using
+      <span class="ml-2 space-x-3 text-lg">
         {
           icons.map(
             ({ name, url, style }) =>
               style.color && (
-                <li>
-                  <IconLink
-                    icon={style.skill || style.color}
-                    url={url}
-                    title={name}
-                    inline
-                  />
-                </li>
+                <IconLink
+                  icon={style.skill || style.color}
+                  url={url}
+                  title={name}
+                  inline
+                />
               )
           )
         }
-      </ul>
-    </div>
+      </span>
+    </p>
     {
       githubIcon && (
         <p>
-          View the source on{' '}
+          View it on{' '}
           <IconLink
             icon={githubIcon}
             url="https://github.com/dawaltconley/portfolio/"
@@ -49,9 +50,5 @@ const githubIcon = getIconDefinition('github', 'simple');
         </p>
       )
     }
-    <p>
-      Copyright &copy; <time datetime="2023">2023</time>
-      Dylan Awalt-Conley
-    </p>
   </div>
 </footer>
