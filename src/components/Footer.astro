@@ -14,30 +14,35 @@ const githubIcon = getIconDefinition('github', 'simple');
 
 <footer class={`py-4 bg-slate-900 text-indigo-300 ${className}`}>
   <div
-    class="container mx-auto flex items-baseline justify-between space-x-4 text-center md:max-w-screen-md"
+    class="container mx-auto items-baseline justify-center text-center sm:flex md:max-w-screen-md"
   >
-    <p>
-      <span>&copy; <time datetime="2023">2023</time> —</span>
-      Built using
-      <span class="ml-2 space-x-3 text-lg">
-        {
-          icons.map(
-            ({ name, url, style }) =>
-              style.color && (
-                <IconLink
-                  icon={style.skill || style.color}
-                  url={url}
-                  title={name}
-                  inline
-                />
-              )
-          )
-        }
-      </span>
-    </p>
+    <div>
+      <p class="mb-1 sm:mb-0 sm:inline">
+        &copy; <time datetime="2023">2023</time>
+      </p>
+      <span class="mx-1 hidden sm:inline">&mdash;</span>
+      <p class="sm:inline">
+        Built using
+        <span class="ml-2 space-x-3 text-lg">
+          {
+            icons.map(
+              ({ name, url, style }) =>
+                style.color && (
+                  <IconLink
+                    icon={style.skill || style.color}
+                    url={url}
+                    title={name}
+                    inline
+                  />
+                )
+            )
+          }
+        </span>
+      </p>
+    </div>
     {
       githubIcon && (
-        <p>
+        <p class="mt-1 sm:ml-auto sm:mt-0">
           View it on{' '}
           <IconLink
             icon={githubIcon}
