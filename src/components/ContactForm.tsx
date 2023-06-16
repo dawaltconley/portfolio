@@ -7,9 +7,9 @@ import { faEnvelope as faSubmitIcon } from '@fortawesome/pro-solid-svg-icons/faE
 import { faSpinnerThird as faLoading } from '@fortawesome/pro-solid-svg-icons/faSpinnerThird';
 
 const styles = {
-  form: 'grid grid-cols-2 gap-5 text-slate-700',
+  form: 'grid grid-cols-2 gap-4 sm:gap-5 text-slate-700',
   formField:
-    'col-span-2 block rounded-md px-4 py-2 sm:py-3 focus-visible:outline outline-blue-300',
+    'col-span-2 block rounded-md px-4 py-3 focus-visible:outline outline-blue-300',
   formButton:
     'w-32 max-w-full rounded-full px-4 py-3 text-white duration-300 transition-colors focus-visible:outline outline-blue-100',
 };
@@ -158,7 +158,7 @@ export default function ContactForm({
   return (
     <div
       ref={containerRef}
-      class="mx-auto flex max-w-prose flex-col items-center justify-center text-center"
+      class="mx-auto flex max-w-lg flex-col justify-center text-center sm:max-w-screen-sm lg:max-w-prose"
     >
       <FormMessage status={status} errorMessage={errorMessage} />
       {showForm && (
