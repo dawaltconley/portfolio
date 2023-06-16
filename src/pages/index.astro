@@ -4,6 +4,7 @@ import Layout from '@layouts/Base.astro';
 import Header from '@components/Header.astro';
 import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
 import ContactForm from '@components/ContactForm';
+import Footer from '@components/Footer.astro';
 import { contactLinks } from '@data/site';
 import {
   getExcerpt,
@@ -105,6 +106,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
       <ContactForm action="https://api.dylan.ac/contact" client:visible />
     </div>
   </div>
+  <Footer />
 </Layout>
 
 <style lang="scss">

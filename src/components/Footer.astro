@@ -1,0 +1,64 @@
+---
+import IconLink from './IconLink';
+import { getIcons, getIconDefinition } from '@data/icons';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const icons = getIcons(['astro', 'preact', 'tailwind', 'sass']);
+const githubIcon = getIconDefinition('github', 'simple');
+---
+
+<footer class={`py-8 bg-slate-900 text-indigo-300 ${className}`}>
+  <div class="container mx-auto text-center leading-loose">
+    <p class="flex justify-center">
+      <span>This site was built using</span>
+      <span class="text-xl"
+        >{
+          icons.map(
+            ({ name, url, style }) =>
+              style.color && (
+                <IconLink
+                  icon={style.skill || style.color}
+                  url={url}
+                  title={name}
+                  class="ml-3"
+                  inline
+                />
+              )
+          )
+        }</span
+      >
+    </p>
+    <!--
+    <p>
+      View the source on <a
+        href="https://github.com/dawaltconley/portfolio/"
+        class="hover:text-indigo-100 hover:underline">GitHub</a
+      >
+    </p>
+    -->
+    {
+      githubIcon && (
+        <p>
+          View the source on{' '}
+          <IconLink
+            icon={githubIcon}
+            url="https://github.com/dawaltconley/portfolio/"
+            class="hover:text-pink-100 hover:underline"
+            inline
+          >
+            GitHub
+          </IconLink>
+        </p>
+      )
+    }
+    <p>
+      Copyright &copy; <time datetime="2023">2023</time>
+      Dylan Awalt-Conley
+    </p>
+  </div>
+</footer>
