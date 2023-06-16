@@ -8,39 +8,32 @@ export interface Props {
 
 const { class: className = '' } = Astro.props;
 
-const icons = getIcons(['astro', 'preact', 'tailwind', 'sass']);
+const icons = getIcons(['astro', 'preact', 'typescript', 'tailwind', 'sass']);
 const githubIcon = getIconDefinition('github', 'simple');
 ---
 
-<footer class={`py-8 bg-slate-900 text-indigo-300 ${className}`}>
-  <div class="container mx-auto text-center leading-loose">
-    <p class="flex justify-center">
+<footer class={`py-4 bg-slate-900 text-indigo-300 ${className}`}>
+  <div class="container mx-auto flex flex-wrap justify-between text-center">
+    <div class="w-full text-left">
       <span>This site was built using</span>
-      <span class="text-xl"
-        >{
+      <ul class="ml-2 inline-flex space-x-3 text-lg">
+        {
           icons.map(
             ({ name, url, style }) =>
               style.color && (
-                <IconLink
-                  icon={style.skill || style.color}
-                  url={url}
-                  title={name}
-                  class="ml-3"
-                  inline
-                />
+                <li>
+                  <IconLink
+                    icon={style.skill || style.color}
+                    url={url}
+                    title={name}
+                    inline
+                  />
+                </li>
               )
           )
-        }</span
-      >
-    </p>
-    <!--
-    <p>
-      View the source on <a
-        href="https://github.com/dawaltconley/portfolio/"
-        class="hover:text-indigo-100 hover:underline">GitHub</a
-      >
-    </p>
-    -->
+        }
+      </ul>
+    </div>
     {
       githubIcon && (
         <p>
@@ -48,7 +41,7 @@ const githubIcon = getIconDefinition('github', 'simple');
           <IconLink
             icon={githubIcon}
             url="https://github.com/dawaltconley/portfolio/"
-            class="hover:text-pink-100 hover:underline"
+            class="ml-1 duration-75 hover:text-pink-100 hover:underline"
             inline
           >
             GitHub
