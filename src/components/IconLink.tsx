@@ -19,9 +19,14 @@ const IconLink: FunctionComponent<IconLinkProps> = ({
   ...iconAttributes
 }) => {
   const IconWrapper = tag ?? (url ? 'a' : 'span');
-  if (inline) iconAttributes.className = 'inline-block align-[-0.125em]';
+  if (inline) iconAttributes.className = 'fa-inline';
   return (
-    <IconWrapper href={url} className={className} title={title}>
+    <IconWrapper
+      href={url}
+      className={className}
+      title={title}
+      {...(url ? { target: '_blank' } : {})}
+    >
       <Icon width="1em" height="1em" {...iconAttributes} />
       {children}
     </IconWrapper>
