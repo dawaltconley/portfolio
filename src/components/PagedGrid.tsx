@@ -58,7 +58,7 @@ const PagedGrid: FunctionComponent<PagedViewProps> = ({
   tag = 'div',
   perPage,
 }) => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   const pages = Array.from({
     length: Math.ceil(components.length / perPage),
