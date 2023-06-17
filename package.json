@@ -13,7 +13,7 @@
     "cloudformation:deploy": "aws cloudformation deploy --template-file /tmp/web-portfolio.template.yaml --stack-name WebPortfolio --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND"
   },
   "dependencies": {
-    "@11ty/eleventy-fetch": "^3.0.0",
+    "@11ty/eleventy-fetch": "^4.0.0",
     "@astrojs/preact": "^2.1.0",
     "@dawaltconley/responsive-images": "^0.3.0",
     "@fortawesome/fontawesome-common-types": "^6.4.0",
@@ -43,7 +43,7 @@
     "metascraper-image": "^5.33.7",
     "postcss": "^8.4.21",
     "preact": "^10.13.1",
-    "sass": "^1.58.3",
+    "sass": "~1.62.1",
     "sass-parallax": "^0.6.1",
     "sass-tailwind-functions": "^1.1.0",
     "sass-themes": "^0.4.3",
