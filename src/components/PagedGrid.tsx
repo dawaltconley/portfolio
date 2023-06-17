@@ -85,7 +85,7 @@ const PagedGrid: FunctionComponent<PagedViewProps> = ({
 
   return (
     <>
-      <Grid className="grid gap-4 md:grid-cols-2 md:grid-rows-3 xl:grid-cols-3 xl:grid-rows-2">
+      <Grid className="grid grid-rows-3 gap-4 md:grid-cols-2 md:grid-rows-3 xl:grid-cols-3 xl:grid-rows-2">
         {getComponents(page)}
       </Grid>
       <div className="mt-8 flex justify-center space-x-4 font-medium">

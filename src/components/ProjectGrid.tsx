@@ -6,6 +6,7 @@ import PagedGrid from './PagedGrid';
 import { makeFilter } from './Filter';
 import { useState, useEffect, useMemo } from 'preact/hooks';
 import classNames from 'classnames';
+import useMatchMedia from '@hooks/useMatchMedia';
 import { coerceToArray, shuffle } from '@browser/utils';
 import twColors from 'tailwindcss/colors';
 
@@ -62,6 +63,8 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
   slideshowInterval = 10000,
 }) => {
   const [filter, setFilter] = useState(coerceToArray(initFilter));
+
+  const md = useMatchMedia('(min-width: 768px)');
 
   const tags: TagData = useMemo(() => {
     const tagData: TagData = new Map(
@@ -178,7 +181,7 @@ const ProjectGrid: FunctionComponent<ProjectGridProps> = ({
           Packages
         </ProjectFilterTab>
       </nav>
-      <PagedGrid components={projectComponents} tag="ul" perPage={6} />
+      <PagedGrid components={projectComponents} tag="ul" perPage={md ? 6 : 3} />
       <h3 class="mt-4 flex font-extrabold text-pink-100 after:mb-[0.36em] after:ml-2 after:grow after:border-b-4 after:border-indigo-300/30">
         Project tags
       </h3>
