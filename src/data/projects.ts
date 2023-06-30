@@ -99,6 +99,7 @@ export const getPreviewLink = (link: ProjectLink): ProjectPreviewLink => {
     url,
     text: text ?? (icon ? icon.name : 'Visit'),
     icon: icon ? getDefaultIconDefinition(icon) : faArrowUpRightFromSquare,
+    externalLink: true,
   };
 };
 
@@ -112,6 +113,7 @@ export const getPreviewLinks = (
       url: `/projects/${project.slug}`,
       text: 'Read more',
       icon: faArrowUpRightFromSquare,
+      externalLink: false,
     });
 
   return previewLinks;

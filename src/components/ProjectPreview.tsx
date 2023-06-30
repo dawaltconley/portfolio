@@ -14,6 +14,7 @@ export interface ProjectLink {
   url: string;
   icon: IconDefinition;
   text?: string;
+  externalLink?: boolean;
 }
 
 interface SpotlightIconLinkProps extends ProjectLink {
@@ -24,6 +25,7 @@ const SpotlightIconLink: FunctionComponent<SpotlightIconLinkProps> = ({
   url,
   icon,
   text,
+  externalLink,
   isActive,
 }) => {
   const ref = useRef<HTMLAnchorElement>(null);
@@ -43,8 +45,12 @@ const SpotlightIconLink: FunctionComponent<SpotlightIconLinkProps> = ({
         '--color': twColors.pink['800'],
         '--opacity': 0.3,
       }}
-      target="_blank"
-      rel="noreferrer"
+      {...(!externalLink
+        ? {
+            target: '_blank',
+            rel: 'noreferrer',
+          }
+        : {})}
     >
       <IconLink class="pointer-events-none" icon={icon} inline={Boolean(text)}>
         {text && <span class="ml-[0.4em]">{text}</span>}
@@ -110,6 +116,12 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
               ref={defaultLink}
               class="pseudo-fill-parent"
               href={links[0].url}
+              {...(!links[0].externalLink
+                ? {
+                    target: '_blank',
+                    rel: 'noreferrer',
+                  }
+                : {})}
               tabIndex={-1}
               onTouchMove={() => setCancelTap(true)}
               onTouchEnd={(e) => {
