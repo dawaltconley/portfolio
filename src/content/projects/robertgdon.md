@@ -1,7 +1,7 @@
 ---
 title: 'Robert Don: Web Portfolio'
 links:
-  - https://robertgdon.netlify.app
+  - https://robertgdon.com
   - https://github.com/dawaltconley/rob/
 images:
   - _robertgdon/rob-1.png
