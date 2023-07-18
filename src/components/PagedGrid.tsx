@@ -88,7 +88,7 @@ const PagedGrid: FunctionComponent<PagedViewProps> = ({
       <Grid className="grid gap-4 md:grid-cols-2 md:grid-rows-3 xl:grid-cols-3 xl:grid-rows-2">
         {getComponents(page)}
       </Grid>
-      <div className="mt-8 flex justify-center space-x-4">
+      <div className="mt-8 flex justify-center space-x-4 font-medium">
         <PageButton
           key="prev"
           page={prevPage}
@@ -107,7 +107,7 @@ const PagedGrid: FunctionComponent<PagedViewProps> = ({
             key={p}
             page={p}
             {...buttonProps}
-            className={classNames('font-medium', {
+            className={classNames({
               'bg-pink-800': p === buttonProps.current && pages.length > 1,
               'disabled:text-slate-500': pages.length < 2,
             })}
