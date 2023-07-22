@@ -14,7 +14,10 @@ import {
 } from '@data/projects';
 import { getCollection } from 'astro:content';
 
-const projects = await getCollection('projects');
+const projects = await getCollection(
+  'projects',
+  ({ data }) => data.draft !== true
+);
 
 const projectPreviews: ProjectPreviewData[] = await Promise.all(
   projects.map(async (project) => {

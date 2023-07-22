@@ -31,6 +31,7 @@ const projects = defineCollection({
     excerpt: z.string().optional(),
     images: z.array(projectImage).optional(),
     published: z.boolean().optional(),
+    draft: z.boolean().optional(),
   }),
 });
 
