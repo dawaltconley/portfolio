@@ -1,5 +1,6 @@
 ---
 title: CloudFormation Templates
+created: 2022-06-01
 links:
   - https://github.com/dawaltconley/cfn-static-website
 tags:

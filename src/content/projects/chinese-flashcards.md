@@ -1,5 +1,6 @@
 ---
 title: Classical Chinese Flashcards
+created: 2022-10-25
 links:
   - https://classical-chinese-flashcards.netlify.app
   - https://github.com/dawaltconley/classical-chinese-flashcards

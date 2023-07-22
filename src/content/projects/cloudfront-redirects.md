@@ -1,5 +1,6 @@
 ---
 title: CloudFront Redirects
+created: 2022-05-19
 links:
   - https://github.com/dawaltconley/cloudfront-redirects
 tags:

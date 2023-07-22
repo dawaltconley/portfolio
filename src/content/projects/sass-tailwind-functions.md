@@ -1,5 +1,6 @@
 ---
 title: Sass Tailwind Functions
+created: 2023-04-26
 links:
   - https://www.npmjs.com/package/sass-tailwind-functions
   - https://github.com/jquense/sass-tailwind-functions

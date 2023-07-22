@@ -1,5 +1,6 @@
 ---
 title: More Tongues Than Teeth
+created: 2019-12-14
 links:
   - https://www.moretongues.com
   - text: Archive

@@ -1,5 +1,6 @@
 ---
 title: Senior Influence
+created: 2019-10-09
 links:
   - https://www.seniorinfluence.com
 images:
