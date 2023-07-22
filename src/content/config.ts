@@ -1,3 +1,5 @@
+// see https://github.com/colinhacks/zod
+
 import { ProjectTag } from '@data/tags';
 import { z, defineCollection } from 'astro:content';
 
