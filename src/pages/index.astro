@@ -19,7 +19,18 @@ const projects = await getCollection(
   'projects',
   ({ data }) => data.draft !== true
 );
-projects.sort((a, b) => b.data.created.getTime() - a.data.created.getTime());
+projects.sort((a, b) => {
+  let iA = projectOrder.indexOf(a.slug);
+  let iB = projectOrder.indexOf(b.slug);
+  // sort unordered items by date
+  if (iA < 0 && iB < 0) {
+    return b.data.created.getTime() - a.data.created.getTime();
+  }
+  // sort ordered items ahead of unordered items
+  if (iA < 0) iA = Infinity;
+  if (iB < 0) iB = Infinity;
+  return iA - iB;
+});
 
 const projectPreviews: ProjectPreviewData[] = await Promise.all(
   projects.map(async (project) => {
