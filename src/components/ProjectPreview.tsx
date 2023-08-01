@@ -1,8 +1,8 @@
-import type { DataIcon, IconDefinition } from '@data/icons';
 import type { FunctionComponent } from 'preact';
 import type { ImageProps } from '@components/Image';
 import IconLink from '@components/IconLink';
 import ProjectSlideshow from '@components/ProjectSlideshow';
+import { getIcon, getIconDefinition } from '@data/icons';
 import classNames from 'classnames';
 import twColors from 'tailwindcss/colors';
 import { useState, useEffect, useRef } from 'preact/hooks';
@@ -10,9 +10,12 @@ import { useState, useEffect, useRef } from 'preact/hooks';
 import useSpotlightButton from '@hooks/useSpotlightButton';
 import useMatchMedia from '@hooks/useMatchMedia';
 
+// fallback icon
+import { faArrowUpRightFromSquare } from '@fortawesome/pro-regular-svg-icons/faArrowUpRightFromSquare';
+
 export interface ProjectLink {
   url: string;
-  icon: IconDefinition;
+  icon?: string;
   text?: string;
   externalLink?: boolean;
 }
@@ -30,6 +33,11 @@ const SpotlightIconLink: FunctionComponent<SpotlightIconLinkProps> = ({
 }) => {
   const ref = useRef<HTMLAnchorElement>(null);
   useSpotlightButton(ref);
+
+  const iconDef = icon
+    ? getIconDefinition(icon, 'simple')
+    : faArrowUpRightFromSquare;
+  if (!iconDef) throw new Error(`bad icon def ${iconDef}`);
 
   return (
     <a
@@ -52,7 +60,11 @@ const SpotlightIconLink: FunctionComponent<SpotlightIconLinkProps> = ({
           }
         : {})}
     >
-      <IconLink class="pointer-events-none" icon={icon} inline={Boolean(text)}>
+      <IconLink
+        class="pointer-events-none"
+        icon={iconDef}
+        inline={Boolean(text)}
+      >
         {text && <span class="ml-[0.4em]">{text}</span>}
       </IconLink>
     </a>
@@ -62,7 +74,7 @@ const SpotlightIconLink: FunctionComponent<SpotlightIconLinkProps> = ({
 export interface ProjectPreviewProps {
   title: string;
   links: ProjectLink[];
-  icons: DataIcon[];
+  icons: string[];
   image?: ImageProps;
 }
 
@@ -136,9 +148,10 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
             </a>
           </h2>
           <ul class="ml-4 mt-2 inline-flex items-center space-x-2 text-right text-sm opacity-80">
-            {icons.map(
-              (icon) =>
-                icon.style.simple && (
+            {icons.map((iconKey) => {
+              const icon = getIcon(iconKey);
+              return (
+                icon?.style.simple && (
                   <IconLink
                     key={icon.url}
                     icon={icon.style.simple}
@@ -146,7 +159,8 @@ export const ProjectPreview: FunctionComponent<ProjectPreviewProps> = ({
                     tag="li"
                   />
                 )
-            )}
+              );
+            })}
           </ul>
         </div>
         <div class="order-3 mt-2 leading-snug">{children}</div>

@@ -6,12 +6,7 @@ import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
 import ContactForm from '@components/ContactForm';
 import Footer from '@components/Footer.astro';
 import { contactLinks } from '@data/site';
-import {
-  getExcerpt,
-  generateImages,
-  getPreviewLinks,
-  getIconsFromTags,
-} from '@data/projects';
+import { getExcerpt, generateImages, getPreviewLinks } from '@data/projects';
 import projectOrder from '@data/project-order';
 import { getCollection } from 'astro:content';
 
@@ -44,7 +39,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
       links: getPreviewLinks(project),
       images: images,
       excerpt: getExcerpt(project),
-      icons: getIconsFromTags(project),
+      icons: project.data.tags,
     };
   })
 );

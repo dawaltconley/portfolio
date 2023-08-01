@@ -263,17 +263,20 @@ const hostDomainIconId: Record<string, keyof typeof icons> = Object.entries(
   return map;
 }, {});
 
-const getIconFromUrl = (url: string | URL): DataIcon | undefined => {
+const urlToIconKey = (url: string | URL): string | undefined => {
   try {
     const { protocol, host } = new URL(url);
-    if (protocol === 'mailto:') return icons.email;
-    if (protocol === 'tel:') return icons.phone;
-    return icons[hostDomainIconId[host]];
+    if (protocol === 'mailto:') return 'email';
+    if (protocol === 'tel:') return 'phone';
+    return hostDomainIconId[host];
   } catch (e) {
     if (e instanceof Error && 'code' in e && e.code === 'ERR_INVALID_URL')
       return undefined;
   }
 };
+
+const getIconFromUrl = (url: string | URL): DataIcon | undefined =>
+  icons[urlToIconKey(url) ?? ''];
 
 const getIcon = (id: string | URL): DataIcon | undefined =>
   typeof id === 'string' && id in icons ? icons[id] : getIconFromUrl(id);
@@ -324,4 +327,5 @@ export {
   getIconDefinitions,
   getDefaultIconDefinition,
   faToIconify,
+  urlToIconKey,
 };

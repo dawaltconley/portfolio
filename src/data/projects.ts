@@ -9,13 +9,7 @@ import { compile } from 'html-to-text';
 
 import { fileExists } from '@build/utils';
 import imageConfig from '@build/image-config';
-import {
-  getIcon,
-  getIconFromUrl,
-  getDefaultIconDefinition,
-  DataIcon,
-} from '@data/icons';
-import { faArrowUpRightFromSquare } from '@fortawesome/pro-regular-svg-icons/faArrowUpRightFromSquare';
+import { getIcon, urlToIconKey, DataIcon } from '@data/icons';
 
 /*
  * Handle excerpts
@@ -94,11 +88,11 @@ export const generateImages = (
 export const getPreviewLink = (link: ProjectLink): ProjectPreviewLink => {
   const { url, text } =
     typeof link === 'object' ? link : { url: link, text: null };
-  const icon = getIconFromUrl(url);
+  const icon = urlToIconKey(url);
   return {
     url,
-    text: text ?? (icon ? icon.name : 'Visit'),
-    icon: icon ? getDefaultIconDefinition(icon) : faArrowUpRightFromSquare,
+    icon,
+    text: text ?? (getIcon(icon ?? '')?.name || 'Visit'),
     externalLink: true,
   };
 };
@@ -112,7 +106,6 @@ export const getPreviewLinks = (
     previewLinks.unshift({
       url: `/projects/${project.slug}`,
       text: 'Read more',
-      icon: faArrowUpRightFromSquare,
       externalLink: false,
     });
 
