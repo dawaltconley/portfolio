@@ -9,7 +9,7 @@ import { compile } from 'html-to-text';
 
 import { fileExists } from '@build/utils';
 import imageConfig from '@build/image-config';
-import { getIcon, urlToIconKey, DataIcon } from '@data/icons';
+import { getIcon, urlToIconKey, DataIcon } from '../icons';
 
 /*
  * Handle excerpts

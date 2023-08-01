@@ -8,6 +8,7 @@
       "@components/*": ["components/*"],
       "@data/*": ["data/*"],
       "@layouts/*": ["layouts/*"],
+      "@lib/*": ["lib/*"],
       "@browser/*": ["lib/browser/*"],
       "@build/*": ["lib/node/*"],
       "@hooks/*": ["lib/hooks/*"],

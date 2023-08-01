@@ -2,7 +2,7 @@ import type { FunctionComponent } from 'preact';
 import type { ImageProps } from '@components/Image';
 import IconLink from '@components/IconLink';
 import ProjectSlideshow from '@components/ProjectSlideshow';
-import { getIcon, getIconDefinition } from '@data/icons';
+import { getIcon, getIconDefinition } from '@lib/icons';
 import classNames from 'classnames';
 import twColors from 'tailwindcss/colors';
 import { useState, useEffect, useRef } from 'preact/hooks';
