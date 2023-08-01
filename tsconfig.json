@@ -8,9 +8,9 @@
       "@components/*": ["components/*"],
       "@data/*": ["data/*"],
       "@layouts/*": ["layouts/*"],
-      "@browser/*": ["scripts/browser/*"],
-      "@build/*": ["scripts/node/*"],
-      "@hooks/*": ["scripts/hooks/*"],
+      "@browser/*": ["lib/browser/*"],
+      "@build/*": ["lib/node/*"],
+      "@hooks/*": ["lib/hooks/*"],
       "@styles/*": ["styles/*"]
     },
     "jsx": "react-jsx",
