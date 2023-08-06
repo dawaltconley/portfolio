@@ -6,7 +6,7 @@ import Icon from '@components/Icon';
 import classNames from 'classnames';
 import twColors from 'tailwindcss/colors';
 
-interface PageButtonProps extends Omit<ComponentProps<'button'>, 'ref'> {
+interface PageButtonProps extends Omit<ComponentProps<'a'>, 'ref'> {
   page: number;
   current: number;
   handleClick: (page: number) => void;
@@ -23,7 +23,7 @@ const PageButton: FunctionComponent<PageButtonProps> = ({
 }) => {
   const isCurrent = page === current;
   return (
-    <button
+    <a
       className={classNames(
         'block h-[2rem] min-w-[2rem] overflow-hidden rounded-full px-2 text-center leading-none duration-300',
         className?.toString(),
@@ -43,7 +43,7 @@ const PageButton: FunctionComponent<PageButtonProps> = ({
       {...props}
     >
       {children}
-    </button>
+    </a>
   );
 };
 
@@ -88,11 +88,16 @@ const PagedGrid: FunctionComponent<PagedViewProps> = ({
       <Grid className="grid grid-rows-3 gap-4 md:grid-cols-2 md:grid-rows-3 xl:grid-cols-3 xl:grid-rows-2">
         {getComponents(page)}
       </Grid>
-      <div className="mt-8 flex justify-center space-x-4 font-medium">
+      <nav
+        className="mt-8 flex justify-center space-x-4 font-medium"
+        aria-label="pagination"
+      >
         <PageButton
           key="prev"
           page={prevPage}
           className="disabled:text-slate-500"
+          aria-label="Previous page"
+          rel="prev"
           {...buttonProps}
         >
           <Icon
@@ -111,14 +116,19 @@ const PagedGrid: FunctionComponent<PagedViewProps> = ({
               'bg-pink-800': p === buttonProps.current && pages.length > 1,
               'disabled:text-slate-500': pages.length < 2,
             })}
+            aria-current={p === buttonProps.current ? 'page' : undefined}
           >
-            {p + 1}
+            <span>
+              <span className="sr-only">Page</span> {p + 1}
+            </span>
           </PageButton>
         ))}
         <PageButton
           key="next"
           page={nextPage}
           className="disabled:text-slate-500"
+          aria-label="Next page"
+          rel="next"
           {...buttonProps}
         >
           <Icon
@@ -128,7 +138,7 @@ const PagedGrid: FunctionComponent<PagedViewProps> = ({
             icon={faChevronRight}
           />
         </PageButton>
-      </div>
+      </nav>
     </>
   );
 };
