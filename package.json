@@ -63,11 +63,11 @@
     "prettier": "^2.8.4",
     "prettier-plugin-astro": "^0.8.0",
     "prettier-plugin-tailwindcss": "^0.2.7",
-    "stylelint": "^15.4.0",
+    "stylelint": "^15.10.2",
     "stylelint-config-html": "^1.1.0",
-    "stylelint-config-prettier-scss": "^0.0.1",
-    "stylelint-config-recommended-scss": "^10.0.0",
-    "stylelint-scss": "^4.4.0"
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-recommended-scss": "^12.0.0",
+    "stylelint-scss": "^5.1.0"
   },
   "overrides": {
     "react": "npm:@preact/compat@latest",
