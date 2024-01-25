@@ -3,7 +3,7 @@ title: 'Soraya Palmer'
 created: 2024-01-25
 links:
   - https://sorayapalmer.com
-  - https://github.com/dawaltconley/sorayapalmer/
+  - https://github.com/dawaltconley/soraya-palmer/
 images:
   - _sorayapalmer/home-1.png
   - _sorayapalmer/press-1.2.png
