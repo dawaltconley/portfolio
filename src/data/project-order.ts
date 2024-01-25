@@ -4,6 +4,7 @@ type ProjectSlug = CollectionEntry<'projects'>['slug'];
 
 const projects: ProjectSlug[] = [
   // websites
+  'sorayapalmer',
   '42renew',
   'jahleelhills',
   'robertgdon',
