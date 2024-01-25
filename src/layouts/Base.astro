@@ -35,10 +35,10 @@ const {
     <meta property="og:url" content={Astro.url} />
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={new URL(ogImage, Astro.url.origin)} />
 
     <Favicon />
-    <link rel="canonical" href={Astro.url} />
+    <link rel="canonical" href={Astro.site} />
 
     {
       import.meta.env.PROD && (
