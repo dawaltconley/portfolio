@@ -13,7 +13,7 @@ import twColors from 'tailwindcss/colors';
 const ProjectFilterTab = makeFilter(({ isActive, onClick, children }) => (
   <button
     class={classNames(
-      'spotlight-button spotlight-button--no-js block overflow-hidden rounded-full px-5 py-4 uppercase leading-none text-indigo-50 transition-all',
+      'spotlight-button spotlight-button--no-js block overflow-hidden rounded-full px-5 py-4 font-medium uppercase leading-none text-indigo-50 transition-all',
       {
         'spotlight-button--active bg-pink-800 text-white hover:bg-pink-700':
           isActive,
