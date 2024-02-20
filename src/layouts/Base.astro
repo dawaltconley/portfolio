@@ -1,6 +1,7 @@
 ---
 import type { ColorScheme } from '@components/ThemeControls';
 import Favicon from '@components/Favicon.astro';
+import SVGDefinitions from '@components/SVGDefinitions.astro';
 import '@styles/global.scss';
 
 export interface Props {
@@ -51,6 +52,7 @@ const {
     }
   </head>
   <body class={className}>
+    <SVGDefinitions />
     <slot />
     <script>
       import { SpotlightButton } from '@browser/spotlight-button';

@@ -1,0 +1,34 @@
+<svg
+  class="absolute"
+  version="1.1"
+  width="0"
+  height="0"
+  viewBox="0 0 1 1"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <linearGradient id="gradient-1">
+      <stop offset="0" stop-opacity="0.1"></stop>
+      <stop offset="1" stop-opacity="0.5"></stop>
+    </linearGradient>
+    <linearGradient id="gradient-2" gradientTransform="rotate(60)">
+      <stop offset="0" stop-opacity="0.1"></stop>
+      <stop offset="1" stop-opacity="0.5"></stop>
+    </linearGradient>
+    <clipPath id="sloped-div-top" clipPathUnits="objectBoundingBox"
+      ><path d="m0,0 c0.7,0.2,1,1,1,1 H0"></path></clipPath
+    >
+    <clipPath id="sloped-div-bottom" clipPathUnits="objectBoundingBox"
+      ><path d="m0,1 c0.7,-0.2,1,-1,1,-1 H0"></path></clipPath
+    >
+  </defs>
+</svg>
+
+<style>
+  #gradient-1 stop {
+    stop-color: theme('colors.indigo.900');
+  }
+  #gradient-2 stop {
+    stop-color: theme('colors.pink.900');
+  }
+</style>

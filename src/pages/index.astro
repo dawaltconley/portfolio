@@ -2,6 +2,7 @@
 import '@styles/icons.scss';
 import Layout from '@layouts/Base.astro';
 import Header from '@components/Header.astro';
+import GradientBackground from '@components/GradientBackground.astro';
 import ProjectGrid, { ProjectPreviewData } from '@components/ProjectGrid';
 import ContactForm from '@components/ContactForm';
 import Footer from '@components/Footer.astro';
@@ -56,35 +57,7 @@ const projectPreviews: ProjectPreviewData[] = await Promise.all(
   class="bg-indigo-950"
 >
   <div class="relative flex min-h-[60vh] flex-col overflow-hidden bg-gray-900">
-    <svg
-      class="absolute left-0 top-0 h-full"
-      version="1.1"
-      viewBox="0 0 433 264"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <linearGradient id="gradient-1">
-          <stop offset="0" stop-opacity="0.1"></stop>
-          <stop offset="1" stop-opacity="0.5"></stop>
-        </linearGradient>
-        <linearGradient id="gradient-2" gradientTransform="rotate(60)">
-          <stop offset="0" stop-opacity="0.1"></stop>
-          <stop offset="1" stop-opacity="0.5"></stop>
-        </linearGradient>
-        <clipPath id="sloped-div-top" clipPathUnits="objectBoundingBox"
-          ><path d="m0,0 c0.7,0.2,1,1,1,1 H0"></path></clipPath
-        >
-        <clipPath id="sloped-div-bottom" clipPathUnits="objectBoundingBox"
-          ><path d="m0,1 c0.7,-0.2,1,-1,1,-1 H0"></path></clipPath
-        >
-      </defs>
-      <g>
-        <path fill="url(#gradient-1)" d="m21 264c15-164 47-264 47-264h-68v264z"
-        ></path>
-        <path fill="url(#gradient-2)" d="m433 0c-206 0-433 58-433 58v-58z"
-        ></path>
-      </g>
-    </svg>
+    <GradientBackground />
     <Header links={contactLinks} class="mb-[10vh] py-6" />
     <h1
       class="container relative mx-auto mb-64 mt-8 text-7xl font-extrabold leading-[0.85]"
