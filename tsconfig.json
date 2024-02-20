@@ -3,7 +3,6 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "~/*": ["*"],
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
       "@data/*": ["data/*"],
@@ -12,7 +11,8 @@
       "@browser/*": ["lib/browser/*"],
       "@build/*": ["lib/node/*"],
       "@hooks/*": ["lib/hooks/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "~/*": ["*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "preact"
