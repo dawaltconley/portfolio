@@ -1,0 +1,57 @@
+$slope-height: max(6rem, 6vw);
+
+@layer base {
+  :root {
+    --slope-border-height: #{$slope-height};
+  }
+}
+
+@layer components {
+  %pseudo-slope {
+    content: '';
+    position: absolute;
+    inset: 0px;
+    right: -1rem;
+    min-width: 40rem;
+    background-color: inherit;
+    clip-path: url(#sloped-div-top);
+  }
+
+  .slope {
+    &,
+    &-border {
+      &-t,
+      &-b {
+        position: relative;
+      }
+      &-t::before,
+      &-b::after {
+        @extend %pseudo-slope;
+      }
+      &-t::before {
+        bottom: -1px;
+        clip-path: url(#sloped-div-top);
+      }
+      &-b::after {
+        top: -1px;
+        clip-path: url(#sloped-div-bottom);
+      }
+    }
+
+    &-border {
+      &-t::before,
+      &-b::after {
+        height: 6rem;
+        height: var(--slope-border-height, 6rem);
+      }
+      &-t::before {
+        top: auto;
+        bottom: calc(100% - 1px);
+      }
+      &-b::after {
+        top: calc(100% - 1px);
+        bottom: auto;
+      }
+    }
+  }
+}

@@ -18,6 +18,9 @@ module.exports = {
       inset: {
         'almost-full': 'calc(100% - 1px)',
       },
+      spacing: {
+        'slope-border': ['6rem', 'var(--slope-border-height, 6rem)'],
+      },
     },
   },
   plugins: [
