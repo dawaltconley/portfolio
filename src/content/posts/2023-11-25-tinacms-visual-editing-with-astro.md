@@ -1,4 +1,12 @@
-# Using Tina's Visual Editing with an Astro Site
+---
+title: Using Tina's Visual Editing with an Astro Site
+date: 2023-11-25
+tags:
+  - Astro
+  - TinaCMS
+  - Headless CMS
+  - Visual Editing
+---
 
 I've used TinaCMS on my last two Astro projects and overall I've been quite 
 happy with it, so I wanted to write up a 
