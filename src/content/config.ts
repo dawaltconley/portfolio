@@ -26,13 +26,14 @@ const projectImage = z.union([
 export type ProjectImage = z.infer<typeof projectImage>;
 
 const projects = defineCollection({
+  type: 'content', // maybe switch to data...
   schema: z.object({
     title: z.string(),
     links: z.array(projectLink),
     tags: z.array(z.enum(ProjectTag)),
     excerpt: z.string().optional(),
     images: z.array(projectImage).optional(),
-    published: z.boolean().optional(),
+    published: z.boolean().optional(), // prob rename or redo...this means published as a post (which none are)
     draft: z.boolean().optional(),
     created: z.coerce.date(),
   }),
