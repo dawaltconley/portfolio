@@ -1,5 +1,6 @@
 ---
-title: Using Tina's Visual Editing with an Astro Site
+# title: Using Tina's Visual Editing with an Astro Site
+title: Visual Editing with Astro and TinaCMS
 date: 2023-11-25
 tags:
   - Astro
