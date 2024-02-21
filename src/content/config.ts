@@ -3,6 +3,8 @@
 import { ProjectTag } from '@data/tags';
 import { z, defineCollection } from 'astro:content';
 
+// Projects
+
 const projectLink = z.union([
   z.string().url(),
   z.object({
@@ -36,4 +38,18 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+// Blog
+
+const posts = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    tags: z.array(z.string()).optional(),
+    excerpt: z.string().optional(),
+    image: projectImage.optional(),
+    draft: z.boolean().optional(),
+  }),
+});
+
+export const collections = { projects, posts };

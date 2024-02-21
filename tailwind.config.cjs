@@ -21,6 +21,7 @@ module.exports = {
     },
   },
   plugins: [
+    require('@tailwindcss/typography'),
     require('sass-themes/tailwind'),
     plugin(({ matchUtilities, matchComponents, theme }) => {
       matchUtilities(

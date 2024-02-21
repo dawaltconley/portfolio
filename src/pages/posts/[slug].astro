@@ -1,0 +1,44 @@
+---
+/* import dayjs from 'dayjs'; */
+import smartquotes from 'smartquotes';
+import Layout from '@layouts/Base.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { contactLinks } from '~/data/site';
+import { getCollection } from 'astro:content';
+import { getExcerpt } from '@build/projects';
+import { slugify } from '@lib/utils';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', (p) => p.data.draft !== true);
+
+  return posts.map((post) => {
+    /* const slug = dayjs(post.data.date).format('YYYY-MM-DD'); */
+    const slug =
+      post.data.date.toISOString().slice(0, 10) +
+      '-' +
+      slugify(post.data.title);
+    console.log(slug);
+    return {
+      params: { slug: post.slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { title, date } = post.data;
+const { Content } = await post.render();
+---
+
+<Layout title={title} description={getExcerpt(post)}>
+  <Header links={contactLinks} class="mb-[10vh] py-6" />
+  <main
+    class="container prose prose-lg prose-invert mx-auto px-4 py-8 prose-a:text-indigo-300 prose-a:duration-100 hover:prose-a:text-pink-100"
+  >
+    <h1>{smartquotes(title)}</h1>
+    <time datetime={date.toISOString()}>{date.toDateString()}</time>
+    <Content />
+  </main>
+  <Footer />
+</Layout>

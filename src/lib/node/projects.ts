@@ -1,5 +1,5 @@
 import type { CollectionEntry } from 'astro:content';
-import type { ProjectImage, ProjectLink } from '../content/config';
+import type { ProjectImage, ProjectLink } from '../../content/config';
 import type { ProjectLink as ProjectPreviewLink } from '@components/ProjectPreview';
 import type { ImageProps } from '@components/Image';
 
@@ -29,8 +29,15 @@ const convertExcerpt = compile({
   ],
 });
 
+export interface ExcerptCollection {
+  body: string;
+  data: {
+    excerpt?: string;
+  };
+}
+
 export const getExcerpt = (
-  item: CollectionEntry<'projects'>,
+  item: ExcerptCollection,
   excerptSeparator: string | RegExp = /<!-- ?more ?-->/
 ): string => {
   const excerpt =
