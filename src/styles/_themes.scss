@@ -17,7 +17,7 @@
     @media (prefers-color-scheme: dark) {
       @include themes.create(
         $text: white,
-        $bg: theme('colors.zinc.900'),
+        $bg: theme('colors.gray.900'),
         $brand: theme('colors.rose.500'),
         $accessibility: false,
         $styles: false
@@ -52,7 +52,7 @@
     & .theme-dark {
       @include themes.create(
         $text: white,
-        $bg: theme('colors.zinc.900'),
+        $bg: theme('colors.gray.900'),
         $brand: theme('colors.rose.500'),
         $accessibility: false
       );
