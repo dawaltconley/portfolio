@@ -183,7 +183,11 @@ integration](https://www.npmjs.com/package/astro-tina) to NPM, which adds a
 ## Pain points
 
 I'm going to limit my gripes here to issues that _specifically_ arise from 
-using TinaCMS with Astro, and leave the rest to their respective GitHub issues.
+using TinaCMS with Astro, and leave the rest to their respective GitHub issues.  
+The majority of these come from the main feature that sets Astro apart from 
+Next.js: its [island 
+architecture](https://docs.astro.build/en/concepts/islands/). Tina, built with 
+Next.js in mind, sometimes fails to account for this.
 
 ### Boilerplate
 
@@ -283,4 +287,26 @@ then do some testing to see how much bandwidth custom queries would save you.
 ### Asynchronous hydration can create race-conditions
 
 This is probably the most serious obstacle to implementing visual editing using 
-Tina CMS with Astro. 
+Tina CMS with Astro.
+
+## What's the point?
+
+If you're going to have to write everything in React and do most of your 
+templating in JSX, you might be wondering what's the point of using Astro over 
+Next.js, which Tina offers the most support for. And if your project is heavy 
+on client-side interactivity, hydrating most of every page, there may not be 
+much of a point. However, there are a few advantages Astro brings for static, 
+content-based websites that are worth highlighting.
+
+Island Architecture and Partial Hydration
+(Near) zero JS pages with live editing
+Potentially: Preact interop? mixing and matching your frameworks
+
+Preact: is this worth it? Probably not. I like the idea enough in principle to 
+mention it, but seriously, needing to write your components in order to 
+function identically with both React and Preact seems like an extra layer of 
+complexity to using Preact alone, even though it claims (near) complete 
+compatibility. At this point, you're probably using Preact/compat already and 
+saving _____ per page load. It's probably easier to trim that much bloat 
+elsewhere and not have to worry about which features of React have gotten full 
+Preact support.
