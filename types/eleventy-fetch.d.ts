@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 declare module '@11ty/eleventy-fetch' {
-  import { Cache } from '@types/flat-cache';
-  import { Response } from '@types/node-fetch';
+  import type { Cache } from 'flat-cache';
+  import type { Response } from 'node-fetch';
 
   type CacheType = 'json' | 'text' | 'buffer';
 
   interface Options {
     type?: CacheType;
-    duration: string;
+    duration?: string;
     directory?: string;
     removeUrlQueryParams?: boolean;
     formatUrlForDisplay?: (url: string) => string;
@@ -32,31 +34,31 @@ declare module '@11ty/eleventy-fetch' {
 
   export default function EleventyFetch<AssetType>(
     source: string,
-    options: JsonOptions
+    options?: JsonOptions
   ): Promise<AssetType>;
   export default function EleventyFetch(
     source: string,
-    options: TextOptions
+    options?: TextOptions
   ): Promise<string>;
   export default function EleventyFetch(
     source: string,
-    options: BufferOptions
+    options?: BufferOptions
   ): Promise<Buffer>;
   export default function EleventyFetch(
     source: string,
-    options: Options
-  ): Promise<any>;
+    options?: Options
+  ): Promise<unknown>;
 
   export function queue<T>(
     source: string,
-    queueCallback: (...args: any) => T
+    queueCallback: (...args: any[]) => T
   ): Promise<T>;
 
   export interface Util {
     isFullUrl: (url: string | URL) => boolean;
   }
 
-  export declare class AssetCache<AssetType> {
+  export class AssetCache<AssetType> {
     constructor(uniqueKey: string, cacheDirectory?: string, options?: Options);
     static getHash(url: string, hashLength?: number): string;
     source: AssetType;
@@ -73,7 +75,7 @@ declare module '@11ty/eleventy-fetch' {
     getCachedContents(type: 'json'): Promise<AssetType>;
     getCachedContents(type: 'text'): Promise<string>;
     getCachedContents(type: 'buffer'): Promise<Buffer>;
-    getCachedContents(type: CacheType): Promise<AssetType | string | buffer>;
+    getCachedContents(type: CacheType): Promise<AssetType | string | Buffer>;
     /** depends on CacheType passed to the save method */
     getCachedValue(): Promise<AssetType>;
     isCacheValid(duration: string): boolean;
@@ -85,9 +87,7 @@ declare module '@11ty/eleventy-fetch' {
     fetch(options: Options): Promise<AssetType | string | Buffer>;
   }
 
-  export declare class RemoteAssetCache<
-    AssetType
-  > extends AssetCache<AssetType> {
+  export class RemoteAssetCache<AssetType> extends AssetCache<AssetType> {
     constructor(url: string, cacheDirectory?: string, options?: Options);
     static cleanUrl(url: string): string;
     formatUrlForDisplay(url: string): string;
@@ -100,11 +100,11 @@ declare module '@11ty/eleventy-fetch' {
       response: Response,
       type: CacheType
     ): Promise<AssetType | string | Buffer>;
-    fetch(optionsOverride: JsonOptions): Promise<AssetType>;
-    fetch(optionsOverride: TextOptions): Promise<string>;
-    fetch(optionsOverride: BufferOptions): Promise<Buffer>;
+    fetch(optionsOverride?: JsonOptions): Promise<AssetType>;
+    fetch(optionsOverride?: TextOptions): Promise<string>;
+    fetch(optionsOverride?: BufferOptions): Promise<Buffer>;
     /** unlike AssetCache, this does depend on the CacheType passed to the constructor options */
-    fetch(optionsOverride: Options): Promise<AssetType>;
+    fetch(optionsOverride?: Options): Promise<AssetType>;
     /** for testing */
     hasCacheFiles(): boolean;
     /** for testing */
