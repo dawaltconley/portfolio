@@ -21,6 +21,21 @@ module.exports = {
       spacing: {
         'slope-border': ['6rem', 'var(--slope-border-height, 6rem)'],
       },
+      typography: (theme) => ({
+        lg: {
+          css: {
+            'code:not(pre code)': {
+              padding: theme('spacing.2'),
+              borderRadius: theme('borderRadius.md'),
+              backgroundColor: theme('colors.gray.100'),
+              fontWeight: theme('fontWeight.medium'),
+              '&::before, &::after': {
+                content: 'none',
+              },
+            },
+          },
+        },
+      }),
     },
   },
   plugins: [
