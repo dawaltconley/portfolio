@@ -44,6 +44,7 @@
     "metascraper-image": "^5.45.22",
     "postcss": "^8.4.41",
     "preact": "^10.23.1",
+    "reading-time": "^1.5.0",
     "sass": "~1.62.1",
     "sass-parallax": "^0.6.1",
     "sass-tailwind-functions": "^1.1.0",

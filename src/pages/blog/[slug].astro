@@ -1,4 +1,5 @@
 ---
+import getReadingTime from 'reading-time';
 import smartquotes from 'smartquotes';
 import Layout from '@layouts/Base.astro';
 import GradientBackground from '@components/GradientBackground.astro';
@@ -20,6 +21,11 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { title, date } = post.data;
 const { Content } = await post.render();
+
+const readingTime = getReadingTime(post.body);
+const dateString = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'medium',
+}).format(date);
 ---
 
 <Layout title={title} description={getExcerpt(post)}>
@@ -30,13 +36,15 @@ const { Content } = await post.render();
   <main class="slope-border-t relative bg-gray-50 pb-8">
     <div class="content container relative mx-auto">
       <div
-        class="prose prose-lg mx-auto text-gray-950 prose-a:text-indigo-500 prose-a:duration-100 hover:prose-a:text-pink-500 marker:prose-li:text-pink-300"
+        class="prose prose-lg mx-auto text-gray-950 prose-headings:text-gray-900 prose-a:text-indigo-500 prose-a:duration-100 hover:prose-a:text-pink-500 marker:prose-li:text-pink-300"
       >
         <h1>{smartquotes(title)}</h1>
-        <time
-          class="absolute bottom-full whitespace-nowrap font-bold text-indigo-400"
-          datetime={date.toISOString()}>{date.toDateString()}</time
+        <div
+          class="absolute bottom-full whitespace-nowrap font-medium text-indigo-500"
         >
+          <time datetime={date.toISOString()}>{dateString}</time> —
+          <span>{readingTime.text}</span>
+        </div>
         <Content />
       </div>
     </div>
