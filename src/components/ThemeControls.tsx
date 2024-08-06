@@ -27,16 +27,18 @@ const Button: FunctionComponent<{
   );
 };
 
+const LOCAL_STORAGE_KEY = 'prefers-color-scheme';
+
 export type ColorScheme = 'light' | 'dark';
 const isColorScheme = (s: string | null | undefined): s is ColorScheme =>
   s === 'light' || s === 'dark';
 
 const loadTheme = (): number | null => {
-  const saved = window.localStorage.getItem('theme');
+  const saved = window.localStorage.getItem(LOCAL_STORAGE_KEY);
   return (saved && parseInt(saved, 10)) || null;
 };
 const saveTheme = (n: number): void => {
-  window.localStorage.setItem('theme', n.toString());
+  window.localStorage.setItem(LOCAL_STORAGE_KEY, n.toString());
 };
 
 const loadColorScheme = (): ColorScheme | null => {
