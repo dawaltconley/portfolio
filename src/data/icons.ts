@@ -76,6 +76,8 @@ import IconJekyllColor from '@iconify-icons/vscode-icons/file-type-jekyll';
 import IconJekyllSkill from '@iconify-icons/vscode-icons/file-type-jekyll';
 // import IconJekyllColor from '@iconify-icons/logos/jekyll';
 
+import IconCodepenSimple from '@iconify-icons/simple-icons/codepen';
+
 import { definition as IconGitHubSimple } from '@fortawesome/free-brands-svg-icons/faGithub';
 import { definition as IconLinkedInSimple } from '@fortawesome/free-brands-svg-icons/faLinkedin';
 import { definition as IconEmailSimple } from '@fortawesome/pro-regular-svg-icons/faEnvelope';
@@ -250,6 +252,13 @@ const icons: Record<string, DataIcon> = {
     url: 'https://www.linkedin.com/',
     style: {
       simple: IconLinkedInSimple,
+    },
+  },
+  codepen: {
+    name: 'CodePen',
+    url: 'https://codepen.io',
+    style: {
+      simple: IconCodepenSimple,
     },
   },
 } as const;
