@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'preact';
 import type { ImageProps } from './Image';
 import { ProjectTag, labels as tagLabels, isProjectTag } from '@data/tags';
-import ProjectPreview, { ProjectPreviewProps } from './ProjectPreview';
+import ProjectPreview, { type ProjectPreviewProps } from './ProjectPreview';
 import PagedGrid from './PagedGrid';
 import { makeFilter } from './Filter';
 import { useState, useEffect, useMemo } from 'preact/hooks';

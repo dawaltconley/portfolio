@@ -1,5 +1,5 @@
 import type { FunctionComponent, ComponentProps } from 'preact';
-import Image, { ImageProps } from '@components/Image';
+import Image, { type ImageProps } from '@components/Image';
 import useResizeObserver from '@react-hook/resize-observer';
 import {
   useState,

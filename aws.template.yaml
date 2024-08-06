@@ -41,7 +41,9 @@ Resources:
         Email: 'web@dylan.ac'
         Required: 'name,email'
         Honeypot: 'fax_number'
-        ApiDomain: dylan.ac
-        ApiSubdomain: api
+        ApiDomain: api.dylan.ac
+        HostedZoneId: Z01372113DDVWJ6VOPRK9
         CertificateArn: !Sub 'arn:aws:acm:us-east-1:${AWS::AccountId}:certificate/4447585b-1a22-44a1-90d5-865355e39615'
-        AllowOrigin: 'https://web.dylan.ac'
+        AllowOrigin: !Sub
+          - 'https://${Domain}'
+          - Domain: !GetAtt StaticWebsite.Outputs.FullDomain

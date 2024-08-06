@@ -29,7 +29,7 @@ import IconJsColor from '@iconify-icons/logos/javascript';
 import IconJsSkill from '@iconify-icons/skill-icons/javascript';
 // import IconJsSimple from '@iconify-icons/cib/javascript';
 
-import IconNodeSimple from '@iconify-icons/simple-icons/nodejs';
+import IconNodeSimple from '@iconify-icons/simple-icons/nodedotjs';
 import IconNodeColor from '@iconify-icons/logos/nodejs-icon';
 import IconNodeSkill from '@iconify-icons/skill-icons/nodejs-dark';
 // import IconNodeColor from '@iconify-icons/vscode-icons/file-type-node';

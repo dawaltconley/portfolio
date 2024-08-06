@@ -1,11 +1,7 @@
 import type { IconDefinition as FaIconDefinition } from '@fortawesome/fontawesome-common-types';
 import type { IconifyIcon } from '@iconify/types';
-import icons, {
-  iconStyles,
-  DataIcon,
-  DataIconStyle,
-  IconDefinition,
-} from '@data/icons';
+import type { DataIcon, DataIconStyle, IconDefinition } from '@data/icons';
+import icons, { iconStyles } from '@data/icons';
 
 export type { DataIcon, DataIconStyle, IconDefinition };
 

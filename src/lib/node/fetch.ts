@@ -1,5 +1,5 @@
 import EleventyFetch, { AssetCache } from '@11ty/eleventy-fetch';
-import MetaScraper, { Metadata } from 'metascraper';
+import MetaScraper, { type Metadata } from 'metascraper';
 import MetaScraperImage from 'metascraper-image';
 
 const ms = MetaScraper([MetaScraperImage()]);
