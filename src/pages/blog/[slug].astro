@@ -9,7 +9,7 @@ import { getCollection } from 'astro:content';
 import { getExcerpt } from '@build/projects';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts', (p) => p.data.draft !== true);
+  const posts = await getCollection('blog', (p) => p.data.draft !== true);
 
   return posts.map((post) => ({
     params: { slug: post.slug },
