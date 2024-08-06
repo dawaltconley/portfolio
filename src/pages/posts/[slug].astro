@@ -7,22 +7,14 @@ import Footer from '@components/Footer.astro';
 import { contactLinks } from '~/data/site';
 import { getCollection } from 'astro:content';
 import { getExcerpt } from '@build/projects';
-import { slugify } from '@lib/utils';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', (p) => p.data.draft !== true);
 
-  return posts.map((post) => {
-    const slug =
-      post.data.date.toISOString().slice(0, 10) +
-      '-' +
-      slugify(post.data.title);
-    console.log(slug);
-    return {
-      params: { slug: post.slug },
-      props: { post },
-    };
-  });
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
 }
 
 const { post } = Astro.props;
