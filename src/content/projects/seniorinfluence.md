@@ -2,7 +2,8 @@
 title: Senior Influence
 created: 2019-10-09
 links:
-  - https://www.seniorinfluence.com
+  - url: mailto:info@dylan.ac
+    text: Request a link
 images:
   - _seniorinfluence/si-1.png
   - _seniorinfluence/si-2.png

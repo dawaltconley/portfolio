@@ -2,7 +2,7 @@
 title: SkyTunes
 created: 2022-09-10
 links:
-  - https://skytunes.app
+  - https://skytunes.dylan.ac
   - https://github.com/dawaltconley/skytunes
 tags:
   - app
